@@ -218,7 +218,7 @@ abstract class Endpoint
     {
         if (Cast::text($payload->get($field)) === null) {
             throw new InvalidArgumentException(sprintf(
-                'Updating a %s needs the %s it had when it was read, and this request has none. Build '
+                'An update of this %s needs the %s it had when it was read, and this request has none. Build '
                     . 'it with %s::from() on the record being updated, which carries it over.',
                 $what,
                 $field,

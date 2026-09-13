@@ -53,7 +53,7 @@ final class Timesheets extends Endpoint
     }
 
     /**
-     * Delete a timesheet. Saasu answers with a status message rather than a 204, which is dropped.
+     * Delete a timesheet. Saasu documents a status message in answer rather than a 204; it is dropped.
      */
     public function delete(int $id): void
     {

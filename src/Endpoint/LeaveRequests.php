@@ -57,7 +57,7 @@ final class LeaveRequests extends Endpoint
     }
 
     /**
-     * Delete a leave request. Saasu answers with a status message rather than a 204, which is dropped.
+     * Delete a leave request. Saasu documents a status message in answer rather than a 204; it is dropped.
      */
     public function delete(int $id): void
     {

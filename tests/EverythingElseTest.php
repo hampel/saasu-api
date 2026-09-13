@@ -216,7 +216,7 @@ final class EverythingElseTest extends TestCase
     {
         $this->pushFixture('search');
 
-        $results = $this->saasu()->search()->search('toys', SearchScope::Transactions, SearchTransactionType::Sale, pageSize: 25);
+        $results = $this->saasu()->search()->query('toys', SearchScope::Transactions, SearchTransactionType::Sale, pageSize: 25);
 
         $this->assertSame([
             'FileId' => '123',
@@ -237,7 +237,7 @@ final class EverythingElseTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->saasu()->search()->search('toys', SearchScope::All, SearchTransactionType::Sale);
+        $this->saasu()->search()->query('toys', SearchScope::All, SearchTransactionType::Sale);
     }
 
     public function testAProfitAndLossReportSendsItsPeriods(): void

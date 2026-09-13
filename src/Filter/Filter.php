@@ -13,8 +13,9 @@ use Hampel\Saasu\Api\Exception\InvalidArgumentException;
  * Immutable: every with*() method returns a new filter, so a base filter can be shared and
  * narrowed without one narrowing leaking into another.
  *
- * A FILTER SAASU DOES NOT RECOGNISE IS IGNORED, NOT REFUSED - which is why these exist. A
- * misspelt parameter name widens a query to everything and looks exactly like a result.
+ * A MISSPELT PARAMETER IS MOST LIKELY IGNORED, NOT REFUSED - which is why these exist. ASP.NET,
+ * which Saasu runs on, drops query parameters it does not bind, so a misspelt name widens a query
+ * to everything and looks exactly like a result. `vendor/bin/rig lists` probes it.
  */
 abstract class Filter
 {

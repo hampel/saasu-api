@@ -38,9 +38,9 @@ use Psr\Log\NullLogger;
  * wrong library.
  *
  * FOUR THINGS HAPPEN TO EVERY REQUEST, in this order: the file id is added to the query string,
- * the request budget is checked, the throttle waits, and the credential is applied. The
- * credential is applied last because an OAuth credential may have to fetch a token first, and
- * that fetch is itself a request that must be counted and throttled.
+ * the credential is applied, the request budget is checked, and the throttle waits. Applying an
+ * OAuth credential may first mean fetching a token - and that fetch is a request of its own,
+ * which passes the same budget and throttle before the one it was fetched for.
  *
  * The extension point of last resort - anything the endpoints do not wrap:
  *
@@ -182,7 +182,7 @@ final class Connection
     }
 
     /**
-     * Saasu answers a delete with 200 and a `StatusMessage`, not a 204.
+     * Saasu documents a delete answering 200 with a `StatusMessage`, not a 204.
      *
      * @param  array<string, scalar|null>  $query
      */

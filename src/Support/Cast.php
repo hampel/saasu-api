@@ -228,6 +228,11 @@ final class Cast
      *
      * The one thing to avoid is calling setTimezone() on the result: that reintroduces the
      * conversion this exists to prevent.
+     *
+     * AN OPEN QUESTION, recorded rather than guessed at: Saasu's documented payment sample writes
+     * its date as `2026-09-12T14:00:00Z`, which is midnight on the 13th in Sydney expressed in UTC.
+     * If real responses do that, the literal date here is the day before. The invoice sample
+     * writes `2015-01-24T00:00:00` and does not. The harness's `lists` exercise prints both.
      */
     public static function date(mixed $value): ?\DateTimeImmutable
     {

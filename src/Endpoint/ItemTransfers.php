@@ -87,7 +87,7 @@ final class ItemTransfers extends Endpoint
     }
 
     /**
-     * Delete a stock transfer. Saasu answers with a status message rather than a 204, which is dropped.
+     * Delete a stock transfer. Saasu documents a status message in answer rather than a 204; it is dropped.
      */
     public function delete(int $id): void
     {

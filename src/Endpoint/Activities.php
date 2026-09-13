@@ -63,7 +63,7 @@ final class Activities extends Endpoint
     }
 
     /**
-     * Insert a activity. Keep the answer's LastUpdatedId: it is what the next update needs.
+     * Insert an activity. Keep the answer's LastUpdatedId: it is what the next update needs.
      */
     public function create(ActivityRequest $request): Saved
     {
@@ -71,7 +71,7 @@ final class Activities extends Endpoint
     }
 
     /**
-     * Update a activity.
+     * Update an activity.
      *
      * Build the request from() the activity as read - it carries the LastUpdatedId Saasu requires,
      * and the fields a PUT might otherwise clear. Refused before sending without the
@@ -85,7 +85,7 @@ final class Activities extends Endpoint
     }
 
     /**
-     * Delete a activity. Saasu answers with a status message rather than a 204, which is dropped.
+     * Delete an activity. Saasu documents a status message in answer rather than a 204; it is dropped.
      */
     public function delete(int $id): void
     {

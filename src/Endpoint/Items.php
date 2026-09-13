@@ -64,7 +64,7 @@ final class Items extends Endpoint
     }
 
     /**
-     * Insert a item. Keep the answer's LastUpdatedId: it is what the next update needs.
+     * Insert an item. Keep the answer's LastUpdatedId: it is what the next update needs.
      */
     public function create(ItemRequest $request): Saved
     {
@@ -72,7 +72,7 @@ final class Items extends Endpoint
     }
 
     /**
-     * Update a item.
+     * Update an item.
      *
      * Build the request from() the item as read - it carries the LastUpdatedId Saasu requires,
      * and the fields a PUT might otherwise clear. Refused before sending without the
@@ -86,7 +86,7 @@ final class Items extends Endpoint
     }
 
     /**
-     * Delete a item. Saasu answers with a status message rather than a 204, which is dropped.
+     * Delete an item. Saasu documents a status message in answer rather than a 204; it is dropped.
      */
     public function delete(int $id): void
     {

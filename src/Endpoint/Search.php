@@ -24,7 +24,7 @@ final class Search extends Endpoint
      * HIGHLIGHTING IS OFF unless asked for. Saasu's own default is on, which wraps matched terms in
      * markup inside the returned strings - a surprise in anything that is not a search page.
      */
-    public function search(
+    public function query(
         string $keywords,
         SearchScope $scope = SearchScope::All,
         ?SearchTransactionType $transactionType = null,
