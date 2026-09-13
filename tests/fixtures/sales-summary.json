@@ -1,0 +1,15 @@
+{
+    "Total": 1.0,
+    "TotalOwed": 2.0,
+    "Paid": 3.0,
+    "Unpaid": 4.0,
+    "Overdue": 5.0,
+    "NotDueYet": 6.0,
+    "Deposited": 7.0,
+    "NotDeposited": 8.0,
+    "FromDate": "2026-09-13T09:23:29.5075112+10:00",
+    "ToDate": "2026-09-13T09:23:29.5075112+10:00",
+    "TotalCount": 11,
+    "TotalPaidCount": 12,
+    "TotalUnpaidCount": 13
+}

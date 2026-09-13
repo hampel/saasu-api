@@ -1,0 +1,25 @@
+{
+    "Id": 1,
+    "Username": "sample string 2",
+    "FirstName": "sample string 3",
+    "LastName": "sample string 4",
+    "MobileNumber": "sample string 5",
+    "Is2FAEnabled": true,
+    "TimezoneId": 7,
+    "DateTimeFormatId": 64,
+    "NumberFormatId": 64,
+    "_links": [
+        {
+            "rel": "sample string 1",
+            "href": "sample string 2",
+            "method": "sample string 3",
+            "title": "sample string 4"
+        },
+        {
+            "rel": "sample string 1",
+            "href": "sample string 2",
+            "method": "sample string 3",
+            "title": "sample string 4"
+        }
+    ]
+}

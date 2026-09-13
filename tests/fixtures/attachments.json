@@ -1,0 +1,48 @@
+{
+    "Attachments": [
+        {
+            "Id": 282,
+            "Size": 29924,
+            "Name": "File attachment 1.doc",
+            "Description": "Invoice document 1",
+            "ItemIdAttachedTo": 16845,
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/InvoiceAttachment/282?FileId=123",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        },
+        {
+            "Id": 283,
+            "Size": 54124,
+            "Name": "Toy sale.doc",
+            "Description": "Toy sale invoice",
+            "ItemIdAttachedTo": 16845,
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/InvoiceAttachment/283?FileId=123",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        }
+    ],
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/InvoiceAttachments?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "next",
+            "href": "https://api.saasu.com/InvoiceAttachments?FileId=123&Page=2&PageSize=25",
+            "method": "GET",
+            "title": null
+        }
+    ]
+}

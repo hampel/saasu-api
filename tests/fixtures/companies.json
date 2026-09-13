@@ -1,0 +1,62 @@
+{
+    "Companies": [
+        {
+            "Id": 1,
+            "Name": "MakeMoney Inc.",
+            "Abn": "53004085616",
+            "Website": "https://makemoney.org",
+            "LastUpdatedId": "AAAAAAKbc=",
+            "LongDescription": "A test company",
+            "LogoUrl": null,
+            "TradingName": "MakeMoney Inc",
+            "CompanyEmail": "bigboss@example.com",
+            "LastModifiedDateUtc": "2026-09-11T19:00:11.9843731Z",
+            "CreatedDateUtc": "2026-09-02T19:00:11.9843731Z",
+            "LastModifiedByUserId": 321,
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/Company/1?FileId=123",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        },
+        {
+            "Id": 2,
+            "Name": "MakeMoney Inc.",
+            "Abn": " 53004085616",
+            "Website": "https://makemoney.org",
+            "LastUpdatedId": "AAAAAAKbc=",
+            "LongDescription": "A test company",
+            "LogoUrl": null,
+            "TradingName": "MakeMoney Inc",
+            "CompanyEmail": "bigboss@example.com",
+            "LastModifiedDateUtc": "2026-09-11T19:00:11.9843731Z",
+            "CreatedDateUtc": "2026-09-02T19:00:11.9843731Z",
+            "LastModifiedByUserId": 321,
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/Company/2?FileId=123",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        }
+    ],
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/Companies?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "next",
+            "href": "https://api.saasu.com/Companies?FileId=123&Page=2&PageSize=25",
+            "method": "GET",
+            "title": null
+        }
+    ]
+}

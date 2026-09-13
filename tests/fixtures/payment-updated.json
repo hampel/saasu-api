@@ -1,0 +1,24 @@
+{
+    "LastUpdatedId": "AAAKyf=",
+    "UtcLastModified": "2026-09-02T19:00:12.9310174Z",
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/Payment/321?FileId=123",
+            "method": "PUT",
+            "title": null
+        },
+        {
+            "rel": "delete",
+            "href": "https://api.saasu.com/Payment/321?FileId=123",
+            "method": "DELETE",
+            "title": null
+        },
+        {
+            "rel": "list",
+            "href": "https://api.saasu.com/Payments?FileId=123",
+            "method": "GET",
+            "title": null
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "Id": 1,
+    "LastUpdatedId": "sample string 1",
+    "LastModifiedDateUtc": "2026-09-13T09:23:31.5498262+10:00",
+    "CreatedDateUtc": "2026-09-13T09:23:31.5498262+10:00",
+    "LastModifiedByUserId": 1,
+    "ContactId": 2,
+    "StartTime": "2026-09-13T09:23:31.5498262+10:00",
+    "FinishTime": "2026-09-13T09:23:31.5498262+10:00",
+    "BreakDurationInMinutes": 5,
+    "Notes": "sample string 6",
+    "_links": [
+        {
+            "rel": "sample string 1",
+            "href": "sample string 2",
+            "method": "sample string 3",
+            "title": "sample string 4"
+        },
+        {
+            "rel": "sample string 1",
+            "href": "sample string 2",
+            "method": "sample string 3",
+            "title": "sample string 4"
+        }
+    ]
+}

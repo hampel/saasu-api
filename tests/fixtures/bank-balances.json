@@ -1,0 +1,58 @@
+{
+    "Balances": [
+        {
+            "AccountType": "sample string 1",
+            "AccountId": 2,
+            "AccountName": "sample string 3",
+            "Balance": 1.0,
+            "_links": [
+                {
+                    "rel": "sample string 1",
+                    "href": "sample string 2",
+                    "method": "sample string 3",
+                    "title": "sample string 4"
+                },
+                {
+                    "rel": "sample string 1",
+                    "href": "sample string 2",
+                    "method": "sample string 3",
+                    "title": "sample string 4"
+                }
+            ]
+        },
+        {
+            "AccountType": "sample string 1",
+            "AccountId": 2,
+            "AccountName": "sample string 3",
+            "Balance": 1.0,
+            "_links": [
+                {
+                    "rel": "sample string 1",
+                    "href": "sample string 2",
+                    "method": "sample string 3",
+                    "title": "sample string 4"
+                },
+                {
+                    "rel": "sample string 1",
+                    "href": "sample string 2",
+                    "method": "sample string 3",
+                    "title": "sample string 4"
+                }
+            ]
+        }
+    ],
+    "_links": [
+        {
+            "rel": "sample string 1",
+            "href": "sample string 2",
+            "method": "sample string 3",
+            "title": "sample string 4"
+        },
+        {
+            "rel": "sample string 1",
+            "href": "sample string 2",
+            "method": "sample string 3",
+            "title": "sample string 4"
+        }
+    ]
+}

@@ -1,0 +1,131 @@
+{
+    "Transactions": [
+        {
+            "EntityType": "Sale",
+            "Id": 44574,
+            "TransactionDate": "2026-09-12T00:00:00Z",
+            "DueDate": "2026-09-17T00:00:00Z",
+            "Summary": "Test sale 123",
+            "ContactId": 4567,
+            "ContactName": "John Doe",
+            "CustomerContactId": "CONT12",
+            "ContactEmail": "user@example.com",
+            "Company": "MyCo",
+            "TradingName": "MyCo Trading as CoMy",
+            "Type": "S",
+            "TotalAmountIncTax": "3224.89",
+            "Currency": "AUD",
+            "Tags": "",
+            "Notes": "Internal notes go here",
+            "ExternalNotes": "Some external notes go here...",
+            "Reference": "REF 123",
+            "InvoiceNumber": "INV-123",
+            "InvoiceType": "Quote",
+            "PurchaseOrderNumber": "PO-123",
+            "Paid": false,
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/Invoice/44574?FileId=123",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        }
+    ],
+    "TotalTransactionsFound": 1,
+    "Contacts": [
+        {
+            "EntityType": "Contact",
+            "Id": 45678,
+            "Name": "John Doe",
+            "CompanyId": 342,
+            "Company": "Company Inc.",
+            "TradingName": "Company As Inc.",
+            "CustomerContactId": "U123",
+            "ContactEmail": "user@example.com",
+            "MainPhone": "02 4567 4567",
+            "SecondaryPhone": "02 7894 7894",
+            "MobilePhone": "04 4567 4567",
+            "TwitterId": "@someco",
+            "Manager": "Donkey Kong",
+            "Tags": "",
+            "IsEmployee": false,
+            "IsActive": true,
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/Contact/45678?FileId=123",
+                    "method": "GET",
+                    "title": null
+                },
+                {
+                    "rel": "related",
+                    "href": "https://api.saasu.com/Company/342?FileId=123",
+                    "method": "GET",
+                    "title": "Company"
+                }
+            ]
+        }
+    ],
+    "TotalContactsFound": 1,
+    "InventoryItems": [
+        {
+            "EntityType": "Item",
+            "Id": 4567,
+            "Code": "TES1",
+            "Description": "Test Item 1",
+            "SupplierItemCode": "TSE12",
+            "IsActive": true,
+            "SellingPrice": 234.56,
+            "BuyingPrice": 123.34,
+            "Tags": "",
+            "StockOnHand": 21.0,
+            "Type": "I",
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/Item/4567?FileId=123",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        },
+        {
+            "EntityType": "ComboItem",
+            "Id": 9874,
+            "Code": "CBO1",
+            "Description": "Test Combo Item 1",
+            "SupplierItemCode": "COM12",
+            "IsActive": true,
+            "SellingPrice": 222.56,
+            "BuyingPrice": 111.34,
+            "Tags": "",
+            "StockOnHand": 3.0,
+            "Type": "C",
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/Item/9874?FileId=123",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        }
+    ],
+    "TotalInventoryItemsFound": 2,
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/Search?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "next",
+            "href": "https://api.saasu.com/Search?FileId=123&Page=2&PageSize=25",
+            "method": "GET",
+            "title": null
+        }
+    ]
+}

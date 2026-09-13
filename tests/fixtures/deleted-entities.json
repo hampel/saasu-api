@@ -1,0 +1,32 @@
+{
+    "Entities": [
+        {
+            "EntityType": "Sale",
+            "EntityId": 111,
+            "DeletedByUser": "someone@example.com",
+            "Timestamp": "2026-09-02T19:00:11.9843731Z",
+            "_links": []
+        },
+        {
+            "EntityType": "Purchase",
+            "EntityId": 222,
+            "DeletedByUser": "someone@example.com",
+            "Timestamp": "2026-09-02T19:00:11.9843731Z",
+            "_links": []
+        }
+    ],
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/DeletedEntities?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "next",
+            "href": "https://api.saasu.com/DeletedEntities?FileId=123&Page=2&PageSize=25",
+            "method": "GET",
+            "title": null
+        }
+    ]
+}

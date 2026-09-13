@@ -1,0 +1,155 @@
+{
+    "TotalWages": 1.0,
+    "TotalDeductions": 2.0,
+    "TotalTaxes": 3.0,
+    "TotalNetPay": -4.0,
+    "TotalSuper": 4.0,
+    "PayrollEntries": [
+        {
+            "Id": 1,
+            "PayRunId": 1,
+            "Status": 2,
+            "Date": "2026-09-13T09:23:31.3581272+10:00",
+            "Employee": {
+                "Id": 1,
+                "FirstName": "sample string 1",
+                "LastName": "sample string 2",
+                "DisplayName": "sample string 2, sample string 1",
+                "IsActive": true,
+                "EmploymentTypeId": 4,
+                "EmploymentType": "sample string 5",
+                "PayFrequencyId": 6,
+                "PayFrequency": "sample string 7",
+                "AssignedToPayGroupId": 8,
+                "PayGroupName": "sample string 9",
+                "LastPaid": "2026-09-13T09:23:31.3581272+10:00",
+                "LeaveBalances": [
+                    {
+                        "PayItemId": 1,
+                        "Name": "sample string 2",
+                        "Hours": 1.0
+                    },
+                    {
+                        "PayItemId": 1,
+                        "Name": "sample string 2",
+                        "Hours": 1.0
+                    }
+                ],
+                "_links": [
+                    {
+                        "rel": "sample string 1",
+                        "href": "sample string 2",
+                        "method": "sample string 3",
+                        "title": "sample string 4"
+                    },
+                    {
+                        "rel": "sample string 1",
+                        "href": "sample string 2",
+                        "method": "sample string 3",
+                        "title": "sample string 4"
+                    }
+                ]
+            },
+            "Wages": 4.0,
+            "Deductions": 5.0,
+            "Taxes": 6.0,
+            "NetPay": -7.0,
+            "Super": 7.0,
+            "IsEmpty": false,
+            "_links": [
+                {
+                    "rel": "sample string 1",
+                    "href": "sample string 2",
+                    "method": "sample string 3",
+                    "title": "sample string 4"
+                },
+                {
+                    "rel": "sample string 1",
+                    "href": "sample string 2",
+                    "method": "sample string 3",
+                    "title": "sample string 4"
+                }
+            ]
+        },
+        {
+            "Id": 1,
+            "PayRunId": 1,
+            "Status": 2,
+            "Date": "2026-09-13T09:23:31.3581272+10:00",
+            "Employee": {
+                "Id": 1,
+                "FirstName": "sample string 1",
+                "LastName": "sample string 2",
+                "DisplayName": "sample string 2, sample string 1",
+                "IsActive": true,
+                "EmploymentTypeId": 4,
+                "EmploymentType": "sample string 5",
+                "PayFrequencyId": 6,
+                "PayFrequency": "sample string 7",
+                "AssignedToPayGroupId": 8,
+                "PayGroupName": "sample string 9",
+                "LastPaid": "2026-09-13T09:23:31.3581272+10:00",
+                "LeaveBalances": [
+                    {
+                        "PayItemId": 1,
+                        "Name": "sample string 2",
+                        "Hours": 1.0
+                    },
+                    {
+                        "PayItemId": 1,
+                        "Name": "sample string 2",
+                        "Hours": 1.0
+                    }
+                ],
+                "_links": [
+                    {
+                        "rel": "sample string 1",
+                        "href": "sample string 2",
+                        "method": "sample string 3",
+                        "title": "sample string 4"
+                    },
+                    {
+                        "rel": "sample string 1",
+                        "href": "sample string 2",
+                        "method": "sample string 3",
+                        "title": "sample string 4"
+                    }
+                ]
+            },
+            "Wages": 4.0,
+            "Deductions": 5.0,
+            "Taxes": 6.0,
+            "NetPay": -7.0,
+            "Super": 7.0,
+            "IsEmpty": false,
+            "_links": [
+                {
+                    "rel": "sample string 1",
+                    "href": "sample string 2",
+                    "method": "sample string 3",
+                    "title": "sample string 4"
+                },
+                {
+                    "rel": "sample string 1",
+                    "href": "sample string 2",
+                    "method": "sample string 3",
+                    "title": "sample string 4"
+                }
+            ]
+        }
+    ],
+    "_links": [
+        {
+            "rel": "sample string 1",
+            "href": "sample string 2",
+            "method": "sample string 3",
+            "title": "sample string 4"
+        },
+        {
+            "rel": "sample string 1",
+            "href": "sample string 2",
+            "method": "sample string 3",
+            "title": "sample string 4"
+        }
+    ]
+}

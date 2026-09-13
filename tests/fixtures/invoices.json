@@ -1,0 +1,140 @@
+{
+    "Invoices": [
+        {
+            "TransactionId": 5093684,
+            "LastUpdatedId": "AAAAAAAKgc=",
+            "Currency": "AUD",
+            "InvoiceNumber": "INV-1123",
+            "InvoiceType": "Tax Invoice",
+            "TransactionType": "S",
+            "Layout": "I",
+            "BrandId": null,
+            "Summary": "Invoice for order 1123",
+            "TotalAmount": 10.45,
+            "TotalTaxAmount": null,
+            "IsTaxInc": true,
+            "AmountPaid": 0.0,
+            "AmountOwed": 11.5,
+            "FxRate": 1.0,
+            "AutoPopulateFxRate": false,
+            "RequiresFollowUp": false,
+            "SentToContact": true,
+            "TransactionDate": "2015-01-24T00:00:00",
+            "BillingContactId": 1568986,
+            "BillingContactFirstName": "Freddy",
+            "BillingContactLastName": "Fungus",
+            "BillingContactOrganisationName": "Fungal Innovation",
+            "ShippingContactId": 10,
+            "ShippingContactFirstName": "Big",
+            "ShippingContactLastName": "Bob",
+            "ShippingContactOrganisationName": "Bobbby Inc",
+            "CreatedDateUtc": "2026-09-11T19:00:11.8563354Z",
+            "LastModifiedDateUtc": "2026-09-12T19:00:11.8563354Z",
+            "PaymentStatus": "U",
+            "DueDate": null,
+            "InvoiceStatus": "I",
+            "PurchaseOrderNumber": "PO-4456",
+            "PaymentCount": 0,
+            "Tags": [
+                "Note",
+                "Supplier",
+                "Toys"
+            ],
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/Invoice/5093684?FileId=123",
+                    "method": "GET",
+                    "title": null
+                },
+                {
+                    "rel": "related",
+                    "href": "https://api.saasu.com/Contact/1568986?FileId=123",
+                    "method": "GET",
+                    "title": "BillingContact"
+                },
+                {
+                    "rel": "related",
+                    "href": "https://api.saasu.com/Contact/10?FileId=123",
+                    "method": "GET",
+                    "title": "ShippingContact"
+                }
+            ]
+        },
+        {
+            "TransactionId": 7843684,
+            "LastUpdatedId": "AAAAAAAHbc=",
+            "Currency": "AUD",
+            "InvoiceNumber": "INV-5647",
+            "InvoiceType": "Tax Invoice",
+            "TransactionType": "S",
+            "Layout": "I",
+            "BrandId": null,
+            "Summary": "Invoice for order 4578",
+            "TotalAmount": 15.45,
+            "TotalTaxAmount": null,
+            "IsTaxInc": false,
+            "AmountPaid": 16.5,
+            "AmountOwed": 0.0,
+            "FxRate": 1.0,
+            "AutoPopulateFxRate": false,
+            "RequiresFollowUp": true,
+            "SentToContact": true,
+            "TransactionDate": "2015-01-12T00:00:00",
+            "BillingContactId": 3328986,
+            "BillingContactFirstName": "Bill",
+            "BillingContactLastName": "Bodgy",
+            "BillingContactOrganisationName": "Bodgy Brothers",
+            "ShippingContactId": 12,
+            "ShippingContactFirstName": "Small",
+            "ShippingContactLastName": "Sue",
+            "ShippingContactOrganisationName": "Sue Me",
+            "CreatedDateUtc": "2026-09-10T19:00:11.8563354Z",
+            "LastModifiedDateUtc": "2026-09-12T19:00:11.8563354Z",
+            "PaymentStatus": "U",
+            "DueDate": null,
+            "InvoiceStatus": "I",
+            "PurchaseOrderNumber": "PO-6758",
+            "PaymentCount": 0,
+            "Tags": [
+                "Paid",
+                "Supplier",
+                "Toys"
+            ],
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/Invoice/7843684?FileId=123",
+                    "method": "GET",
+                    "title": null
+                },
+                {
+                    "rel": "related",
+                    "href": "https://api.saasu.com/Contact/3328986?FileId=123",
+                    "method": "GET",
+                    "title": "BillingContact"
+                },
+                {
+                    "rel": "related",
+                    "href": "https://api.saasu.com/Contact/12?FileId=123",
+                    "method": "GET",
+                    "title": "ShippingContact"
+                }
+            ]
+        }
+    ],
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/Invoices?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "next",
+            "href": "https://api.saasu.com/Invoices?FileId=123&Page=2&PageSize=25",
+            "method": "GET",
+            "title": null
+        }
+    ]
+}

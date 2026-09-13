@@ -1,0 +1,42 @@
+{
+    "Id": 1,
+    "CreatedDateUtc": "2026-09-13T09:23:31.2566808+10:00",
+    "LastModifiedDateUtc": "2026-09-13T09:23:31.2566808+10:00",
+    "LeaveTypePayItemId": 4,
+    "EmployeeId": 5,
+    "StartDate": "2026-09-13T09:23:31.2566808+10:00",
+    "EndDate": "2026-09-13T09:23:31.2566808+10:00",
+    "TotalHours": 1.0,
+    "Status": "sample string 8",
+    "Notes": "sample string 9",
+    "Items": [
+        {
+            "LineNumber": 1,
+            "Date": "2026-09-13T09:23:31.2566808+10:00",
+            "Hours": 3.0,
+            "IsPaid": true,
+            "ProcessedInPayRunId": 1
+        },
+        {
+            "LineNumber": 1,
+            "Date": "2026-09-13T09:23:31.2566808+10:00",
+            "Hours": 3.0,
+            "IsPaid": true,
+            "ProcessedInPayRunId": 1
+        }
+    ],
+    "_links": [
+        {
+            "rel": "sample string 1",
+            "href": "sample string 2",
+            "method": "sample string 3",
+            "title": "sample string 4"
+        },
+        {
+            "rel": "sample string 1",
+            "href": "sample string 2",
+            "method": "sample string 3",
+            "title": "sample string 4"
+        }
+    ]
+}

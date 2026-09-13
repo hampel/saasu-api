@@ -1,0 +1,126 @@
+{
+    "Accounts": [
+        {
+            "Id": 1,
+            "Name": "Test Income Account",
+            "AccountLevel": "Detail",
+            "AccountType": "Income",
+            "IsActive": true,
+            "IsBuiltIn": false,
+            "LastUpdatedId": "AAAAAAA",
+            "DefaultTaxCode": "G1",
+            "LedgerCode": "AA",
+            "Currency": "AUD",
+            "HeaderAccountId": 3,
+            "ExchangeAccountId": 3,
+            "IsBankAccount": false,
+            "CreatedDateUtc": "2026-03-12T19:00:11.9684645Z",
+            "LastModifiedDateUtc": "2026-09-06T19:00:11.9684645Z",
+            "IncludeInForecaster": false,
+            "BSB": null,
+            "Number": null,
+            "BankAccountName": null,
+            "BankFileCreationEnabled": null,
+            "BankCode": null,
+            "UserNumber": null,
+            "MerchantFeeAccountId": null,
+            "IncludePendingTransactions": null,
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/Account/1?FileId=123",
+                    "method": "GET",
+                    "title": null
+                },
+                {
+                    "rel": "related",
+                    "href": "https://api.saasu.com/Account/3?FileId=123",
+                    "method": "GET",
+                    "title": "HeaderAccount"
+                }
+            ]
+        },
+        {
+            "Id": 2,
+            "Name": "Test Bank Account",
+            "AccountLevel": "Detail",
+            "AccountType": "Income",
+            "IsActive": true,
+            "IsBuiltIn": false,
+            "LastUpdatedId": "AAAAAAA",
+            "DefaultTaxCode": null,
+            "LedgerCode": "AA",
+            "Currency": "AUD",
+            "HeaderAccountId": null,
+            "ExchangeAccountId": null,
+            "IsBankAccount": true,
+            "CreatedDateUtc": "2026-03-12T19:00:11.9684645Z",
+            "LastModifiedDateUtc": "2026-09-06T19:00:11.9684645Z",
+            "IncludeInForecaster": true,
+            "BSB": "010101",
+            "Number": "11111111",
+            "BankAccountName": "Test Bank Account",
+            "BankFileCreationEnabled": true,
+            "BankCode": "TBA",
+            "UserNumber": "222",
+            "MerchantFeeAccountId": 3,
+            "IncludePendingTransactions": true,
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/Account/2?FileId=123",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        },
+        {
+            "Id": 3,
+            "Name": "Test Header Account",
+            "AccountLevel": "Header",
+            "AccountType": "Income",
+            "IsActive": true,
+            "IsBuiltIn": false,
+            "LastUpdatedId": "AAAAAAA",
+            "DefaultTaxCode": null,
+            "LedgerCode": "AA",
+            "Currency": null,
+            "HeaderAccountId": null,
+            "ExchangeAccountId": null,
+            "IsBankAccount": false,
+            "CreatedDateUtc": "2026-03-12T19:00:11.9684645Z",
+            "LastModifiedDateUtc": "2026-09-06T19:00:11.9684645Z",
+            "IncludeInForecaster": null,
+            "BSB": null,
+            "Number": null,
+            "BankAccountName": null,
+            "BankFileCreationEnabled": null,
+            "BankCode": null,
+            "UserNumber": null,
+            "MerchantFeeAccountId": null,
+            "IncludePendingTransactions": null,
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/Account/3?FileId=123",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        }
+    ],
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/Accounts?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "next",
+            "href": "https://api.saasu.com/Accounts?FileId=123&Page=2&PageSize=25",
+            "method": "GET",
+            "title": null
+        }
+    ]
+}

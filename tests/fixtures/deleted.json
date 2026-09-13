@@ -1,0 +1,17 @@
+{
+    "StatusMessage": "Status message if applicable",
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/Invoice?FileId=123",
+            "method": "DELETE",
+            "title": null
+        },
+        {
+            "rel": "list",
+            "href": "https://api.saasu.com/Invoices?FileId=123&",
+            "method": "GET",
+            "title": null
+        }
+    ]
+}

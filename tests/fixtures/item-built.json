@@ -1,0 +1,18 @@
+{
+    "ItemId": 123,
+    "StatusMessage": "1 combo item(s) have been built.",
+    "_links": [
+        {
+            "rel": "detail",
+            "href": "https://api.saasu.com/Item/123?FileId=1234",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/Item/123/build/?FileId=1234",
+            "method": "GET",
+            "title": null
+        }
+    ]
+}

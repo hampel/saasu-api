@@ -1,0 +1,112 @@
+{
+    "Items": [
+        {
+            "Id": 12,
+            "Code": "ABC",
+            "Location": null,
+            "Description": "Some item",
+            "Type": "I",
+            "IsActive": true,
+            "IsInventoried": false,
+            "AssetAccountId": 123,
+            "IsSold": true,
+            "SaleIncomeAccountId": 789,
+            "SaleTaxCodeId": 112,
+            "SaleCoSAccountId": 456,
+            "IsBought": true,
+            "PurchaseExpenseAccountId": 567,
+            "PurchaseTaxCodeId": 123,
+            "MinimumStockLevel": 2.0,
+            "StockOnHand": 10.0,
+            "CurrentValue": 10.1,
+            "PrimarySupplierContactId": 123,
+            "PrimarySupplierItemCode": "XYZ",
+            "DefaultReOrderQuantity": 5.0,
+            "LastUpdatedId": "AAAAAKgc=",
+            "IsVisible": true,
+            "IsVirtual": false,
+            "VType": "ZYX",
+            "SellingPrice": 20.99,
+            "IsSellingPriceIncTax": true,
+            "CreatedDateUtc": "2026-09-12T19:00:11.9843731Z",
+            "LastModifiedDateUtc": "2026-09-02T19:00:11.9843731Z",
+            "LastModifiedBy": 123,
+            "BuyingPrice": 10.2,
+            "IsBuyingPriceIncTax": true,
+            "IsVoucher": false,
+            "ValidFrom": "2026-08-23T19:00:11.9843731Z",
+            "ValidTo": "2026-10-02T19:00:11.9843731Z",
+            "OnOrder": null,
+            "Committed": null,
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/Item/12?FileId=123",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        },
+        {
+            "Id": 13,
+            "Code": "ABC",
+            "Location": null,
+            "Description": "Some other item",
+            "Type": "I",
+            "IsActive": true,
+            "IsInventoried": false,
+            "AssetAccountId": 789,
+            "IsSold": true,
+            "SaleIncomeAccountId": 789,
+            "SaleTaxCodeId": 112,
+            "SaleCoSAccountId": 456,
+            "IsBought": true,
+            "PurchaseExpenseAccountId": 567,
+            "PurchaseTaxCodeId": 123,
+            "MinimumStockLevel": 2.0,
+            "StockOnHand": 10.0,
+            "CurrentValue": 11.1,
+            "PrimarySupplierContactId": 123,
+            "PrimarySupplierItemCode": "XYZ",
+            "DefaultReOrderQuantity": 5.0,
+            "LastUpdatedId": "AAAAABgc=",
+            "IsVisible": true,
+            "IsVirtual": false,
+            "VType": "AB",
+            "SellingPrice": 20.99,
+            "IsSellingPriceIncTax": true,
+            "CreatedDateUtc": "2026-09-12T19:00:11.9843731Z",
+            "LastModifiedDateUtc": "2026-09-02T19:00:11.9843731Z",
+            "LastModifiedBy": 123,
+            "BuyingPrice": 11.2,
+            "IsBuyingPriceIncTax": true,
+            "IsVoucher": false,
+            "ValidFrom": "2026-08-23T19:00:11.9843731Z",
+            "ValidTo": "2026-10-02T19:00:11.9843731Z",
+            "OnOrder": null,
+            "Committed": null,
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/Item/13?FileId=123",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        }
+    ],
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/Items?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "next",
+            "href": "https://api.saasu.com/Items?FileId=123&Page=2&PageSize=25",
+            "method": "GET",
+            "title": null
+        }
+    ]
+}

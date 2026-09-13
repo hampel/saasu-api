@@ -1,0 +1,32 @@
+{
+    "Notes": "some notes",
+    "Id": 1,
+    "Code": "G1",
+    "Name": "Sale Inc GST",
+    "Rate": 0.1,
+    "PostingAccountId": 123,
+    "IsSale": true,
+    "IsPurchase": false,
+    "IsPayroll": true,
+    "IsInbuilt": false,
+    "IsShared": true,
+    "IsActive": true,
+    "CreatedDateUtc": "2025-09-12T19:00:11.9843731Z",
+    "LastModifiedDateUtc": "2026-09-11T19:00:11.9843731Z",
+    "LastModifiedByUserId": 123,
+    "LastUpdatedId": "AAAAAAkh==",
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/TaxCode/1?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "list",
+            "href": "https://api.saasu.com/TaxCodes?FileId=123",
+            "method": "GET",
+            "title": null
+        }
+    ]
+}

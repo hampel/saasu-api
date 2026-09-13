@@ -1,0 +1,52 @@
+{
+    "ItemAdjustments": [
+        {
+            "Id": 2631,
+            "Date": "2016-10-24T00:00:00",
+            "Summary": "Brief summary of this adjustment.",
+            "RequiresFollowUp": false,
+            "LastUpdatedId": "AAAAAAAKgc=",
+            "CreatedDateUtc": "2026-09-11T19:00:11.9843731Z",
+            "LastModifiedDateUtc": "2026-09-12T19:00:11.9843731Z",
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/ItemAdjustment/2631?FileId=123",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        },
+        {
+            "Id": 8453,
+            "Date": "2016-11-24T00:00:00",
+            "Summary": "Brief summary of this adjustment.",
+            "RequiresFollowUp": false,
+            "LastUpdatedId": "AAAAAAAHbc=",
+            "CreatedDateUtc": "2026-09-10T19:00:11.9843731Z",
+            "LastModifiedDateUtc": "2026-09-12T19:00:11.9843731Z",
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/ItemAdjustment/8453?FileId=123",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        }
+    ],
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/ItemAdjustments?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "next",
+            "href": "https://api.saasu.com/ItemAdjustments?FileId=123&Page=2&PageSize=25",
+            "method": "GET",
+            "title": null
+        }
+    ]
+}

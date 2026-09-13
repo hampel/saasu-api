@@ -1,0 +1,15 @@
+{
+    "Id": 1,
+    "Name": "MakeMoney Inc.",
+    "Abn": "53004085616",
+    "Website": "https://makemoney.org",
+    "LastUpdatedId": "AAAAAAKbc=",
+    "LongDescription": "A test company",
+    "LogoUrl": null,
+    "TradingName": "MakeMoney Inc",
+    "CompanyEmail": "bigboss@example.com",
+    "LastModifiedDateUtc": "2026-09-11T19:00:12.9310174Z",
+    "CreatedDateUtc": "2026-09-02T19:00:12.9310174Z",
+    "LastModifiedByUserId": 321,
+    "_links": []
+}

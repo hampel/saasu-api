@@ -1,0 +1,72 @@
+{
+    "Activities": [
+        {
+            "Id": 111,
+            "LastUpdatedId": "AAAAKlh=",
+            "ActivityType": "TestType",
+            "Done": false,
+            "Due": "2026-09-23T05:00:12.9310174+10:00",
+            "Title": "Test Actvity 1",
+            "OwnerFirstName": "John",
+            "OwnerLastName": "Smith",
+            "OwnerEmail": "someone@example.com",
+            "AttachedToType": "sale",
+            "AttachedToId": 321,
+            "Tags": [
+                "testTag1",
+                "testTag2"
+            ],
+            "CreatedDateUtc": "2026-06-05T05:00:12.9310174+10:00",
+            "LastModifiedDateUtc": "2026-09-12T05:00:12.9310174+10:00",
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/Activity/111?FileId=123",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        },
+        {
+            "Id": 222,
+            "LastUpdatedId": "AAAAKli=",
+            "ActivityType": "TestType",
+            "Done": false,
+            "Due": "2026-09-23T05:00:12.9310174+10:00",
+            "Title": "Test Actvity 2",
+            "OwnerFirstName": "John",
+            "OwnerLastName": "Smith",
+            "OwnerEmail": "someone@example.com",
+            "AttachedToType": "purchase",
+            "AttachedToId": 322,
+            "Tags": [
+                "testTag1",
+                "testTag2"
+            ],
+            "CreatedDateUtc": "2026-06-05T05:00:12.9310174+10:00",
+            "LastModifiedDateUtc": "2026-09-12T05:00:12.9310174+10:00",
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/Activity/222?FileId=123",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        }
+    ],
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/Activities?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "next",
+            "href": "https://api.saasu.com/Activities?FileId=123&Page=2&PageSize=25",
+            "method": "GET",
+            "title": null
+        }
+    ]
+}

@@ -1,0 +1,58 @@
+{
+    "Items": [
+        {
+            "Type": "Credit",
+            "AccountId": 321,
+            "TaxCode": "G1",
+            "Amount": 10.0,
+            "_links": []
+        }
+    ],
+    "Notes": "Test journal note",
+    "TransactionId": 5093684,
+    "LastUpdatedId": "AAAAAAAKgc=",
+    "TransactionDate": "2015-01-24T00:00:00",
+    "Summary": "Test Journal entry 1",
+    "Currency": "AUD",
+    "FxRate": 1.0,
+    "AutoPopulateFxRate": false,
+    "Reference": "123",
+    "JournalContactId": 987,
+    "ContactFirstName": "Joe",
+    "ContactLastName": "Smith",
+    "ContactOrganisationName": "Joes Toys",
+    "RequiresFollowUp": false,
+    "Tags": [
+        "Note",
+        "Supplier",
+        "Toys"
+    ],
+    "CreatedDateUtc": "2026-09-11T19:00:12.9466646Z",
+    "LastModifiedDateUtc": "2026-09-12T19:00:12.9466646Z",
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/Journal/5093684?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "list",
+            "href": "https://api.saasu.com/Journals?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "update",
+            "href": "https://api.saasu.com/Journal/5093684?FileId=123",
+            "method": "PUT",
+            "title": null
+        },
+        {
+            "rel": "delete",
+            "href": "https://api.saasu.com/Journal/5093684?FileId=123",
+            "method": "DELETE",
+            "title": null
+        }
+    ]
+}

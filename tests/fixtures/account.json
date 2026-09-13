@@ -1,0 +1,58 @@
+{
+    "Id": 1,
+    "Name": "Test Income Account",
+    "AccountLevel": "Detail",
+    "AccountType": "Income",
+    "IsActive": true,
+    "IsBuiltIn": false,
+    "LastUpdatedId": "AAAAAAA",
+    "DefaultTaxCode": "G1",
+    "LedgerCode": "AA",
+    "Currency": "AUD",
+    "HeaderAccountId": 3,
+    "ExchangeAccountId": 3,
+    "IsBankAccount": false,
+    "CreatedDateUtc": "2026-03-12T19:00:12.9310174Z",
+    "LastModifiedDateUtc": "2026-09-06T19:00:12.9310174Z",
+    "IncludeInForecaster": false,
+    "BSB": null,
+    "Number": null,
+    "BankAccountName": null,
+    "BankFileCreationEnabled": null,
+    "BankCode": null,
+    "UserNumber": null,
+    "MerchantFeeAccountId": null,
+    "IncludePendingTransactions": null,
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/Account/1?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "list",
+            "href": "https://api.saasu.com/Accounts?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "update",
+            "href": "https://api.saasu.com/Account/1?FileId=123",
+            "method": "PUT",
+            "title": null
+        },
+        {
+            "rel": "delete",
+            "href": "https://api.saasu.com/Account/1?FileId=123",
+            "method": "DELETE",
+            "title": null
+        },
+        {
+            "rel": "related",
+            "href": "https://api.saasu.com/Account/3?FileId=123",
+            "method": "GET",
+            "title": "HeaderAccount"
+        }
+    ]
+}

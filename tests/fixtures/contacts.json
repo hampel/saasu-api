@@ -1,0 +1,218 @@
+{
+    "Contacts": [
+        {
+            "Id": 54353,
+            "CreatedDateUtc": "2026-09-02T19:00:12.9310174Z",
+            "LastModifiedDateUtc": "2026-09-12T19:00:12.9310174Z",
+            "LastUpdatedId": "AAAAAFwWAN8=",
+            "Salutation": "Mr.",
+            "GivenName": "Joe",
+            "MiddleInitials": null,
+            "FamilyName": "Blogs",
+            "IsActive": true,
+            "IsOcrSender": true,
+            "OcrRecipientAlias": "a1b2c3d4_1234@example.com",
+            "CompanyId": 3,
+            "PositionTitle": "BigBoss",
+            "WebsiteUrl": null,
+            "PrimaryPhone": "02 4444 5555",
+            "HomePhone": null,
+            "OtherPhone": null,
+            "MobilePhone": null,
+            "Fax": null,
+            "EmailAddress": "main_user@example.com",
+            "AdditionalEmails": "second_user@example.com, third_user@example.com, fourth_user@example.com",
+            "ContactId": "1234",
+            "ContactManagerId": null,
+            "DirectDepositDetails": {
+                "AcceptDirectDeposit": true,
+                "AccountName": "Account name",
+                "AccountBSB": "602456",
+                "AccountNumber": "34234234"
+            },
+            "ChequeDetails": {
+                "AcceptCheque": false,
+                "ChequePayableTo": null
+            },
+            "CustomField1": "",
+            "CustomField2": "",
+            "TwitterId": "",
+            "SkypeId": "",
+            "LinkedInProfile": "",
+            "AutoSendStatement": true,
+            "IsPartner": false,
+            "IsCustomer": false,
+            "IsSupplier": false,
+            "IsContractor": false,
+            "Tags": [
+                "Advisor",
+                "Business"
+            ],
+            "DefaultSaleDiscount": null,
+            "DefaultPurchaseDiscount": null,
+            "LastModifiedByUserId": 567,
+            "BpayDetails": {
+                "BillerCode": "111222",
+                "CRN": "8732993"
+            },
+            "PostalAddress": {
+                "Street": "123 Acme Street",
+                "City": "Sydney",
+                "State": "NSW",
+                "Postcode": "2000",
+                "Country": "Australia"
+            },
+            "OtherAddress": {
+                "Street": "123 other Street",
+                "City": "Melbourne",
+                "State": "VIC",
+                "Postcode": "3000",
+                "Country": "Australia"
+            },
+            "SaleTradingTerms": {
+                "TradingTermsType": 1,
+                "TradingTermsInterval": 2,
+                "TradingTermsIntervalType": 1
+            },
+            "PurchaseTradingTerms": {
+                "TradingTermsType": 1,
+                "TradingTermsInterval": 3,
+                "TradingTermsIntervalType": 2
+            },
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/Contact/54353?FileId=123",
+                    "method": "GET",
+                    "title": null
+                },
+                {
+                    "rel": "related",
+                    "href": "https://api.saasu.com/Company/3?FileId=123",
+                    "method": "GET",
+                    "title": "Company"
+                },
+                {
+                    "rel": "related",
+                    "href": "https://api.saasu.com/ContactAggregate/54353?FileId=123",
+                    "method": "GET",
+                    "title": "Aggregate"
+                }
+            ]
+        },
+        {
+            "Id": 896421,
+            "CreatedDateUtc": "2026-09-11T19:00:12.9310174Z",
+            "LastModifiedDateUtc": "2026-09-12T19:00:12.9310174Z",
+            "LastUpdatedId": "AAAAAFwWAN8=",
+            "Salutation": "Mrs.",
+            "GivenName": "Mary",
+            "MiddleInitials": null,
+            "FamilyName": "Biggs",
+            "IsActive": true,
+            "IsOcrSender": true,
+            "OcrRecipientAlias": "a1b2c3d4_1234@example.com",
+            "CompanyId": 3,
+            "PositionTitle": "Cleaner",
+            "WebsiteUrl": null,
+            "PrimaryPhone": "02 5555 4444",
+            "HomePhone": null,
+            "OtherPhone": null,
+            "MobilePhone": "04 1111 1111",
+            "Fax": "02 5555 4445",
+            "EmailAddress": "main_user@example.com",
+            "AdditionalEmails": "second_user@example.com, third_user@example.com, fourth_user@example.com",
+            "ContactId": "4567",
+            "ContactManagerId": null,
+            "DirectDepositDetails": {
+                "AcceptDirectDeposit": true,
+                "AccountName": "HJKY Co",
+                "AccountBSB": "602784",
+                "AccountNumber": "78454234"
+            },
+            "ChequeDetails": {
+                "AcceptCheque": false,
+                "ChequePayableTo": null
+            },
+            "CustomField1": "",
+            "CustomField2": "",
+            "TwitterId": "",
+            "SkypeId": "",
+            "LinkedInProfile": "",
+            "AutoSendStatement": false,
+            "IsPartner": false,
+            "IsCustomer": true,
+            "IsSupplier": false,
+            "IsContractor": false,
+            "Tags": [
+                "Toys",
+                "Business"
+            ],
+            "DefaultSaleDiscount": null,
+            "DefaultPurchaseDiscount": null,
+            "LastModifiedByUserId": 123,
+            "BpayDetails": {
+                "BillerCode": "122345",
+                "CRN": "747821192"
+            },
+            "PostalAddress": {
+                "Street": "456 Arndale Street",
+                "City": "Sydney",
+                "State": "NSW",
+                "Postcode": "2000",
+                "Country": "Australia"
+            },
+            "OtherAddress": {
+                "Street": "123 whatever Street",
+                "City": "Melbourne",
+                "State": "VIC",
+                "Postcode": "3000",
+                "Country": "Australia"
+            },
+            "SaleTradingTerms": {
+                "TradingTermsType": 1,
+                "TradingTermsInterval": 2,
+                "TradingTermsIntervalType": 1
+            },
+            "PurchaseTradingTerms": {
+                "TradingTermsType": 1,
+                "TradingTermsInterval": 3,
+                "TradingTermsIntervalType": 2
+            },
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/Contact/896421?FileId=123",
+                    "method": "GET",
+                    "title": null
+                },
+                {
+                    "rel": "related",
+                    "href": "https://api.saasu.com/Company/3?FileId=123",
+                    "method": "GET",
+                    "title": "Company"
+                },
+                {
+                    "rel": "related",
+                    "href": "https://api.saasu.com/ContactAggregate/896421?FileId=123",
+                    "method": "GET",
+                    "title": "Aggregate"
+                }
+            ]
+        }
+    ],
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/Contacts?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "next",
+            "href": "https://api.saasu.com/Contacts?FileId=123&Page=2&PageSize=25",
+            "method": "GET",
+            "title": null
+        }
+    ]
+}

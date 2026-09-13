@@ -1,0 +1,19 @@
+{
+    "InsertedTimesheetId": 1,
+    "LastUpdatedId": "sample string 2",
+    "UtcLastModified": "2026-09-13T09:23:33.9146154+10:00",
+    "_links": [
+        {
+            "rel": "sample string 1",
+            "href": "sample string 2",
+            "method": "sample string 3",
+            "title": "sample string 4"
+        },
+        {
+            "rel": "sample string 1",
+            "href": "sample string 2",
+            "method": "sample string 3",
+            "title": "sample string 4"
+        }
+    ]
+}

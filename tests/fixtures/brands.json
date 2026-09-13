@@ -1,0 +1,72 @@
+{
+    "Brands": [
+        {
+            "Id": 1,
+            "Name": "sample string 1",
+            "IsDefault": true,
+            "UseContactDetailsInFileIdentity": true,
+            "WebsiteUrl": "sample string 4",
+            "EmailAddress": "sample string 5",
+            "PrimaryPhone": "sample string 6",
+            "Street": "sample string 7",
+            "City": "sample string 8",
+            "PostCode": "sample string 9",
+            "CountryId": 10,
+            "_links": [
+                {
+                    "rel": "sample string 1",
+                    "href": "sample string 2",
+                    "method": "sample string 3",
+                    "title": "sample string 4"
+                },
+                {
+                    "rel": "sample string 1",
+                    "href": "sample string 2",
+                    "method": "sample string 3",
+                    "title": "sample string 4"
+                }
+            ]
+        },
+        {
+            "Id": 1,
+            "Name": "sample string 1",
+            "IsDefault": true,
+            "UseContactDetailsInFileIdentity": true,
+            "WebsiteUrl": "sample string 4",
+            "EmailAddress": "sample string 5",
+            "PrimaryPhone": "sample string 6",
+            "Street": "sample string 7",
+            "City": "sample string 8",
+            "PostCode": "sample string 9",
+            "CountryId": 10,
+            "_links": [
+                {
+                    "rel": "sample string 1",
+                    "href": "sample string 2",
+                    "method": "sample string 3",
+                    "title": "sample string 4"
+                },
+                {
+                    "rel": "sample string 1",
+                    "href": "sample string 2",
+                    "method": "sample string 3",
+                    "title": "sample string 4"
+                }
+            ]
+        }
+    ],
+    "_links": [
+        {
+            "rel": "sample string 1",
+            "href": "sample string 2",
+            "method": "sample string 3",
+            "title": "sample string 4"
+        },
+        {
+            "rel": "sample string 1",
+            "href": "sample string 2",
+            "method": "sample string 3",
+            "title": "sample string 4"
+        }
+    ]
+}

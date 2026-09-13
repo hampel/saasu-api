@@ -1,0 +1,110 @@
+{
+    "Id": 54353,
+    "LastUpdatedId": "AAAAAFwWAN8=",
+    "Salutation": "Mr.",
+    "GivenName": "Joe",
+    "MiddleInitials": null,
+    "FamilyName": "Blogs",
+    "Company": {
+        "Id": 45742,
+        "Name": "ACME Co",
+        "Abn": "12345618",
+        "LastUpdatedId": "AAAAAFwWAN2=",
+        "LongDescription": "The ACME company Pty Ltd",
+        "TradingName": "ACME 2",
+        "CompanyEmail": "company@example.com",
+        "_links": [
+            {
+                "rel": "self",
+                "href": "https://api.saasu.com/Company/45742?FileId=123",
+                "method": "GET",
+                "title": null
+            },
+            {
+                "rel": "list",
+                "href": "https://api.saasu.com/Companies?FileId=123",
+                "method": "GET",
+                "title": null
+            },
+            {
+                "rel": "update",
+                "href": "https://api.saasu.com/Company/45742?FileId=123",
+                "method": "PUT",
+                "title": null
+            },
+            {
+                "rel": "delete",
+                "href": "https://api.saasu.com/Company/45742?FileId=123",
+                "method": "DELETE",
+                "title": null
+            }
+        ]
+    },
+    "PositionTitle": "BigBoss",
+    "PrimaryPhone": "02 4444 5555",
+    "MobilePhone": null,
+    "HomePhone": "02 4564 7897",
+    "Fax": null,
+    "EmailAddress": null,
+    "ContactId": "1234",
+    "ContactManager": {
+        "Id": 1823,
+        "LastUpdatedId": "AAAAAFwVAN4=",
+        "Salutation": "Mrs.",
+        "GivenName": "Joanne",
+        "MiddleInitials": "B",
+        "FamilyName": "Blogs",
+        "PositionTitle": "UberBoss",
+        "_links": [
+            {
+                "rel": "self",
+                "href": "https://api.saasu.com/Contact/1823?FileId=123",
+                "method": "GET",
+                "title": null
+            },
+            {
+                "rel": "list",
+                "href": "https://api.saasu.com/Contacts?FileId=123",
+                "method": "GET",
+                "title": null
+            },
+            {
+                "rel": "update",
+                "href": "https://api.saasu.com/Contact/1823?FileId=123",
+                "method": "PUT",
+                "title": null
+            },
+            {
+                "rel": "delete",
+                "href": "https://api.saasu.com/Contact/1823?FileId=123",
+                "method": "DELETE",
+                "title": null
+            }
+        ]
+    },
+    "IsPartner": false,
+    "IsCustomer": false,
+    "IsSupplier": false,
+    "IsContractor": false,
+    "PostalAddress": {
+        "Street": "123 Acme Street",
+        "City": "Sydney",
+        "State": "NSW",
+        "Postcode": "2000",
+        "Country": "Australia"
+    },
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/ContactAggregate/54353?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "update",
+            "href": "https://api.saasu.com/ContactAggregate/54353?FileId=123",
+            "method": "PUT",
+            "title": null
+        }
+    ]
+}

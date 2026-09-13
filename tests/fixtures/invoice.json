@@ -1,0 +1,116 @@
+{
+    "LineItems": [
+        {
+            "Id": 30,
+            "Description": "Sale Item",
+            "AccountId": null,
+            "TaxCode": "G1",
+            "TotalAmount": 10.45,
+            "Quantity": 3.0,
+            "UnitPrice": 11.5,
+            "PercentageDiscount": 0.0,
+            "InventoryId": 30,
+            "ItemCode": "CC123",
+            "Location": null,
+            "Tags": [],
+            "Attributes": [],
+            "_links": []
+        }
+    ],
+    "NotesInternal": null,
+    "NotesExternal": null,
+    "Terms": {
+        "Type": 1,
+        "Interval": 3,
+        "IntervalType": null,
+        "TypeEnum": "DueIn",
+        "IntervalTypeEnum": "Week"
+    },
+    "Attachments": [
+        {
+            "Id": 1,
+            "Size": 0,
+            "Name": "test.txt",
+            "Description": "Test document",
+            "ItemIdAttachedTo": 0,
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/InvoiceAttachment/1?FileId=123",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        }
+    ],
+    "TemplateId": null,
+    "ForEntityTypeId": null,
+    "SendEmailToContact": null,
+    "EmailMessage": null,
+    "QuickPayment": null,
+    "TransactionId": 5093684,
+    "LastUpdatedId": "AAAAAAAKgc=",
+    "Currency": "AUD",
+    "InvoiceNumber": "INV-1123",
+    "InvoiceType": "Tax Invoice",
+    "TransactionType": "S",
+    "Layout": "I",
+    "BrandId": null,
+    "Summary": "Invoice for order 1123",
+    "TotalAmount": 10.45,
+    "TotalTaxAmount": null,
+    "IsTaxInc": true,
+    "AmountPaid": 0.0,
+    "AmountOwed": 11.5,
+    "FxRate": 1.0,
+    "AutoPopulateFxRate": false,
+    "RequiresFollowUp": false,
+    "SentToContact": true,
+    "TransactionDate": "2015-01-24T00:00:00",
+    "BillingContactId": 1568986,
+    "BillingContactFirstName": "Freddy",
+    "BillingContactLastName": "Fungus",
+    "BillingContactOrganisationName": "Fungal Innovation",
+    "ShippingContactId": 10,
+    "ShippingContactFirstName": "Big",
+    "ShippingContactLastName": "Bob",
+    "ShippingContactOrganisationName": "Bobbby Inc",
+    "CreatedDateUtc": "2026-09-11T19:00:12.5781709Z",
+    "LastModifiedDateUtc": "2026-09-12T19:00:12.5781709Z",
+    "PaymentStatus": "U",
+    "DueDate": null,
+    "InvoiceStatus": "I",
+    "PurchaseOrderNumber": "PO-4456",
+    "PaymentCount": 0,
+    "Tags": [
+        "Note",
+        "Supplier",
+        "Toys"
+    ],
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/Invoice/5093684?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "list",
+            "href": "https://api.saasu.com/Invoices?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "update",
+            "href": "https://api.saasu.com/Invoice/5093684?FileId=123",
+            "method": "PUT",
+            "title": null
+        },
+        {
+            "rel": "delete",
+            "href": "https://api.saasu.com/Invoice/5093684?FileId=123",
+            "method": "DELETE",
+            "title": null
+        }
+    ]
+}

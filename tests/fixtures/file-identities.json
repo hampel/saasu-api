@@ -1,0 +1,82 @@
+{
+    "FileIdentities": [
+        {
+            "Id": 1,
+            "Name": "Test File",
+            "Country": "Australia",
+            "Zone": "Australia",
+            "CurrencyCode": "AUD",
+            "SubscriptionName": "Test Subscription 1",
+            "FileSettings": {
+                "SaleAmountsIncludeTax": false,
+                "PurchaseAmountsIncludeTax": false,
+                "SaleTradingTerms": {
+                    "TradingTermsType": 1,
+                    "TradingTermsInterval": 3,
+                    "TradingTermsIntervalType": 1
+                },
+                "PurchaseTradingTerms": {
+                    "TradingTermsType": 1,
+                    "TradingTermsInterval": 2,
+                    "TradingTermsIntervalType": 1
+                },
+                "_links": []
+            },
+            "IsTaxRegistered": false,
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/FileIdentity?wsaccesskey=0000EXAMPLEKEY0000&fileid=1",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        },
+        {
+            "Id": 2,
+            "Name": "Test File",
+            "Country": "New Zealand",
+            "Zone": "New Zealand",
+            "CurrencyCode": "NZD",
+            "SubscriptionName": "Test Subscription 2",
+            "FileSettings": {
+                "SaleAmountsIncludeTax": false,
+                "PurchaseAmountsIncludeTax": false,
+                "SaleTradingTerms": {
+                    "TradingTermsType": 1,
+                    "TradingTermsInterval": 2,
+                    "TradingTermsIntervalType": 1
+                },
+                "PurchaseTradingTerms": {
+                    "TradingTermsType": 2,
+                    "TradingTermsInterval": 5,
+                    "TradingTermsIntervalType": 1
+                },
+                "_links": []
+            },
+            "IsTaxRegistered": false,
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/FileIdentity?wsaccesskey=0000EXAMPLEKEY0000&fileid=2",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        }
+    ],
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/FileIdentities",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "next",
+            "href": "https://api.saasu.com/FileIdentities?Page=2&PageSize=25",
+            "method": "GET",
+            "title": null
+        }
+    ]
+}

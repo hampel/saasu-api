@@ -1,0 +1,156 @@
+{
+    "Incomes": [
+        {
+            "AccountId": 1,
+            "AccountName": "sample string 1",
+            "ComparisonAmount": 1.0,
+            "Amount": 2.0,
+            "Change": 1.0,
+            "PercentageChange": 1.0
+        },
+        {
+            "AccountId": 1,
+            "AccountName": "sample string 1",
+            "ComparisonAmount": 1.0,
+            "Amount": 2.0,
+            "Change": 1.0,
+            "PercentageChange": 1.0
+        }
+    ],
+    "CostOfSales": [
+        {
+            "AccountId": 1,
+            "AccountName": "sample string 1",
+            "ComparisonAmount": 1.0,
+            "Amount": 2.0,
+            "Change": 1.0,
+            "PercentageChange": 1.0
+        },
+        {
+            "AccountId": 1,
+            "AccountName": "sample string 1",
+            "ComparisonAmount": 1.0,
+            "Amount": 2.0,
+            "Change": 1.0,
+            "PercentageChange": 1.0
+        }
+    ],
+    "Expenses": [
+        {
+            "AccountId": 1,
+            "AccountName": "sample string 1",
+            "ComparisonAmount": 1.0,
+            "Amount": 2.0,
+            "Change": 1.0,
+            "PercentageChange": 1.0
+        },
+        {
+            "AccountId": 1,
+            "AccountName": "sample string 1",
+            "ComparisonAmount": 1.0,
+            "Amount": 2.0,
+            "Change": 1.0,
+            "PercentageChange": 1.0
+        }
+    ],
+    "OtherIncomes": [
+        {
+            "AccountId": 1,
+            "AccountName": "sample string 1",
+            "ComparisonAmount": 1.0,
+            "Amount": 2.0,
+            "Change": 1.0,
+            "PercentageChange": 1.0
+        },
+        {
+            "AccountId": 1,
+            "AccountName": "sample string 1",
+            "ComparisonAmount": 1.0,
+            "Amount": 2.0,
+            "Change": 1.0,
+            "PercentageChange": 1.0
+        }
+    ],
+    "OtherExpenses": [
+        {
+            "AccountId": 1,
+            "AccountName": "sample string 1",
+            "ComparisonAmount": 1.0,
+            "Amount": 2.0,
+            "Change": 1.0,
+            "PercentageChange": 1.0
+        },
+        {
+            "AccountId": 1,
+            "AccountName": "sample string 1",
+            "ComparisonAmount": 1.0,
+            "Amount": 2.0,
+            "Change": 1.0,
+            "PercentageChange": 1.0
+        }
+    ],
+    "TotalIncome": {
+        "AccountId": 1,
+        "AccountName": "sample string 1",
+        "ComparisonAmount": 1.0,
+        "Amount": 2.0,
+        "Change": 1.0,
+        "PercentageChange": 1.0
+    },
+    "TotalCostOfSales": {
+        "AccountId": 1,
+        "AccountName": "sample string 1",
+        "ComparisonAmount": 1.0,
+        "Amount": 2.0,
+        "Change": 1.0,
+        "PercentageChange": 1.0
+    },
+    "TotalExpense": {
+        "AccountId": 1,
+        "AccountName": "sample string 1",
+        "ComparisonAmount": 1.0,
+        "Amount": 2.0,
+        "Change": 1.0,
+        "PercentageChange": 1.0
+    },
+    "TotalOtherIncome": {
+        "AccountId": 1,
+        "AccountName": "sample string 1",
+        "ComparisonAmount": 1.0,
+        "Amount": 2.0,
+        "Change": 1.0,
+        "PercentageChange": 1.0
+    },
+    "TotalOtherExpense": {
+        "AccountId": 1,
+        "AccountName": "sample string 1",
+        "ComparisonAmount": 1.0,
+        "Amount": 2.0,
+        "Change": 1.0,
+        "PercentageChange": 1.0
+    },
+    "GrossProfit": {
+        "AccountId": 1,
+        "AccountName": "sample string 1",
+        "ComparisonAmount": 1.0,
+        "Amount": 2.0,
+        "Change": 1.0,
+        "PercentageChange": 1.0
+    },
+    "OperatingProfit": {
+        "AccountId": 1,
+        "AccountName": "sample string 1",
+        "ComparisonAmount": 1.0,
+        "Amount": 2.0,
+        "Change": 1.0,
+        "PercentageChange": 1.0
+    },
+    "NetProfit": {
+        "AccountId": 1,
+        "AccountName": "sample string 1",
+        "ComparisonAmount": 1.0,
+        "Amount": 2.0,
+        "Change": 1.0,
+        "PercentageChange": 1.0
+    }
+}

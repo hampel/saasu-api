@@ -1,0 +1,55 @@
+{
+    "CreatedDateUtc": null,
+    "LastUpdatedId": null,
+    "LastModifiedDateUtc": null,
+    "LastModifiedByUserId": null,
+    "Name": "Test File",
+    "FullLegalName": "Some Legal Name",
+    "TradingNameOrAlternativeBrandName": "Trading test file",
+    "IndustryTypeId": null,
+    "BusinessIdentifier": "53004085616",
+    "BusinessIdentifierBranchNumber": null,
+    "CompanyIdentifier": " 007249989",
+    "PrimaryPhone": "0290125555",
+    "Fax": null,
+    "Website": "http://somehost.com",
+    "Email": "here@example.com",
+    "Street": "1 brown st",
+    "City": "Sydney",
+    "State": "NSW",
+    "PostCode": "2000",
+    "Country": "Australia",
+    "Zone": "Autralia",
+    "CurrencyCode": null,
+    "FileSettings": {
+        "SaleAmountsIncludeTax": true,
+        "PurchaseAmountsIncludeTax": true,
+        "SaleTradingTerms": {
+            "TradingTermsType": 1,
+            "TradingTermsInterval": 3,
+            "TradingTermsIntervalType": 1
+        },
+        "PurchaseTradingTerms": {
+            "TradingTermsType": 1,
+            "TradingTermsInterval": 2,
+            "TradingTermsIntervalType": 1
+        },
+        "_links": []
+    },
+    "IsTaxRegistered": false,
+    "TaxRegistrationDate": null,
+    "DateTimeFormatId": 0,
+    "NumberFormatId": 0,
+    "FinancialYearEndMonth": 0,
+    "FinancialYearEndDate": 0,
+    "PayrollYearEndMonth": 0,
+    "PayrollYearEndDate": 0,
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/FileIdentity/123",
+            "method": "GET",
+            "title": null
+        }
+    ]
+}

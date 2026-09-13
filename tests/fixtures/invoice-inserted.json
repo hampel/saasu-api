@@ -1,0 +1,34 @@
+{
+    "InsertedEntityId": 321,
+    "GeneratedInvoiceNumber": "987",
+    "Id": 0,
+    "SentToContact": false,
+    "LastUpdatedId": "AAAAKlh=",
+    "UtcLastModified": "2026-09-07T19:00:11.9843731Z",
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/Invoice/321?FileId=123",
+            "method": "POST",
+            "title": null
+        },
+        {
+            "rel": "list",
+            "href": "https://api.saasu.com/Invoices?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "update",
+            "href": "https://api.saasu.com/Invoice/321?FileId=123",
+            "method": "PUT",
+            "title": null
+        },
+        {
+            "rel": "delete",
+            "href": "https://api.saasu.com/Invoice/321?FileId=123",
+            "method": "DELETE",
+            "title": null
+        }
+    ]
+}

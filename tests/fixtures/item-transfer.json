@@ -1,0 +1,31 @@
+{
+    "Items": [
+        {
+            "Quantity": 2.0,
+            "InventoryItemId": 123,
+            "UnitCost": 10.0,
+            "LineTotal": 20.0,
+            "_links": []
+        },
+        {
+            "Quantity": 3.0,
+            "InventoryItemId": 456,
+            "UnitCost": 11.0,
+            "LineTotal": 33.0,
+            "_links": []
+        }
+    ],
+    "Notes": "Test item transfer note",
+    "Id": 123456,
+    "LastUpdatedId": "AAAAAAAKgc=",
+    "Date": "2016-10-01T00:00:00",
+    "Summary": "Test Item transfer entry 1",
+    "Tags": [
+        "Note",
+        "Building Combo"
+    ],
+    "RequiresFollowUp": false,
+    "CreatedDateUtc": "2026-09-11T19:00:12.9792277Z",
+    "LastModifiedDateUtc": "2026-09-12T19:00:12.9792277Z",
+    "_links": []
+}

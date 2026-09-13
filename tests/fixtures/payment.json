@@ -1,0 +1,55 @@
+{
+    "Notes": "payment notes",
+    "PaymentItems": [
+        {
+            "InvoiceTransactionId": 1234,
+            "AmountPaid": 120.0
+        },
+        {
+            "InvoiceTransactionId": 5678,
+            "AmountPaid": 150.0
+        }
+    ],
+    "TransactionId": 324,
+    "TransactionDate": "2026-09-12T14:00:00Z",
+    "TransactionType": null,
+    "PaymentAccountId": 1858,
+    "TotalAmount": 10.0,
+    "FeeAmount": 0.0,
+    "Summary": "Payment for invoice 1",
+    "Reference": "Toy inv",
+    "ClearedDate": "2026-09-13T00:00:00+10:00",
+    "Currency": "AUD",
+    "AutoPopulateFxRate": false,
+    "FxRate": 0.0,
+    "CreatedDateUtc": "2026-09-12T19:00:11.9684645Z",
+    "LastModifiedDateUtc": "2026-09-12T19:00:11.9684645Z",
+    "LastUpdatedId": null,
+    "RequiresFollowUp": false,
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/Payment/324?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "list",
+            "href": "https://api.saasu.com/Payments?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "update",
+            "href": "https://api.saasu.com/Payment/324?FileId=123",
+            "method": "PUT",
+            "title": null
+        },
+        {
+            "rel": "delete",
+            "href": "https://api.saasu.com/Payment/324?FileId=123",
+            "method": "DELETE",
+            "title": null
+        }
+    ]
+}

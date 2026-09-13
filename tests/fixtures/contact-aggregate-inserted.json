@@ -1,0 +1,35 @@
+{
+    "InsertedContactId": 234,
+    "LastUpdatedId": "AAAAAFwWAN8=",
+    "LastModified": "2026-09-12T19:00:11.9843731Z",
+    "CompanyId": 789,
+    "CompanyLastUpdatedId": "AAAAAFwWAX2=",
+    "ContactManagerId": 233,
+    "ContactManagerLastUpdatedId": "AAAAAFwWAS7=",
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/ContactAggregate/234?FileId=123",
+            "method": "POST",
+            "title": null
+        },
+        {
+            "rel": "update",
+            "href": "https://api.saasu.com/ContactAggregate/234?FileId=123",
+            "method": "PUT",
+            "title": null
+        },
+        {
+            "rel": "detail",
+            "href": "https://api.saasu.com/ContactAggregate/234?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "related",
+            "href": "https://api.saasu.com/Contact/234?FileId=123",
+            "method": "GET",
+            "title": "Contact"
+        }
+    ]
+}

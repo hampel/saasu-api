@@ -1,0 +1,59 @@
+{
+    "Transfers": [
+        {
+            "Id": 123456,
+            "LastUpdatedId": "AAAAAAAKgc=",
+            "Date": "2016-10-01T00:00:00",
+            "Summary": "Test Item transfer entry 1",
+            "Tags": [
+                "Note",
+                "Building Combo"
+            ],
+            "RequiresFollowUp": false,
+            "CreatedDateUtc": "2026-09-11T19:00:12.0151326Z",
+            "LastModifiedDateUtc": "2026-09-12T19:00:12.0151326Z",
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/ItemTransfer/123456?FileId=123",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        },
+        {
+            "Id": 987654,
+            "LastUpdatedId": "AAAAAAAKgc=",
+            "Date": "2016-09-01T00:00:00",
+            "Summary": "Test Item transfer entry 2",
+            "Tags": [
+                "Note"
+            ],
+            "RequiresFollowUp": false,
+            "CreatedDateUtc": "2026-09-11T19:00:12.0151326Z",
+            "LastModifiedDateUtc": "2026-09-12T19:00:12.0151326Z",
+            "_links": [
+                {
+                    "rel": "detail",
+                    "href": "https://api.saasu.com/ItemTransfer/987654?FileId=123",
+                    "method": "GET",
+                    "title": null
+                }
+            ]
+        }
+    ],
+    "_links": [
+        {
+            "rel": "self",
+            "href": "https://api.saasu.com/ItemTransfers?FileId=123",
+            "method": "GET",
+            "title": null
+        },
+        {
+            "rel": "next",
+            "href": "https://api.saasu.com/ItemTransfers?FileId=123&Page=2&PageSize=25",
+            "method": "GET",
+            "title": null
+        }
+    ]
+}
