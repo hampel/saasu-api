@@ -138,7 +138,8 @@ src/
   undocumented. A rejection invented here cannot be argued with.
 - **Three kinds of date, three casts.** `Cast::date()` for calendar dates — never
   timezone-converted; `Cast::datetime()` for `...Utc` instants — converted to UTC;
-  `Cast::localDateTime()` for timesheet times — wall clock kept. Choosing the wrong one moves an invoice to the previous day.
+  `Cast::localDateTime()` for timesheet times — wall clock kept. Choosing the wrong one moves an
+  invoice to the previous day.
 - **Two wire names are renamed on entities**: a contact's `ContactId` is `$contactReference`, and
   a transaction's `TransactionId` is `$id`. Request builders keep the wire name in the payload.
 
