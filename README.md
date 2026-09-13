@@ -57,12 +57,12 @@ $saasu = new Client(
 );
 ```
 
-## The API is rationed, and the client is built around that
+## Rate limits
 
-Saasu allows **one request a second**, and a **daily quota** of a few thousand requests depending
-on the plan. When the quota is exceeded, Saasu **blocks the file's API access for 24 hours** —
-for every integration using that file, not only the one that spent it. Four things in this
-package follow from that:
+**The API is rationed, and the client is built around that.** Saasu allows one request a second,
+and a daily quota of a few thousand requests depending on the plan. When the quota is exceeded,
+Saasu **blocks the file's API access for 24 hours** — for every integration using that file, not
+only the one that spent it. Four things in this package follow from that:
 
 - **The client throttles itself** to one request a second, per process. Several workers against
   one file are several requests a second between them; pass a `Throttle` backed by something
@@ -80,12 +80,12 @@ package follow from that:
 $saasu->requestsSent();                            // tokens and retries included
 ```
 
-## Two ways to authenticate, and Saasu prefers OAuth
+## Authentication
 
-**OAuth** exchanges a username and password for a token that expires, and a refresh token that
-lasts twelve months. `OAuth` obtains a token on the first request, refreshes it when it expires,
-falls back to the password when a refresh is refused, and retries a request once if Saasu
-rejects a token early.
+**Saasu offers two schemes, and prefers OAuth.** OAuth exchanges a username and password for a token
+that expires, and a refresh token that lasts twelve months. `OAuth` obtains a token on the first
+request, refreshes it when it expires, falls back to the password when a refresh is refused, and
+retries a request once if Saasu rejects a token early.
 
 ```php
 $saasu = Client::withOAuth('api@example.com', $password, fileId: 12345, client: new Guzzle(), store: $store);
@@ -110,11 +110,11 @@ exception message; it cannot remove it from a proxy's access log.
 $saasu = Client::withAccessKey($key, fileId: 12345, client: new Guzzle());
 ```
 
-## Updates start from the record
+## Updating a record
 
-Saasu checks every update against the `LastUpdatedId` the record had when it was read, and its
-documentation shows every update carrying the whole record. So the way to change one field is to
-read the record, build the request from it, and change that field:
+**Updates start from the record.** Saasu checks every update against the `LastUpdatedId` the record
+had when it was read, and its documentation shows every update carrying the whole record. So the way
+to change one field is to read the record, build the request from it, and change that field:
 
 ```php
 use Hampel\Saasu\Api\Request\ContactRequest;
@@ -146,12 +146,12 @@ $saved = $saasu->contacts()->create(
 $saved->id;
 ```
 
-## Some defaults are narrower than they look
+## Defaults
 
-A misspelt filter parameter is most likely **ignored, not refused** — ASP.NET, which Saasu runs
-on, drops query parameters it does not bind — and a list that ignored its filter looks exactly
-like a result. The filter classes exist so parameter names are not typed by hand. And four lists
-answer for less than all of time when not told otherwise:
+**Some defaults are narrower than they look.** A misspelt filter parameter is most likely **ignored,
+not refused** — ASP.NET, which Saasu runs on, drops query parameters it does not bind — and a list
+that ignored its filter looks exactly like a result. The filter classes exist so parameter names are
+not typed by hand. And four lists answer for less than all of time when not told otherwise:
 
 | list | with no range, Saasu answers for |
 |---|---|
@@ -169,17 +169,18 @@ use Hampel\Saasu\Api\Filter\PaymentFilter;
 $saasu->payments()->all(PaymentFilter::all()->paidBetween(DateRange::financialYear(2027)));
 ```
 
-## A transaction date is a date, not an instant
+## Dates
 
-`TransactionDate`, `DueDate` and their kind are **calendar dates**. Saasu writes them with a
-meaningless midnight attached, and converting that between timezones is how an invoice moves to
-the day before. They arrive as midnight UTC on the day Saasu meant, never converted — read them
-with `format('Y-m-d')`, and do not call `setTimezone()` on them.
+**A transaction date is a date, not an instant.** `TransactionDate`, `DueDate` and their kind are
+**calendar dates**. Saasu writes them with a meaningless midnight attached, and converting that
+between timezones is how an invoice moves to the day before. They arrive as midnight UTC on the day
+Saasu meant, never converted — read them with `format('Y-m-d')`, and do not call `setTimezone()` on
+them.
 
 Fields ending `Utc` are **instants**, converted to UTC. Timesheet start and finish are **local
 times**, kept at the wall-clock time Saasu wrote.
 
-## Failures
+## Errors
 
 Everything this package throws implements `Hampel\Saasu\Api\Exception\ExceptionInterface`.
 
@@ -213,11 +214,11 @@ try {
 }
 ```
 
-## A list has no total
+## Pagination
 
-Saasu says nothing about how many records a list holds, so a page cannot say how many pages
-follow. `each()` walks page by page until one comes back short, and stops making requests when
-the loop stops:
+**A list has no total.** Saasu says nothing about how many records a list holds, so a page cannot
+say how many pages follow. `each()` walks page by page until one comes back short, and stops making
+requests when the loop stops:
 
 ```php
 use Hampel\Saasu\Api\Filter\ContactFilter;
@@ -268,7 +269,7 @@ $saasu->invoices()->attachments(5093684);
 $saasu->invoices()->salesSummary(DateRange::financialYear(2027));
 ```
 
-## Everything else
+## Other endpoints
 
 ```php
 $saasu->accounts()->bankBalances();
@@ -299,7 +300,7 @@ $saasu->user()->get();
 A leave request is checked on update by its `LastModifiedDateUtc` rather than a `LastUpdatedId`.
 `LeaveRequestRequest::from()` carries it over as the string Saasu sent.
 
-## Extending it
+## Extending
 
 Every endpoint is an `Endpoint` subclass, and `Client::endpoint()` constructs anybody's:
 
@@ -339,7 +340,7 @@ Two names differ from the wire on purpose. A contact's `ContactId` field is **yo
 the contact, not its id, so it is `$contactReference`. An invoice's, journal's and payment's
 `TransactionId` is `$id`.
 
-## Testing against it
+## Testing
 
 The package takes any PSR-18 client, so the seam it exposes is the seam its own suite drives it
 through: a stub implementing `sendRequest()` is all a test needs. Pass
