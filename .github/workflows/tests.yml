@@ -92,8 +92,7 @@ jobs:
       # src/ REACHES, so it is blind to a TRANSITIVE dependency - one arriving through
       # something we did declare, which survives --no-dev and reports clean. It is also blind
       # to a missing ext-*, because a function from an absent extension looks exactly like
-      # one from core - the sibling BinaryLane client shipped with ext-filter undeclared
-      # until this check named it, with the run above green.
+      # one from core.
       - run: composer-require-checker check composer.json
 
   lint:
