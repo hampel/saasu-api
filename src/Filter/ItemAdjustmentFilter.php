@@ -8,6 +8,10 @@ use Hampel\Saasu\Api\Enum\TagSelection;
 
 /**
  * Filters for `ItemAdjustments`.
+ *
+ * A DATE RANGE FAR INTO THE FUTURE IS REFUSED. Measured 2026-09-14: a ToDate of 2099-12-31 answered
+ * a bodiless 400, where a ToDate ten years out answered normally - and the same 2099 date is
+ * accepted by the invoice and transfer lists. Keep ranges to real dates.
  */
 final class ItemAdjustmentFilter extends Filter
 {

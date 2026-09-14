@@ -185,6 +185,43 @@ try {
     $io->line('  a transaction date carrying a non-midnight time or an offset is the case Cast::date() guesses at');
 
     $io->line();
+    $io->info('6b. which ForInvoiceId requests does Saasu answer?');
+
+    // Measured 2026-09-14: `Payments?ForInvoiceId=<id>&Page=1&PageSize=100` answered 400 "Value
+    // cannot be null. Parameter name: collection". These variants find the shape it accepts.
+    [, $anyInvoices] = $list('Invoices', 'Invoices', ['Page' => 1, 'PageSize' => 1]);
+    $invoiceId = Cast::int(Cast::object($anyInvoices[0] ?? null)['TransactionId'] ?? null);
+
+    if ($invoiceId === null) {
+        $io->line('  no invoice in the file to ask about');
+    } else {
+        foreach ([
+            'ForInvoiceId only' => ['ForInvoiceId' => $invoiceId],
+            'with Page and PageSize' => ['ForInvoiceId' => $invoiceId, 'Page' => 1, 'PageSize' => 100],
+            'with TransactionType=SP' => ['ForInvoiceId' => $invoiceId, 'TransactionType' => 'SP'],
+            'with a payment date range' => ['ForInvoiceId' => $invoiceId, 'PaymentFromDate' => date('Y-m-d', strtotime('-1 year')), 'PaymentToDate' => date('Y-m-d', strtotime('+1 day'))],
+            'lower-case forinvoiceid' => ['forinvoiceid' => $invoiceId],
+        ] as $label => $query) {
+            $io->values([$label => harness_describe(harness_raw($saasu, 'GET', 'Payments', $query), 120)]);
+        }
+    }
+
+    $io->line();
+    $io->info('6c. which date ranges does ItemAdjustments accept?');
+
+    // Measured 2026-09-14: FromDate=2000-01-01&ToDate=2099-12-31 answered 400 with no body, where
+    // ItemTransfers accepted the same range.
+    foreach ([
+        'no range' => [],
+        'one year back' => ['FromDate' => date('Y-m-d', strtotime('-1 year')), 'ToDate' => date('Y-m-d', strtotime('+1 day'))],
+        'ten years back' => ['FromDate' => date('Y-m-d', strtotime('-10 years')), 'ToDate' => date('Y-m-d', strtotime('+1 day'))],
+        'ten years forward' => ['FromDate' => date('Y-m-d', strtotime('-1 year')), 'ToDate' => date('Y-m-d', strtotime('+10 years'))],
+        '2000 to 2099' => ['FromDate' => '2000-01-01', 'ToDate' => '2099-12-31'],
+    ] as $label => $query) {
+        $io->values([$label => harness_describe(harness_raw($saasu, 'GET', 'ItemAdjustments', $query + ['Page' => 1, 'PageSize' => 100]), 90)]);
+    }
+
+    $io->line();
     $io->info('7. does a last-modified filter take a time?');
 
     $response = harness_raw($saasu, 'GET', 'Contacts', [

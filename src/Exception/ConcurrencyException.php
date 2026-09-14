@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Hampel\Saasu\Api\Exception;
 
 /**
- * The record changed after it was read, so the update was refused - HTTP 400 with
- * "Record to be updated has changed since last read."
+ * The record changed after it was read, so the update was refused - "Record to be updated has
+ * changed since last read." Measured 2026-09-14 as HTTP 400 on a contact and HTTP 409 on an
+ * invoice.
  *
  * Every update on this API carries the `LastUpdatedId` the record had when it was read, and
  * Saasu refuses the write when that is no longer current. The fix is always the same - read

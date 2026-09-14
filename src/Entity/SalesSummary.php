@@ -10,7 +10,11 @@ use Hampel\Saasu\Api\Support\Cast;
  * Sales totals for a period, from `Invoices/SalesStatsSummary`.
  *
  * Documented only by a generated sample of numbered placeholders - the model page does not
- * render - so what each total counts is inferred from its name.
+ * render - so what each total counts is read from its name, and one thing is measured:
+ *
+ * FOREIGN-CURRENCY INVOICES ARE ADDED AT FACE VALUE. On 2026-09-14 sales of AUD 110, AUD 25 and
+ * USD 100 gave a `Total` of 235 - the USD amount unconverted - while the profit and loss report for
+ * the same day converted it. In a multi-currency file these totals mix currencies.
  */
 final class SalesSummary extends Entity
 {

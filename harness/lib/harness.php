@@ -7,7 +7,8 @@
  * This carries the third of the three layers that keep an accident out of this harness:
  *
  *   1. rig itself does not load the package's .env when CLAUDECODE is set.
- *   2. every exercise reads, except contact-write, and that one does nothing unless opted in.
+ *   2. every exercise reads, except contact-write and ledger-write, which do nothing unless opted
+ *      in - and ledger-write also refuses any file but SAASU_DISPOSABLE_FILE_ID.
  *   3. this: the opt-in itself is refused under an agent.
  *
  * WHY THIS MATTERS MORE HERE THAN IN MOST PACKAGES. A Saasu login is not scoped: the password
@@ -48,7 +49,7 @@ function harness_agent_refuses(string $variable): bool
  * the in-memory default, so each run spends one request on a token - deliberately, since a
  * token cached on disk here would be a twelve-month credential sitting in a working copy.
  */
-function harness_client(Io $io): Client
+function harness_client(Io $io, int $budget = HARNESS_REQUEST_BUDGET): Client
 {
     $fileId = (int) (getenv('SAASU_FILE_ID') ?: 0);
     $username = getenv('SAASU_USERNAME') ?: '';
@@ -78,7 +79,7 @@ function harness_client(Io $io): Client
     $factory = new HttpFactory();
 
     return new Client(
-        new Config($fileId, requestBudget: HARNESS_REQUEST_BUDGET),
+        new Config($fileId, requestBudget: $budget),
         $authentication,
         new Guzzle(['timeout' => 60]),
         $factory,

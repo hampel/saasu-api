@@ -14,17 +14,18 @@ use Hampel\Saasu\Api\Support\Cast;
  * written by this package is a value nobody chose - `IsActive: false` on a contact nobody meant
  * to deactivate.
  *
- * UPDATES START FROM THE RECORD. Saasu's documentation shows every PUT carrying the whole
- * record, and does not say what happens to a field a PUT leaves out. So the way to change one
- * field is to read the record, build the request from it, and change that field:
+ * UPDATES START FROM THE RECORD, BECAUSE A PUT CLEARS WHAT IT DOES NOT SEND. Measured 2026-09-14:
+ * a contact updated with only its names came back with no email, no tags, no position title and
+ * `IsCustomer` false. So the way to change one field is to read the record, build the request
+ * from it, and change that field:
  *
  *     $contact = $saasu->contacts()->get(54353);
  *
  *     $saasu->contacts()->update(54353, ContactRequest::from($contact)->withEmailAddress('new@example.com'));
  *
  * from() copies every writable field the record arrived with - and its `LastUpdatedId`, which
- * the update needs - and leaves out the fields Saasu documents as read-only. Built that way, an
- * update is correct whichever way Saasu treats an omitted field.
+ * the update needs - and leaves out the fields Saasu documents as read-only. A request built
+ * with make() and a LastUpdatedId is accepted, and blanks everything it does not name.
  *
  * Immutable: every with*() returns a new builder.
  *

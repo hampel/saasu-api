@@ -213,6 +213,25 @@ final class AuthenticationTest extends TestCase
         $this->assertSame('Bearer replacement', $this->client->lastRequest()->getHeaderLine('Authorization'));
     }
 
+    /**
+     * Measured 2026-09-14: a request with no file id answers 401 with a sentence. That is not a
+     * refused token, and refreshing for it spends two requests on the same answer.
+     */
+    public function testA401ThatExplainsItselfIsNotRetried(): void
+    {
+        $this->client->pushJson(200, $this->tokenBody());
+        $this->client->pushRaw(401, '"No FileId or Invalid FileId supplied."', ['Content-Type' => 'application/json']);
+
+        try {
+            $this->saasu(authentication: OAuth::password('api@example.com', 'secret', clock: $this->clock()))->contacts()->get(1);
+            $this->fail('expected a NotAuthenticatedException');
+        } catch (NotAuthenticatedException $e) {
+            $this->assertStringContainsString('No FileId', $e->getMessage());
+        }
+
+        $this->assertCount(2, $this->client->requests);
+    }
+
     public function testASecond401IsRaised(): void
     {
         $this->client->pushJson(200, $this->tokenBody('first'));

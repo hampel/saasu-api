@@ -52,21 +52,59 @@ recognised by `ErrorDetail::CONCURRENCY_MARKER`.
 
 **5. A file id goes on nearly every request**, as a query parameter, beside the credential for a
 web services access key. `Connection` adds it; `withoutFile()` and `unauthenticated()` are the
-exceptions, for the user, file-list and token endpoints.
+exceptions, for the file-list and token endpoints. `GET User` looks user-level and is not — measured
+2026-09-14, it answers 401 without a file id.
 
 ## Measured, not inferred
 
-Settled against the live API on 2026-09-13, without credentials:
+**Everything below was settled against the live API**, on 2026-09-13 without credentials and on
+2026-09-14 against a disposable file with the harness. Where a docblock says "measured", it means
+one of these; anything else about behaviour is from documentation.
 
-- a 401 from a data endpoint has **no body**, whichever scheme was used;
-- the token endpoints answer a bad password with `{"error": "invalid_credentials", ...}` and a
-  bad refresh token with `{"error": "invalid_client", ...}`, both 401;
-- an unrouted path answers 404 with an **IIS HTML page**, which
-  `NotFoundException::isUnroutedPath()` detects and `Endpoint::apiFind()` refuses to read as "no
-  such record".
+### Authentication and file scope
 
-Everything else about behaviour is from documentation, and the questions still open are carried in
-the harness exercises' docblocks.
+- A refused credential answers 401 with **no body**, whichever scheme. The token endpoints answer
+  a bad password with `{"error": "invalid_credentials", ...}` and a bad refresh token with
+  `{"error": "invalid_client", ...}`.
+- **`GET User` and `authorisation/ping` need a file id** despite being about the login; without one
+  they answer 401 with a `Message` body. That is why the 401 retry is for a bodiless 401 only.
+- A token lasts 10800 seconds. **A refresh does not rotate the refresh token**, and the old one
+  keeps working, so concurrent refreshes do not race. A grant's scope is `fileid:NNN` and nothing
+  else.
+- No response carries a rate-limit or quota header.
+
+### Writes
+
+- **A PUT clears every field it does not send** — on a contact, and on an invoice's tags.
+- A stale `LastUpdatedId` answers "Record to be updated has changed since last read." as **400 on
+  a contact and 409 on an invoice**; an update with no `LastUpdatedId` answers the same sentence.
+- An account insert needs `IsBankAccount`, and a currency in a multi-currency file.
+- A file identity PUT needs an ABN, a full address, and the deprecated `DateTimeFormatId` and
+  `NumberFormatId`, and says so in a **plain-text** body — neither JSON nor HTML.
+- Attachments travel as base64 and round-trip; an invoice PDF is `application/pdf` with a
+  filename; a foreign-currency invoice fills its exchange rate; a quick payment and an
+  email-on-insert both work.
+
+### Reads
+
+- Every transaction date is `YYYY-MM-DDT00:00:00` with no offset; every `...Utc` timestamp has no
+  offset and is UTC. **An activity's `Due` is a date** — a time sent is dropped.
+- A missing record answers 404 with no body — **except an item, which answers 400** "There was an
+  error retrieving the requested Item". An unrouted path answers 404 with an IIS HTML page.
+- Every page carries a `next` link, including the last and one past the end. Email, tag, bank
+  account and item-search filters are honoured; a misspelt parameter is silently ignored; the
+  last-modified filter honours a time, not only a date.
+- **`Payments?ForInvoiceId=` fails without a payment date range**, and `ItemAdjustments` refuses a
+  `ToDate` of 2099-12-31 that other lists accept.
+- The sales summary adds foreign-currency invoices at face value; profit and loss converts them.
+- Deleted entities include `InventoryTransfer` and `InventoryAdjustment`, which Saasu does not
+  document.
+
+### Not yet measured
+
+Employee paging, timesheets and leave requests — the API cannot create an employee and the test file
+has none — and what exceeding the rate limit answers, which cannot be found out without risking the
+daily block.
 
 ## The PSR-18 seam is the whole design
 
@@ -78,8 +116,9 @@ request to go through its own stack writes a small adapter rather than a second 
   That keeps `RequestException` (never reached Saasu) separate from `ApiException` (Saasu said no).
 - **The catch is `ClientExceptionInterface`, not `\Throwable`.** Laravel's `StrayRequestException`
   is a plain `RuntimeException` and must reach a consumer's test untouched.
-- **One retry, for a 401 only, and only when the credential says it can recover.** A 401 means
-  nothing was processed, so re-sending a POST cannot duplicate a record. Nothing else is retried.
+- **One retry, for a bodiless 401 only, and only when the credential says it can recover.** A 401
+  means nothing was processed, so re-sending a POST cannot duplicate a record. A 401 with a body
+  is about something else — a missing file id — and is not retried. Nothing else is.
 
 **Do not add `php-http/discovery`.** It is a Composer plugin a consumer may refuse to run;
 `Support\Psr17Discovery` finds the common factories by class name instead.
@@ -133,6 +172,10 @@ src/
   invoice, timestamps — are deliberately absent from `WRITABLE`, and so are fields that *act*:
   `SendEmailToContact`, `EmailMessage`, `QuickPayment`. An update built from a record must never
   resend an email.
+- **A PUT clears every field it does not send** — measured 2026-09-14 on a contact, which lost its
+  email, tags, position title and customer flag to an update naming only its names. That is why
+  every example and every docblock builds an update `from()` the record, and why `make()` plus a
+  `LastUpdatedId` is the one construction to warn about rather than offer.
 - **Refuse client-side only what Saasu documents without contradiction.** An update with no
   `LastUpdatedId`, half a date range, a quick payment on an update. Not the 63-day leave limit,
   which Saasu's own sentence contradicts, and not a journal that does not balance, whose rules are
@@ -173,18 +216,26 @@ assumption the code does. That is what the harness is for.
 `vendor/bin/rig` runs the exercises in `harness/`. They are not tests: they make real calls and
 print what happened for a person to read. Each carries the questions it was written to settle.
 
-Three read and change nothing — `file`, `lists`, `documents`. One writes, and is guarded in three
+Three read and change nothing — `file`, `lists`, `documents`. Two write, and are guarded in three
 layers:
 
 | exercise | opt-in, lives in `.env` | agent override, never does |
 |---|---|---|
 | `contact-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
+| `ledger-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 
 The layers: the rig withholds `.env` under an agent; the exercise defaults to reading; and the
 opt-in is refused under an agent, because the `.env` belongs to whoever owns the login.
 
-**Every run spends the file's daily quota**, including the read-only ones, and is capped at 60
-requests by `HARNESS_REQUEST_BUDGET`. Running them in a loop is how a file gets blocked for a day.
+**`ledger-write` has a fourth guard, because it fills a file with records.** It refuses to run
+unless `SAASU_FILE_ID` equals `SAASU_DISPOSABLE_FILE_ID`, so a copied `.env` pointed at a real file
+cannot be seeded. It sends invoice emails only to `SAASU_EMAIL_TO`, and none when that is empty.
+Its cleanup is a sweep of every record named `ZZ`, from that run or an earlier one that failed
+part-way — which is safe only because of the fourth guard.
+
+**Every run spends the file's daily quota**, including the read-only ones. Each is capped at 60
+requests by `HARNESS_REQUEST_BUDGET`, and `ledger-write` at 300 — a clean run of it spends about
+145. Running them in a loop is how a file gets blocked for a day.
 
 **If an exercise fails for want of a credential, that is the guard working.** Do not go looking for
 the credentials, do not edit `.env`, and do not pass an override to get past the error. Ask.

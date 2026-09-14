@@ -12,9 +12,9 @@
  *
  * THE QUESTIONS - each one decides how this package tells people to write an update:
  *
- *   1. DOES A PUT CLEAR WHAT IT DOES NOT SEND? Request\Payload tells every caller to build an
- *      update from() the record, because nothing documents the answer. If a PUT keeps omitted
- *      fields, that advice is merely safe; if it clears them, it is essential.
+ *   1. DOES A PUT STILL CLEAR WHAT IT DOES NOT SEND? It did on 2026-09-14 - a contact lost its
+ *      email, tags and customer flag - which is why every update is built from() the record. If
+ *      this ever reports the opposite, Request\Payload's warning can soften.
  *   2. WHAT DOES A STALE LastUpdatedId ANSWER? ConcurrencyException is recognised by a sentence
  *      taken from Saasu's own client tests. Is it still that sentence, and still a 400?
  *   3. WHAT DOES A MISSING LastUpdatedId ANSWER? The endpoints refuse one before sending; this

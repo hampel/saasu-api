@@ -210,6 +210,7 @@ final class TransactionsTest extends TestCase
         $payments = $this->saasu()->payments()->forInvoice(5093684);
 
         $this->assertSame('5093684', $this->sentQuery()['ForInvoiceId']);
+        $this->assertSame('2000-01-01', $this->sentQuery()['PaymentFromDate'], 'Saasu refuses ForInvoiceId without a payment date range');
         $this->assertSame(6, $payments[0]->id);
     }
 

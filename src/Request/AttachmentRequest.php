@@ -12,8 +12,8 @@ use Hampel\Saasu\Api\Support\Cast;
  *     AttachmentRequest::of(5093684, 'remittance.pdf', file_get_contents($path))
  *
  * THE CONTENTS ARE SENT BASE64-ENCODED, which is how a .NET server reads the "array of bytes"
- * Saasu documents for `AttachmentData`. Nothing here has observed an upload succeed; the
- * harness's attachment exercise is what settles it.
+ * Saasu documents for `AttachmentData`. Measured 2026-09-14: an upload of this shape was accepted,
+ * listed on the invoice, and read back byte for byte.
  *
  * AN ATTACHMENT OF THE SAME NAME IS NOT REPLACED unless allowOverwrite() is set.
  */

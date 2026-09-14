@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Hampel\Saasu\Api\Endpoint;
 
 use Hampel\Saasu\Api\Entity\Payment;
+use Hampel\Saasu\Api\Filter\DateRange;
 use Hampel\Saasu\Api\Filter\PaymentFilter;
 use Hampel\Saasu\Api\Request\PaymentRequest;
 use Hampel\Saasu\Api\Result\Page;
@@ -19,6 +20,13 @@ use Hampel\Saasu\Api\Support\Cast;
  */
 final class Payments extends Endpoint
 {
+    /**
+     * The payment date range forInvoice() sends when not given one.
+     */
+    public const EARLIEST = '2000-01-01';
+
+    public const LATEST = '2099-12-31';
+
     /**
      * One page of payments.
      *
@@ -98,11 +106,19 @@ final class Payments extends Endpoint
     /**
      * Every payment applied to one invoice.
      *
+     * A PAYMENT DATE RANGE IS SENT BECAUSE SAASU REQUIRES ONE: `ForInvoiceId` on its own answers
+     * 400, measured 2026-09-14. Without $paidBetween the range is wide enough that no real payment
+     * falls outside it.
+     *
      * @return list<Payment>
      */
-    public function forInvoice(int $invoiceId): array
+    public function forInvoice(int $invoiceId, ?DateRange $paidBetween = null): array
     {
-        return $this->all(PaymentFilter::all()->forInvoice(Cast::id($invoiceId, 'invoice')));
+        return $this->all(
+            PaymentFilter::all()
+                ->forInvoice(Cast::id($invoiceId, 'invoice'))
+                ->paidBetween($paidBetween ?? DateRange::between(self::EARLIEST, self::LATEST))
+        );
     }
 
     private function path(int $id): string

@@ -40,7 +40,7 @@ final class Config
 
     /**
      * @param  int|null  $fileId  the Saasu file to act on. Required by every endpoint except the
-     *                            user, file-list and token ones
+     *                            file-list and token ones
      * @param  int  $pageSize  items per list request, 1 to 100. The default is Saasu's MAXIMUM
      *                         rather than its own default of 25, because every page is a request
      *                         against a daily quota: walking 1,000 contacts costs 10 requests at

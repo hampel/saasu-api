@@ -87,6 +87,30 @@ final class EverythingElseTest extends TestCase
         $this->assertSame('AAAAAKgc=', $body['LastUpdatedId']);
     }
 
+    /**
+     * Measured 2026-09-14: a missing item is a 400 with a sentence, not a 404.
+     */
+    public function testAMissingItemIsNullDespiteBeingA400(): void
+    {
+        $this->client->pushRaw(400, '"There was an error retrieving the requested Item"', ['Content-Type' => 'application/json']);
+        $this->client->pushRaw(400, '"Something else went wrong"', ['Content-Type' => 'application/json']);
+
+        $this->assertNull($this->saasu()->items()->find(2147483000));
+
+        $this->expectException(\Hampel\Saasu\Api\Exception\ValidationException::class);
+
+        $this->saasu()->items()->find(2147483000);
+    }
+
+    /**
+     * Measured 2026-09-14: an account insert without IsBankAccount is refused.
+     */
+    public function testANewAccountSaysItIsNotABankAccount(): void
+    {
+        $this->assertFalse(\Hampel\Saasu\Api\Request\AccountRequest::of('Income', \Hampel\Saasu\Api\Enum\AccountType::Income, 'aud')->get('IsBankAccount'));
+        $this->assertSame('AUD', \Hampel\Saasu\Api\Request\AccountRequest::of('Income', \Hampel\Saasu\Api\Enum\AccountType::Income, 'aud')->get('Currency'));
+    }
+
     public function testBuildingAComboPostsTheQuantity(): void
     {
         $this->pushFixture('item-built');
@@ -191,14 +215,17 @@ final class EverythingElseTest extends TestCase
         $this->assertFalse($saasu->authorisation()->ping());
     }
 
-    public function testTheUserIsNotFileScopedAndAPasswordResetSendsNoCredential(): void
+    /**
+     * Measured 2026-09-14: `GET User` without a file id answers 401.
+     */
+    public function testTheUserIsFileScopedButAPasswordResetSendsNoCredential(): void
     {
         $this->pushFixture('user');
         $this->client->pushJson(200, ['StatusMessage' => 'A password reset email has been sent.', '_links' => []]);
 
         $saasu = $this->saasu();
         $user = $saasu->user()->get();
-        $this->assertSame('', $this->client->lastRequest()->getUri()->getQuery());
+        $this->assertSame('FileId=123', $this->client->lastRequest()->getUri()->getQuery());
         $this->assertTrue($user->twoFactorEnabled);
 
         $this->assertSame('A password reset email has been sent.', $saasu->user()->resetPassword('api@example.com'));

@@ -14,7 +14,8 @@ use Hampel\Saasu\Api\Support\Cast;
  * `Payroll/Entitlements`.
  *
  * THE EMPLOYEE LIST IS NOT DOCUMENTED AS PAGED, and all() sends no page parameters. Whether Saasu
- * truncates it at its default page size of 25 is not known - see the harness.
+ * truncates it at its default page size of 25 has not been measured: the API has no way to create
+ * an employee, and the test file has none.
  */
 final class Employees extends Endpoint
 {

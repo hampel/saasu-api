@@ -11,7 +11,15 @@ use Hampel\Saasu\Api\Support\Cast;
 /**
  * An account to insert, or the changes to one.
  *
- *     AccountRequest::of('Consulting income', AccountType::Income)
+ *     AccountRequest::of('Consulting income', AccountType::Income, 'AUD')
+ *
+ * `IsBankAccount` IS REQUIRED ON AN INSERT, even for an account that is not one. Measured
+ * 2026-09-14: without it Saasu answers 400 "IsBankAccount has to be included in request". of()
+ * sends `false`; withBankAccount(true) turns it into a bank account.
+ *
+ * SO IS A CURRENCY, at least in a file with multi-currency on - measured the same day, 400
+ * "Please include a valid currency". of() takes it rather than guessing the file's base currency;
+ * pass null only for a file known not to need one.
  */
 final class AccountRequest extends Payload
 {
@@ -37,12 +45,15 @@ final class AccountRequest extends Payload
         'LastUpdatedId',
     ];
 
-    public static function of(string $name, AccountType $type, AccountLevel $level = AccountLevel::Detail): self
+    public static function of(string $name, AccountType $type, ?string $currency, AccountLevel $level = AccountLevel::Detail): self
     {
-        return self::make()
+        $request = self::make()
             ->withName(Cast::required($name, 'An account needs a name.'))
             ->withAccountType($type)
-            ->withAccountLevel($level);
+            ->withAccountLevel($level)
+            ->withBankAccount(false);
+
+        return $currency === null ? $request : $request->withCurrency(strtoupper(trim($currency)));
     }
 
     public function withName(?string $name): static

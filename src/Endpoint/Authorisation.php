@@ -71,15 +71,16 @@ final class Authorisation extends Endpoint
     }
 
     /**
-     * Whether the client's credential is accepted - true, or false for a 401.
+     * Whether the client's credential is accepted - true, or false for a refused credential.
      *
-     * Saasu documents this for bearer tokens; with a web services access key the answer is
-     * whatever Saasu makes of a key on an endpoint that expects a token.
+     * FILE-SCOPED. Measured 2026-09-14: without a file id Saasu answers 401
+     * `{"Message": "No FileId or Invalid FileId supplied."}`, which read as "the token is not
+     * valid" would be the wrong answer to the question this asks.
      */
     public function ping(): bool
     {
         try {
-            return $this->connection->withoutFile()->get('authorisation/ping')->body === true;
+            return $this->connection->get('authorisation/ping')->body === true;
         } catch (NotAuthenticatedException) {
             return false;
         }

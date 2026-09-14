@@ -85,9 +85,9 @@ try {
     ]);
 
     $io->line();
-    $io->info('ping, raw');
+    $io->info('ping, raw, with the file id - without one it answers 401 "No FileId"');
 
-    $ping = harness_raw($saasu, 'GET', 'authorisation/ping', inFile: false);
+    $ping = harness_raw($saasu, 'GET', 'authorisation/ping');
     $io->line('  ' . harness_describe($ping));
 
     $io->line();

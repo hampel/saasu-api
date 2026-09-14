@@ -60,7 +60,7 @@ final class ActivityRequest extends Payload
 
     public function withDue(\DateTimeInterface|string|null $due): static
     {
-        return $this->putLocalDateTime('Due', $due);
+        return $this->putDate('Due', $due);
     }
 
     public function withOwnerEmail(?string $ownerEmail): static

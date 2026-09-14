@@ -42,6 +42,12 @@ abstract class ApiException extends SaasuException
         $error = ErrorDetail::fromBody($body);
         $detail = $error?->describe() ?? '';
 
+        // Some rejections are PLAIN TEXT, neither JSON nor HTML - measured 2026-09-14, a
+        // FileIdentity PUT answered 400 with a list of required fields as bare sentences.
+        if ($detail === '' && trim($body) !== '' && !ErrorDetail::looksLikeHtml($body)) {
+            $detail = trim((string) preg_replace('/\s+/', ' ', substr($body, 0, 500)));
+        }
+
         if ($detail === '' && $status === 401) {
             $detail = 'the access token or web services access key was missing, expired or revoked (this status carries no body)';
         }
@@ -61,7 +67,9 @@ abstract class ApiException extends SaasuException
         $retryAfter = self::retryAfter($response);
 
         return match (true) {
-            $status === 400 && ($error?->isConcurrencyConflict() ?? false)
+            // Measured 2026-09-14: a stale contact update answers 400, a stale invoice update 409,
+            // both with the same sentence - so the sentence decides, not the status.
+            ($status === 400 || $status === 409) && ($error?->isConcurrencyConflict() ?? false)
                 => new ConcurrencyException($message, $status, $error, $body, $retryAfter),
             $status === 400 => new ValidationException($message, $status, $error, $body, $retryAfter),
             $status === 401 && $error !== null && $error->twoFactorCodeRequired

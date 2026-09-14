@@ -109,7 +109,7 @@ final class ConnectionTest extends TestCase
     {
         $this->client->pushRaw(200, 'true', ['Content-Type' => 'application/json']);
 
-        $response = $this->saasu()->connection()->withoutFile()->get('authorisation/ping');
+        $response = $this->saasu()->connection()->get('authorisation/ping');
 
         $this->assertTrue($response->body);
         $this->assertSame([], $response->data);
@@ -171,6 +171,7 @@ final class ConnectionTest extends TestCase
         yield '429' => [429, '', TooManyRequestsException::class];
         yield '500' => [500, '{"Message":"An error has occurred."}', ServerException::class];
         yield '409' => [409, '', ClientException::class];
+        yield '409 stale' => [409, '"Record to be updated has changed since last read."', ConcurrencyException::class];
     }
 
     /**

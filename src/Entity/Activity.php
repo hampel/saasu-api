@@ -17,7 +17,8 @@ use Hampel\Saasu\Api\Support\Cast;
  * `ActivityType` is not a fixed list: it is any tag in the file that has the activity flag set,
  * and Saasu ignores a value that is not one rather than refusing it.
  *
- * `Due` is a local date and time, kept as Saasu wrote it - see Cast::localDateTime().
+ * `Due` IS A DATE. Measured 2026-09-14: an activity written due at 17:00 reads back as
+ * `2026-09-14T00:00:00` - the time is dropped - so it is read as a calendar date, see Cast::date().
  */
 final class Activity extends Entity
 {
@@ -58,7 +59,7 @@ final class Activity extends Entity
             Cast::text($row['LastUpdatedId'] ?? null),
             Cast::text($row['ActivityType'] ?? null),
             Cast::bool($row['Done'] ?? null),
-            Cast::localDateTime($row['Due'] ?? null),
+            Cast::date($row['Due'] ?? null),
             Cast::text($row['Title'] ?? null),
             Cast::text($row['Details'] ?? null),
             Cast::text($row['OwnerFirstName'] ?? null),

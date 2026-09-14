@@ -10,6 +10,13 @@ namespace Hampel\Saasu\Api\Request;
  * Saasu marks `LastUpdatedId`, `FullLegalName`, `IndustryTypeId`, `Street` and `City` required on
  * an update, so build this from() the identity rather than from nothing. `Zone` and the
  * currency cannot be changed, and are not offered.
+ *
+ * THE DOCUMENTATION UNDERSTATES WHAT IS REQUIRED. Measured 2026-09-14 on an Australian file, a PUT
+ * of the identity as read was refused, in plain text, for want of the ABN, street, city, state,
+ * postcode, "date format preference" and "number format preference". The last two are
+ * `DateTimeFormatId` and `NumberFormatId`, which Saasu marks DEPRECATED - and requires anyway, so
+ * from() carries them over. A file whose identity was never filled in cannot be updated until it
+ * is.
  */
 final class FileIdentityRequest extends Payload
 {
@@ -36,6 +43,8 @@ final class FileIdentityRequest extends Payload
         'FinancialYearEndDate',
         'PayrollYearEndMonth',
         'PayrollYearEndDate',
+        'DateTimeFormatId',
+        'NumberFormatId',
         'LastUpdatedId',
     ];
 
@@ -147,6 +156,22 @@ final class FileIdentityRequest extends Payload
     public function withPayrollYearEndDay(?int $payrollYearEndDay): static
     {
         return $this->with('PayrollYearEndDate', $payrollYearEndDay);
+    }
+
+    /**
+     * Deprecated by Saasu, and still required: see the class docblock.
+     */
+    public function withDateTimeFormatId(?int $dateTimeFormatId): static
+    {
+        return $this->with('DateTimeFormatId', $dateTimeFormatId);
+    }
+
+    /**
+     * Deprecated by Saasu, and still required: see the class docblock.
+     */
+    public function withNumberFormatId(?int $numberFormatId): static
+    {
+        return $this->with('NumberFormatId', $numberFormatId);
     }
 
     public function withLastUpdatedId(?string $lastUpdatedId): static

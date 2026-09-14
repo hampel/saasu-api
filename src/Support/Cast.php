@@ -190,12 +190,12 @@ final class Cast
     /**
      * An INSTANT - a `...Utc` field - as a DateTimeImmutable in UTC.
      *
-     * THE TIMEZONE IS ASSUMED UTC WHEN THE STRING DOES NOT CARRY ONE. `CreatedDateUtc` and
-     * `LastModifiedDateUtc` are documented as UTC and usually arrive with a `Z`, but the
-     * documentation's own samples also show them with `+10:00`, which is what a .NET server in
-     * Sydney serialises a local DateTime as. Both are parsed as written and converted, and a
-     * bare string is read as UTC rather than in PHP's own default timezone - the difference is
-     * ten or eleven hours, silently, depending on how the box happens to be configured.
+     * A STRING WITH NO OFFSET IS UTC. Measured 2026-09-14: `CreatedDateUtc` and
+     * `LastModifiedDateUtc` arrive as `2026-09-14T02:53:54.263` - no `Z`, no offset - and are the
+     * UTC time of the write. The documentation's samples show `Z` and `+10:00` forms as well; any
+     * offset is honoured and converted. A bare string is read as UTC rather than in PHP's own
+     * default timezone - the difference is ten or eleven hours, silently, depending on how the
+     * box happens to be configured.
      *
      * Not for transaction dates - see date().
      */
@@ -229,10 +229,10 @@ final class Cast
      * The one thing to avoid is calling setTimezone() on the result: that reintroduces the
      * conversion this exists to prevent.
      *
-     * AN OPEN QUESTION, recorded rather than guessed at: Saasu's documented payment sample writes
-     * its date as `2026-09-12T14:00:00Z`, which is midnight on the 13th in Sydney expressed in UTC.
-     * If real responses do that, the literal date here is the day before. The invoice sample
-     * writes `2015-01-24T00:00:00` and does not. The harness's `lists` exercise prints both.
+     * MEASURED 2026-09-14: every transaction date Saasu sends - on invoices, payments, journals,
+     * stock adjustments and activities - is `YYYY-MM-DDT00:00:00`, with no offset. The documented
+     * payment sample, `2026-09-12T14:00:00Z`, is not what the API writes, so reading the date
+     * literally is right. The harness's `ledger-write` exercise prints them raw.
      */
     public static function date(mixed $value): ?\DateTimeImmutable
     {

@@ -112,9 +112,11 @@ $saasu = Client::withAccessKey($key, fileId: 12345, client: new Guzzle());
 
 ## Updating a record
 
-**Updates start from the record.** Saasu checks every update against the `LastUpdatedId` the record
-had when it was read, and its documentation shows every update carrying the whole record. So the way
-to change one field is to read the record, build the request from it, and change that field:
+**An update replaces the whole record, so it starts from the record.** A field a PUT does not send
+is cleared — an update carrying only a contact's name leaves it with no email, no tags and no
+longer a customer. Saasu also checks every update against the `LastUpdatedId` the record had when it
+was read. So the way to change one field is to read the record, build the request from it, and
+change that field:
 
 ```php
 use Hampel\Saasu\Api\Request\ContactRequest;
@@ -148,14 +150,14 @@ $saved->id;
 
 ## Defaults
 
-**Some defaults are narrower than they look.** A misspelt filter parameter is most likely **ignored,
-not refused** — ASP.NET, which Saasu runs on, drops query parameters it does not bind — and a list
-that ignored its filter looks exactly like a result. The filter classes exist so parameter names are
-not typed by hand. And four lists answer for less than all of time when not told otherwise:
+**Some defaults are narrower than they look.** A misspelt filter parameter is **ignored, not
+refused** — measured, a misspelt email filter returned every contact — and a list that ignored its
+filter looks exactly like a result. The filter classes exist so parameter names are not typed by
+hand. And four lists answer for less than all of time when not told otherwise:
 
 | list | with no range, Saasu answers for |
 |---|---|
-| `payments()->list()` | **the last month** — set `PaymentFilter::paidBetween()` |
+| `payments()->list()` | **the last month** — set `PaymentFilter::paidBetween()`, which `ForInvoiceId` also needs |
 | `deletedEntities()->list()` | **the last 24 hours** — set `DeletedEntityFilter::deletedBetween()` |
 | `reports()->profitAndLoss()` | the current financial year, on an accrual basis |
 | `invoices()->list()` | sales **and** purchases together — set `InvoiceFilter::sales()` |
@@ -171,11 +173,11 @@ $saasu->payments()->all(PaymentFilter::all()->paidBetween(DateRange::financialYe
 
 ## Dates
 
-**A transaction date is a date, not an instant.** `TransactionDate`, `DueDate` and their kind are
-**calendar dates**. Saasu writes them with a meaningless midnight attached, and converting that
-between timezones is how an invoice moves to the day before. They arrive as midnight UTC on the day
-Saasu meant, never converted — read them with `format('Y-m-d')`, and do not call `setTimezone()` on
-them.
+**A transaction date is a date, not an instant.** `TransactionDate`, `DueDate`, an activity's `Due`
+and their kind are **calendar dates**. Saasu writes them with a meaningless midnight attached, and
+converting that between timezones is how an invoice moves to the day before. They arrive as midnight
+UTC on the day Saasu meant, never converted — read them with `format('Y-m-d')`, and do not call
+`setTimezone()` on them.
 
 Fields ending `Utc` are **instants**, converted to UTC. Timesheet start and finish are **local
 times**, kept at the wall-clock time Saasu wrote.
@@ -186,12 +188,12 @@ Everything this package throws implements `Hampel\Saasu\Api\Exception\ExceptionI
 
 | status | exception | notes |
 |---|---|---|
-| 400 | `ConcurrencyException` | the record changed after it was read |
+| 400, 409 | `ConcurrencyException` | the record changed after it was read — 400 on a contact, 409 on an invoice |
 | 400 | `ValidationException` | a sentence, not a field map — show `messages()` |
 | 401 | `NotAuthenticatedException` | **no body** from a data endpoint; an OAuth error from a token endpoint |
 | 401 | `TwoFactorRequiredException` | the login has 2FA; `codeWasSent()` says whether Saasu texted one |
 | 403 | `NotPermittedException` | |
-| 404 | `NotFoundException` | `isUnroutedPath()` for an HTML page, which is a wrong path rather than a missing record |
+| 404 | `NotFoundException` | `isUnroutedPath()` for an HTML page, which is a wrong path rather than a missing record. `find()` answers null instead — including for an item, which Saasu reports missing as a 400 |
 | 429 | `TooManyRequestsException` | not documented; mapped defensively |
 | 5xx | `ServerException` | |
 | other 4xx | `ClientException` | |

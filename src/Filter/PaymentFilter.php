@@ -13,7 +13,9 @@ use Hampel\Saasu\Api\Enum\PaymentType;
  * and a list of "every payment" that does not set paidBetween() is a month of them - complete-
  * looking, and wrong for anything older.
  *
- * forInvoice() makes Saasu ignore the transaction type.
+ * forInvoice() makes Saasu ignore the transaction type - and FAILS WITHOUT A PAYMENT DATE RANGE.
+ * Measured 2026-09-14: `ForInvoiceId` alone answers 400 "Value cannot be null. Parameter name:
+ * collection"; with paidBetween() it answers the payments. Payments::forInvoice() supplies one.
  */
 final class PaymentFilter extends Filter
 {
@@ -44,7 +46,8 @@ final class PaymentFilter extends Filter
     }
 
     /**
-     * Payments applied to this invoice. Saasu ignores ofType() when this is set.
+     * Payments applied to this invoice. Saasu ignores ofType() when this is set, and refuses
+     * the request unless paidBetween() is set too.
      */
     public function forInvoice(int $invoiceId): static
     {

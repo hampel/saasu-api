@@ -134,8 +134,8 @@ final class Connection
     }
 
     /**
-     * The same connection, not adding a file id - for the few endpoints that are about the
-     * user rather than a file: the current user, and the list of files the user can reach.
+     * The same connection, not adding a file id - for the list of files the login can reach. Not
+     * for `User` or `authorisation/ping`, both of which answer 401 without one.
      */
     public function withoutFile(): self
     {
@@ -324,7 +324,7 @@ final class Connection
     /**
      * Authenticate, send, and on a 401 give the credential one chance to recover.
      *
-     * ONE RETRY, AND ONLY FOR A 401. A 401 means Saasu refused the request before doing
+     * ONE RETRY, AND ONLY FOR A BODILESS 401. A 401 means Saasu refused the request before doing
      * anything with it, so sending a POST again cannot create a second record. Nothing else is
      * retried here: a timeout on an insert may have been written, and deciding what to do about
      * that belongs to the caller.
@@ -336,8 +336,13 @@ final class Connection
     {
         $sent = $this->authentication->authenticate($request, $this);
         $response = $this->dispatch($sent);
+        $body = (string) $response->getBody();
 
-        if ($response->getStatusCode() === 401 && $this->authentication->recover($this)) {
+        // ONLY A BODILESS 401 IS A REFUSED CREDENTIAL. That is the shape measured for a missing,
+        // invalid or expired token. A 401 that explains itself is about something else - measured
+        // 2026-09-14, `GET User` with no file id answers 401 "No FileId or Invalid FileId
+        // supplied." - and refreshing the token for it spends two requests on the same answer.
+        if ($response->getStatusCode() === 401 && trim($body) === '' && $this->authentication->recover($this)) {
             $this->logger->info('Saasu API refused the credential; retrying once with a fresh one', [
                 'method' => $request->getMethod(),
                 'uri' => Redact::uri((string) $request->getUri()),
@@ -352,9 +357,10 @@ final class Connection
 
             $sent = $this->authentication->authenticate($request, $this);
             $response = $this->dispatch($sent);
+            $body = (string) $response->getBody();
         }
 
-        return [$response, (string) $response->getBody(), $sent];
+        return [$response, $body, $sent];
     }
 
     private function failure(RequestInterface $sent, ResponseInterface $response, string $body): ApiException

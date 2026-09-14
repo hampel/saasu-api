@@ -9,10 +9,9 @@ use Hampel\Saasu\Api\Support\Cast;
 /**
  * An attachment with its contents, from `InvoiceAttachment/{id}`.
  *
- * THE CONTENTS ARE DOCUMENTED AS "AN ARRAY OF BYTES". Saasu's server is .NET, whose JSON
- * serialiser writes a byte array as a base64 string; a literal array of numbers would be the
- * other reading. content() decodes either, and answers null when there is nothing - which is
- * what the documentation's own sample shows. Nothing here has observed a real one.
+ * THE CONTENTS ARE DOCUMENTED AS "AN ARRAY OF BYTES" AND ARRIVE AS A BASE64 STRING - measured
+ * 2026-09-14, the .NET serialiser's form of a byte array. content() decodes that, still accepts a
+ * literal array of numbers, and answers null when there is nothing.
  */
 final class Attachment extends Entity
 {

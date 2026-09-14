@@ -2,7 +2,8 @@
 
 ## Unreleased
 
-First working version. Every operation documented on Saasu's API help pages.
+First working version. Every operation documented on Saasu's API help pages, with its behaviour
+checked against a live file where the documentation was silent or wrong.
 
 - `Client`, `Connection` and `Config` over any PSR-18 client, with PSR-17 factories discovered
   when none is passed and an optional PSR-3 logger
@@ -18,5 +19,8 @@ First working version. Every operation documented on Saasu's API help pages.
 - request builders for every write, seeded from a record with `from()` so an update carries its
   `LastUpdatedId`, and never an email or quick-payment instruction
 - filters for every list, with `DateRange` for the date pairs Saasu accepts only whole
-- `ConcurrencyException` for a stale update, `TwoFactorRequiredException`, and
-  `NotFoundException::isUnroutedPath()`
+- `ConcurrencyException` for a stale update, whether Saasu answers 400 or 409,
+  `TwoFactorRequiredException`, and `NotFoundException::isUnroutedPath()`
+- `AccountRequest::of()` takes a currency and sends `IsBankAccount`, both of which an insert
+  requires; `Payments::forInvoice()` sends the payment date range `ForInvoiceId` needs; and
+  `Items::find()` answers null for the 400 Saasu gives a missing item

@@ -6,6 +6,7 @@ namespace Hampel\Saasu\Api\Endpoint;
 
 use Hampel\Saasu\Api\Entity\Item;
 use Hampel\Saasu\Api\Exception\InvalidArgumentException;
+use Hampel\Saasu\Api\Exception\ValidationException;
 use Hampel\Saasu\Api\Filter\ItemFilter;
 use Hampel\Saasu\Api\Request\ItemRequest;
 use Hampel\Saasu\Api\Result\Page;
@@ -17,6 +18,11 @@ use Hampel\Saasu\Api\Support\Cast;
  */
 final class Items extends Endpoint
 {
+    /**
+     * What Saasu says, with a 400, for an item id that does not exist.
+     */
+    public const MISSING = 'error retrieving the requested Item';
+
     /**
      * One page of items.
      *
@@ -58,9 +64,24 @@ final class Items extends Endpoint
     /**
      * One item by id, or null.
      */
+    /**
+     * One item by id, or null.
+     *
+     * A MISSING ITEM IS A 400, NOT A 404. Measured 2026-09-14: Saasu answers
+     * "There was an error retrieving the requested Item", where every other resource answers
+     * 404. That one sentence is read as "no such item"; any other 400 is still raised.
+     */
     public function find(int $id): ?Item
     {
-        return $this->apiFind($this->path($id), Item::fromArray(...));
+        try {
+            return $this->apiFind($this->path($id), Item::fromArray(...));
+        } catch (ValidationException $e) {
+            if ($e->mentions(self::MISSING)) {
+                return null;
+            }
+
+            throw $e;
+        }
     }
 
     /**
