@@ -1,7 +1,10 @@
 vendor/
 composer.lock
+composer.phar
 .idea/
 .phpunit.cache/
+.phpunit.result.cache
+.DS_Store
 .php-cs-fixer.cache
 
 # session notes and audit state - local to this clone, never published
