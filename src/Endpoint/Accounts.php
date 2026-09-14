@@ -99,6 +99,9 @@ final class Accounts extends Endpoint
     /**
      * The balance of every bank account.
      *
+     * A BANK ACCOUNT WITH NO TRANSACTIONS IS NOT LISTED, rather than listed at zero - measured
+     * 2026-09-14. Absent from this list means a balance of nothing, not an unknown account.
+     *
      * @return list<AccountBalance>
      */
     public function bankBalances(): array

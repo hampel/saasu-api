@@ -122,6 +122,24 @@ final class TransactionsTest extends TestCase
         $record->inCurrency('dollars');
     }
 
+    /**
+     * Measured 2026-09-14: the rate AUD / USD booked the bank statement figure to the cent.
+     */
+    public function testAForeignPaymentCanBeBuiltFromTheBaseAmountTheBankCharged(): void
+    {
+        $request = PaymentRequest::paid('2026-09-14', 1858, [PaymentItemRequest::of(5093684, 49.99)])
+            ->inCurrencyForBaseAmount('usd', 49.99, 72.37);
+
+        $this->assertSame('USD', $request->get('Currency'));
+        $this->assertFalse($request->get('AutoPopulateFxRate'));
+        $this->assertSame(1.4476895379, $request->get('FxRate'));
+        $this->assertSame(72.37, round(49.99 * (float) $request->get('FxRate'), 2));
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $request->inCurrencyForBaseAmount('USD', 0.0, 72.37);
+    }
+
     public function testAQuickPaymentIsRefusedOnAnUpdate(): void
     {
         $request = InvoiceRequest::from(Invoice::fromArray(self::fixture('invoice')))

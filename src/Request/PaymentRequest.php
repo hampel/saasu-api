@@ -64,6 +64,30 @@ final class PaymentRequest extends Payload
     }
 
     /**
+     * Put the payment in a currency at the rate that makes it cost exactly what the bank charged.
+     *
+     *     PaymentRequest::paid($date, $audBankAccountId, [PaymentItemRequest::of($invoiceId, 49.99)])
+     *         ->inCurrencyForBaseAmount('USD', 49.99, 72.37)
+     *
+     * For a foreign-currency purchase paid from a base-currency account, where the statement says
+     * what was really charged. Saasu takes a payment's rate, not its base amount, so the rate sent is
+     * the base amount divided by the foreign one.
+     *
+     * MEASURED EXACT TO THE CENT, 2026-09-14, for USD 49.99 / AUD 72.37, USD 1234.56 / AUD 1901.07,
+     * USD 0.99 / AUD 1.53 and USD 333.33 / AUD 499.99: the bank account moved by the statement
+     * figure each time, and the invoice was paid in full. Saasu keeps the rate to ten decimal
+     * places, which holds the base amount to the cent for any foreign amount below 50 million.
+     */
+    public function inCurrencyForBaseAmount(string $currency, float $foreignAmount, float $baseAmount): self
+    {
+        if ($foreignAmount <= 0 || $baseAmount <= 0) {
+            throw new InvalidArgumentException('Both amounts must be positive to work out an exchange rate.');
+        }
+
+        return $this->inCurrency($currency, round($baseAmount / $foreignAmount, 10));
+    }
+
+    /**
      * Money received against sales.
      *
      * @param  list<PaymentItemRequest>  $invoices
@@ -127,6 +151,20 @@ final class PaymentRequest extends Payload
         return $this->with('TotalAmount', $totalAmount);
     }
 
+    /**
+     * A merchant fee taken out of the payment before it reached the bank - a card or PayPal
+     * settlement.
+     *
+     * THE INVOICE STAYS PAID IN FULL; THE BANK RECEIVES LESS BY THE FEE. Measured 2026-09-14: a
+     * payment of 110.00 with a fee of 3.30 settled a 110.00 invoice and put 106.70 in the account,
+     * and the same fee added later to an existing payment - built from() it - moved the balance by
+     * -3.30 and left the invoice paid. On a foreign-currency payment the fee is in that currency and
+     * converted at the payment's rate.
+     *
+     * THE BANK ACCOUNT NEEDS A MERCHANT FEE ACCOUNT, set with
+     * AccountRequest::withMerchantFeeAccountId(). Without one Saasu refuses with a 400 that says
+     * only "Unable to perform the request."
+     */
     public function withFeeAmount(int|float|null $feeAmount): static
     {
         return $this->with('FeeAmount', $feeAmount);

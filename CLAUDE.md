@@ -107,8 +107,17 @@ one of these; anything else about behaviour is from documentation.
 - A currency change is refused once a payment is applied: "FX rate cannot be changed because there
   are payments applied to the transaction already."
 - A foreign-currency payment is accepted into a bank account of that currency and into a
-  base-currency one. A foreign-currency bank account gets an "Exchange" account created beside it,
-  which it references.
+  base-currency one, at the payment date's rate — an invoice raised at another rate is still paid
+  in full.
+- **A payment's rate of base ÷ foreign books the base amount to the cent** (four awkward pairs
+  tried); Saasu keeps rates to ten decimal places. Hence
+  `PaymentRequest::inCurrencyForBaseAmount()`.
+- `FeeAmount` leaves the invoice paid in full and the bank short by the fee, on a new payment and
+  added to an existing one; it needs a merchant fee account on the bank account, and without one
+  the 400 says only "Unable to perform the request." A bank account with no transactions is absent
+  from `Accounts/BankAccountBalances`.
+- A foreign-currency bank account gets an "Exchange" account created beside it, which it
+  references.
 - Deleted entities include `InventoryTransfer` and `InventoryAdjustment`, which Saasu does not
   document.
 
@@ -228,7 +237,7 @@ assumption the code does. That is what the harness is for.
 `vendor/bin/rig` runs the exercises in `harness/`. They are not tests: they make real calls and
 print what happened for a person to read. Each carries the questions it was written to settle.
 
-Three read and change nothing — `file`, `lists`, `documents`. Four write, and are guarded in three
+Three read and change nothing — `file`, `lists`, `documents`. Five write, and are guarded in three
 layers:
 
 | exercise | opt-in, lives in `.env` | agent override, never does |
@@ -236,17 +245,18 @@ layers:
 | `contact-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `ledger-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `currency-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
+| `workflows-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `sweep` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 
 The layers: the rig withholds `.env` under an agent; the exercise defaults to reading; and the
 opt-in is refused under an agent, because the `.env` belongs to whoever owns the login.
 
-**`ledger-write`, `currency-write` and `sweep` have a fourth guard, because they fill a file with
-records or empty it.** It refuses to run unless `SAASU_FILE_ID` equals `SAASU_DISPOSABLE_FILE_ID` —
-`harness_require_disposable_file()` in `harness/lib/sweep.php` — so a copied `.env` pointed at a
-real file cannot be seeded. Only `ledger-write` sends email, and only to `SAASU_EMAIL_TO`. Cleanup
-is `harness_sweep()`: every record named `ZZ`, from that run or an earlier one that failed part-way
-— safe only because of that guard.
+**`ledger-write`, `currency-write`, `workflows-write` and `sweep` have a fourth guard, because they
+fill a file with records or empty it.** It refuses to run unless `SAASU_FILE_ID` equals
+`SAASU_DISPOSABLE_FILE_ID` — `harness_require_disposable_file()` in `harness/lib/sweep.php` — so a
+copied `.env` pointed at a real file cannot be seeded. Only `ledger-write` sends email, and only to
+`SAASU_EMAIL_TO`. Cleanup is `harness_sweep()`: every record named `ZZ`, from that run or an earlier
+one that failed part-way — safe only because of that guard.
 
 **Every run spends the file's daily quota**, including the read-only ones. Each is capped at 60
 requests by `HARNESS_REQUEST_BUDGET`, `ledger-write` at 300 and `currency-write` at 150 — clean runs

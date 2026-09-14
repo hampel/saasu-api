@@ -294,6 +294,19 @@ $invoice = $saasu->invoices()->get(5093684);
 $saasu->invoices()->update(5093684, InvoiceRequest::from($invoice)->inCurrency('USD'));
 ```
 
+**A foreign-currency purchase paid from an AUD account can be booked at exactly what the bank
+charged.** Saasu takes a payment's rate, not its AUD amount, so `inCurrencyForBaseAmount()` works
+the rate out from both figures — measured exact to the cent:
+
+```php
+PaymentRequest::paid('2026-09-14', $audBankAccountId, [PaymentItemRequest::of($invoiceId, 49.99)])
+    ->inCurrencyForBaseAmount('USD', 49.99, 72.37);
+```
+
+**A merchant fee** — a card or PayPal settlement — goes on the payment with `withFeeAmount()`: the
+invoice stays paid in full and the bank receives less by the fee. The bank account needs a merchant
+fee account set, or Saasu refuses with a message that does not say why.
+
 `withCurrency()` on its own is the trap: it keeps the rate of 1.0 the invoice had, and books USD 110
 as AUD 110 without complaint. And Saasu refuses to change the currency of an invoice with a payment
 applied — delete the payment, move the invoice, and record the payment again in the new currency.
