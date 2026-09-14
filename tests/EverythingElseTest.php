@@ -311,7 +311,7 @@ final class EverythingElseTest extends TestCase
 
         $page = $this->saasu()->payrollEntries()->list();
 
-        $this->assertEquals(1.0, $page->extra['TotalWages']);
+        $this->assertSame(1.0, $page->extra['TotalWages']);
         $this->assertSame(4.0, $page->items[0]->wages);
         $this->assertSame(1, $page->items[0]->employee?->id);
     }

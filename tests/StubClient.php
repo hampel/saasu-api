@@ -40,7 +40,7 @@ final class StubClient implements ClientInterface
         return $this->push(new Response(
             $status,
             $headers + ['Content-Type' => 'application/json'],
-            json_encode($body, JSON_THROW_ON_ERROR)
+            json_encode($body, JSON_THROW_ON_ERROR | JSON_PRESERVE_ZERO_FRACTION)
         ));
     }
 
