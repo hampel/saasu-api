@@ -21,6 +21,8 @@ checked against a live file where the documentation was silent or wrong.
 - filters for every list, with `DateRange` for the date pairs Saasu accepts only whole
 - `ConcurrencyException` for a stale update, whether Saasu answers 400 or 409,
   `TwoFactorRequiredException`, and `NotFoundException::isUnroutedPath()`
+- `InvoiceRequest::inCurrency()` and `PaymentRequest::inCurrency()`, which set the exchange rate's
+  source along with the currency - a currency changed alone keeps a rate of 1.0
 - `AccountRequest::of()` takes a currency and sends `IsBankAccount`, both of which an insert
   requires; `Payments::forInvoice()` sends the payment date range `ForInvoiceId` needs; and
   `Items::find()` answers null for the 400 Saasu gives a missing item

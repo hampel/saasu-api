@@ -97,6 +97,18 @@ one of these; anything else about behaviour is from documentation.
 - **`Payments?ForInvoiceId=` fails without a payment date range**, and `ItemAdjustments` refuses a
   `ToDate` of 2099-12-31 that other lists accept.
 - The sales summary adds foreign-currency invoices at face value; profit and loss converts them.
+
+### Currencies
+
+- **An existing base-currency invoice's currency can be changed by a PUT**; the number, lines and
+  tax codes stay and the amounts are not converted. **Changing only `Currency` keeps an `FxRate` of
+  1.0** — hence `InvoiceRequest::inCurrency()`, which always sets where the rate comes from.
+- The automatic rate follows the invoice's own date, not today's.
+- A currency change is refused once a payment is applied: "FX rate cannot be changed because there
+  are payments applied to the transaction already."
+- A foreign-currency payment is accepted into a bank account of that currency and into a
+  base-currency one. A foreign-currency bank account gets an "Exchange" account created beside it,
+  which it references.
 - Deleted entities include `InventoryTransfer` and `InventoryAdjustment`, which Saasu does not
   document.
 
@@ -216,26 +228,29 @@ assumption the code does. That is what the harness is for.
 `vendor/bin/rig` runs the exercises in `harness/`. They are not tests: they make real calls and
 print what happened for a person to read. Each carries the questions it was written to settle.
 
-Three read and change nothing — `file`, `lists`, `documents`. Two write, and are guarded in three
+Three read and change nothing — `file`, `lists`, `documents`. Four write, and are guarded in three
 layers:
 
 | exercise | opt-in, lives in `.env` | agent override, never does |
 |---|---|---|
 | `contact-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `ledger-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
+| `currency-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
+| `sweep` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 
 The layers: the rig withholds `.env` under an agent; the exercise defaults to reading; and the
 opt-in is refused under an agent, because the `.env` belongs to whoever owns the login.
 
-**`ledger-write` has a fourth guard, because it fills a file with records.** It refuses to run
-unless `SAASU_FILE_ID` equals `SAASU_DISPOSABLE_FILE_ID`, so a copied `.env` pointed at a real file
-cannot be seeded. It sends invoice emails only to `SAASU_EMAIL_TO`, and none when that is empty.
-Its cleanup is a sweep of every record named `ZZ`, from that run or an earlier one that failed
-part-way — which is safe only because of the fourth guard.
+**`ledger-write`, `currency-write` and `sweep` have a fourth guard, because they fill a file with
+records or empty it.** It refuses to run unless `SAASU_FILE_ID` equals `SAASU_DISPOSABLE_FILE_ID` —
+`harness_require_disposable_file()` in `harness/lib/sweep.php` — so a copied `.env` pointed at a
+real file cannot be seeded. Only `ledger-write` sends email, and only to `SAASU_EMAIL_TO`. Cleanup
+is `harness_sweep()`: every record named `ZZ`, from that run or an earlier one that failed part-way
+— safe only because of that guard.
 
 **Every run spends the file's daily quota**, including the read-only ones. Each is capped at 60
-requests by `HARNESS_REQUEST_BUDGET`, and `ledger-write` at 300 — a clean run of it spends about
-145. Running them in a loop is how a file gets blocked for a day.
+requests by `HARNESS_REQUEST_BUDGET`, `ledger-write` at 300 and `currency-write` at 150 — clean runs
+spend about 145 and 73. Running them in a loop is how a file gets blocked for a day.
 
 **If an exercise fails for want of a credential, that is the guard working.** Do not go looking for
 the credentials, do not edit `.env`, and do not pass an override to get past the error. Ask.

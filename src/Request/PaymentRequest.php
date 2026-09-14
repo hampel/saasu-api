@@ -37,6 +37,33 @@ final class PaymentRequest extends Payload
     ];
 
     /**
+     * Put the payment in a currency, with its exchange rate.
+     *
+     * USE THIS RATHER THAN withCurrency() ALONE, for the reason InvoiceRequest::inCurrency()
+     * gives: a currency without the automatic rate keeps a rate of 1.0. Without a rate this asks
+     * Saasu to fill one in; with one it sends that rate and turns the automatic rate off.
+     *
+     * Measured 2026-09-14: a USD payment was accepted into a USD bank account and into an AUD one,
+     * both at the rate Saasu filled in.
+     */
+    public function inCurrency(string $currency, int|float|null $fxRate = null): self
+    {
+        $currency = strtoupper(trim($currency));
+
+        if (preg_match('/^[A-Z]{3}$/', $currency) !== 1) {
+            throw new InvalidArgumentException(sprintf('A currency is a three-letter ISO 4217 code; "%s" is not.', $currency));
+        }
+
+        if ($fxRate !== null && $fxRate <= 0) {
+            throw new InvalidArgumentException('An exchange rate must be positive.');
+        }
+
+        $request = $this->withCurrency($currency)->withAutoPopulateFxRate($fxRate === null);
+
+        return $fxRate === null ? $request->without('FxRate') : $request->withFxRate($fxRate);
+    }
+
+    /**
      * Money received against sales.
      *
      * @param  list<PaymentItemRequest>  $invoices

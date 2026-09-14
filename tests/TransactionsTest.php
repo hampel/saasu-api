@@ -100,6 +100,28 @@ final class TransactionsTest extends TestCase
         $this->assertCount(1, Cast::array($body['LineItems']));
     }
 
+    /**
+     * Measured 2026-09-14: a currency changed without the automatic rate keeps a rate of 1.0.
+     */
+    public function testChangingCurrencyAlwaysSaysWhereTheRateComesFrom(): void
+    {
+        $record = InvoiceRequest::from(Invoice::fromArray(self::fixture('invoice')));
+
+        $auto = $record->inCurrency('usd')->toArray();
+        $this->assertSame('USD', $auto['Currency']);
+        $this->assertTrue($auto['AutoPopulateFxRate']);
+        $this->assertArrayNotHasKey('FxRate', $auto, 'the record\'s own rate of 1.0 must not be sent back with a foreign currency');
+        $this->assertCount(1, Cast::array($auto['LineItems']), 'the lines are kept, not converted');
+
+        $manual = $record->inCurrency('EUR', 1.6)->toArray();
+        $this->assertFalse($manual['AutoPopulateFxRate']);
+        $this->assertSame(1.6, $manual['FxRate']);
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $record->inCurrency('dollars');
+    }
+
     public function testAQuickPaymentIsRefusedOnAnUpdate(): void
     {
         $request = InvoiceRequest::from(Invoice::fromArray(self::fixture('invoice')))

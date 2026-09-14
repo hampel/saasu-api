@@ -82,6 +82,11 @@ final class Invoices extends Endpoint
      *
      * A QUICK PAYMENT IS REFUSED HERE, before sending: Saasu accepts one only on an insert. Record
      * a payment against an existing invoice with Payments::create().
+     *
+     * A CURRENCY CHANGE IS REFUSED BY SAASU ONCE A PAYMENT IS APPLIED. Measured 2026-09-14: HTTP 400
+     * "Sorry, FX rate cannot be changed because there are payments applied to the transaction
+     * already." To move a part-paid invoice to another currency, delete its payments, change the
+     * currency with InvoiceRequest::inCurrency(), and record the payments again in that currency.
      */
     public function update(int $id, InvoiceRequest $request): Saved
     {

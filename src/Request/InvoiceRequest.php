@@ -71,6 +71,36 @@ final class InvoiceRequest extends Payload
         return self::make()->withTransactionType(TransactionType::Purchase)->withInvoiceType($type)->withLayout($layout)->withTransactionDate($date);
     }
 
+    /**
+     * Put the invoice in a currency, with its exchange rate.
+     *
+     * USE THIS RATHER THAN withCurrency() ALONE. Measured 2026-09-14: an invoice changed to USD
+     * with nothing else changed kept an `FxRate` of 1.0 - so USD 110 would be booked as AUD 110,
+     * without a word from Saasu. Without a rate this asks Saasu to fill one in, which it does from
+     * the invoice's own date (measured: 1.395 for today, 1.420 for 90 days earlier); with one it
+     * sends that rate and turns the automatic rate off.
+     *
+     * For an invoice already in the base currency, build the request from() it and call this:
+     * the line amounts are not converted - 110 AUD becomes 110 USD - and the number, tax codes
+     * and lines are kept. Refused once a payment is applied - see Endpoint\Invoices::update().
+     */
+    public function inCurrency(string $currency, int|float|null $fxRate = null): self
+    {
+        $currency = strtoupper(trim($currency));
+
+        if (preg_match('/^[A-Z]{3}$/', $currency) !== 1) {
+            throw new InvalidArgumentException(sprintf('A currency is a three-letter ISO 4217 code; "%s" is not.', $currency));
+        }
+
+        if ($fxRate !== null && $fxRate <= 0) {
+            throw new InvalidArgumentException('An exchange rate must be positive.');
+        }
+
+        $request = $this->withCurrency($currency)->withAutoPopulateFxRate($fxRate === null);
+
+        return $fxRate === null ? $request->without('FxRate') : $request->withFxRate($fxRate);
+    }
+
     public function withAutoNumber(): self
     {
         return $this->withInvoiceNumber(self::AUTO_NUMBER);

@@ -271,6 +271,33 @@ $saasu->invoices()->attachments(5093684);
 $saasu->invoices()->salesSummary(DateRange::financialYear(2027));
 ```
 
+## Currencies
+
+**A foreign-currency invoice needs a rate as well as a currency.** In a file with multi-currency on,
+`inCurrency()` sets both — Saasu fills in the rate for the invoice's own date, or you give one:
+
+```php
+InvoiceRequest::sale(InvoiceType::TaxInvoice, InvoiceLayout::Service, '2026-09-13')
+    ->inCurrency('USD')                            // rate filled in by Saasu
+    ->addLineItem(InvoiceLineItemRequest::service('Consulting', 1234, 1650.00));
+
+$request->inCurrency('EUR', 1.6);                  // rate given, automatic rate off
+```
+
+**An invoice raised in the base currency can be moved to another one** — the fix for a sale created
+by a system that cannot choose a currency. Build the update from the invoice, and the number, lines
+and tax codes stay; the amounts are not converted, so AUD 110 becomes USD 110:
+
+```php
+$invoice = $saasu->invoices()->get(5093684);
+
+$saasu->invoices()->update(5093684, InvoiceRequest::from($invoice)->inCurrency('USD'));
+```
+
+`withCurrency()` on its own is the trap: it keeps the rate of 1.0 the invoice had, and books USD 110
+as AUD 110 without complaint. And Saasu refuses to change the currency of an invoice with a payment
+applied — delete the payment, move the invoice, and record the payment again in the new currency.
+
 ## Other endpoints
 
 ```php
