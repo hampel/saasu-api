@@ -21,6 +21,9 @@ checked against a live file where the documentation was silent or wrong.
 - filters for every list, with `DateRange` for the date pairs Saasu accepts only whole
 - `ConcurrencyException` for a stale update, whether Saasu answers 400 or 409,
   `TwoFactorRequiredException`, and `NotFoundException::isUnroutedPath()`
+- `ContactRequest::from()` carries `CreatedDateUtc`: a contact update without it erases the
+  contact's creation date. Every other builder was checked by updating a record of each kind
+  unchanged
 - `PaymentRequest::inCurrencyForBaseAmount()`, for a foreign payment booked at exactly the base
   amount a bank charged
 - `InvoiceRequest::inCurrency()` and `PaymentRequest::inCurrency()`, which set the exchange rate's

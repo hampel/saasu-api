@@ -76,6 +76,11 @@ one of these; anything else about behaviour is from documentation.
 ### Writes
 
 - **A PUT clears every field it does not send** — on a contact, and on an invoice's tags.
+- **An unchanged update built `from()` a record round-trips every field**, checked for every
+  writable resource by `roundtrip-write`. The one gap it found: a contact update erased
+  `CreatedDateUtc` — read-only everywhere else, and not on a contact — so `ContactRequest` carries
+  it. A service invoice's line ids are replaced on every update; an item invoice's are kept.
+- Only a bank account may be included in the forecaster.
 - A stale `LastUpdatedId` answers "Record to be updated has changed since last read." as **400 on
   a contact and 409 on an invoice**; an update with no `LastUpdatedId` answers the same sentence.
 - An account insert needs `IsBankAccount`, and a currency in a multi-currency file.
@@ -229,6 +234,10 @@ Three tests exist to catch a class of rot rather than a bug:
   computed field and no instruction.
 - `ReadmeTest` checks every call, class, exception and filter method the README names exists.
 
+**`roundtrip-write` is the check to rerun after changing any `WRITABLE` list.** A PUT clears what it
+does not send, so a field missing from a list is data every update erases — and the suite cannot
+see it, because the builder and its test agree with each other.
+
 **A green suite cannot tell you the API still behaves this way.** Every fixture encodes the same
 assumption the code does. That is what the harness is for.
 
@@ -237,7 +246,7 @@ assumption the code does. That is what the harness is for.
 `vendor/bin/rig` runs the exercises in `harness/`. They are not tests: they make real calls and
 print what happened for a person to read. Each carries the questions it was written to settle.
 
-Three read and change nothing — `file`, `lists`, `documents`. Five write, and are guarded in three
+Three read and change nothing — `file`, `lists`, `documents`. Six write, and are guarded in three
 layers:
 
 | exercise | opt-in, lives in `.env` | agent override, never does |
@@ -246,17 +255,18 @@ layers:
 | `ledger-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `currency-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `workflows-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
+| `roundtrip-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `sweep` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 
 The layers: the rig withholds `.env` under an agent; the exercise defaults to reading; and the
 opt-in is refused under an agent, because the `.env` belongs to whoever owns the login.
 
-**`ledger-write`, `currency-write`, `workflows-write` and `sweep` have a fourth guard, because they
-fill a file with records or empty it.** It refuses to run unless `SAASU_FILE_ID` equals
-`SAASU_DISPOSABLE_FILE_ID` — `harness_require_disposable_file()` in `harness/lib/sweep.php` — so a
-copied `.env` pointed at a real file cannot be seeded. Only `ledger-write` sends email, and only to
-`SAASU_EMAIL_TO`. Cleanup is `harness_sweep()`: every record named `ZZ`, from that run or an earlier
-one that failed part-way — safe only because of that guard.
+**Every writing exercise but `contact-write` has a fourth guard, because they fill a file with
+records or empty it.** It refuses to run unless `SAASU_FILE_ID` equals `SAASU_DISPOSABLE_FILE_ID` —
+`harness_require_disposable_file()` in `harness/lib/sweep.php` — so a copied `.env` pointed at a
+real file cannot be seeded. Only `ledger-write` sends email, and only to `SAASU_EMAIL_TO`. Cleanup
+is `harness_sweep()`: every record named `ZZ`, from that run or an earlier one that failed part-way
+— safe only because of that guard.
 
 **Every run spends the file's daily quota**, including the read-only ones. Each is capped at 60
 requests by `HARNESS_REQUEST_BUDGET`, `ledger-write` at 300 and `currency-write` at 150 — clean runs

@@ -24,7 +24,9 @@ use Hampel\Saasu\Api\Support\Cast;
  *     $saasu->contacts()->update(54353, ContactRequest::from($contact)->withEmailAddress('new@example.com'));
  *
  * from() copies every writable field the record arrived with - and its `LastUpdatedId`, which
- * the update needs - and leaves out the fields Saasu documents as read-only. A request built
+ * the update needs - and leaves out the fields Saasu documents as read-only. Each builder's
+ * WRITABLE list was checked on 2026-09-14 by updating a record of every kind unchanged and
+ * comparing it before and after; the one gap it found, a contact's `CreatedDateUtc`, is closed. A request built
  * with make() and a LastUpdatedId is accepted, and blanks everything it does not name.
  *
  * Immutable: every with*() returns a new builder.

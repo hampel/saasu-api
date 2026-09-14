@@ -13,6 +13,11 @@ use Hampel\Saasu\Api\Support\Cast;
  *
  * withContactReference() writes Saasu's `ContactId` field - your own reference for the contact,
  * not its id. See Entity\Contact.
+ *
+ * `CreatedDateUtc` IS CARRIED BY from(), unlike on every other resource. Measured 2026-09-14: a
+ * contact update that did not send it came back with `CreatedDateUtc` null - the creation date
+ * erased - and one that sent it back kept it. Saasu's model does not mark it read-only on a
+ * contact, and it is not.
  */
 final class ContactRequest extends Payload
 {
@@ -55,6 +60,7 @@ final class ContactRequest extends Payload
         'SkypeId',
         'LinkedInProfile',
         'Tags',
+        'CreatedDateUtc',
         'LastUpdatedId',
     ];
 

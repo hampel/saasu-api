@@ -130,7 +130,10 @@ final class ContactsTest extends TestCase
         $this->assertSame('Blogs', $body['FamilyName']);
         $this->assertSame(['Advisor', 'Business'], $body['Tags']);
 
-        foreach (['Id', 'CreatedDateUtc', 'LastModifiedDateUtc', 'LastModifiedByUserId', 'OcrRecipientAlias', '_links'] as $readOnly) {
+        // Measured 2026-09-14: an update that omits CreatedDateUtc erases the contact's creation date.
+        $this->assertSame('2026-09-02T19:00:11.9589518Z', $body['CreatedDateUtc']);
+
+        foreach (['Id', 'LastModifiedDateUtc', 'LastModifiedByUserId', 'OcrRecipientAlias', '_links'] as $readOnly) {
             $this->assertArrayNotHasKey($readOnly, $body);
         }
 
