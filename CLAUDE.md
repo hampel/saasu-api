@@ -73,6 +73,22 @@ one of these; anything else about behaviour is from documentation.
   else.
 - No response carries a rate-limit or quota header.
 
+### Permissions
+
+Measured 2026-09-15 with a second user in the file, restricted to contacts, by `permissions-write`.
+
+- **A restricted user gets a token, and the API holds it to the user's permissions.** Contacts,
+  companies and activities read; a contact is created and deleted. Accounts, invoices, items,
+  journals, tax codes and payments are refused, and so is an account insert. No list answered a
+  refusal as an empty 200.
+- **The refusal has four shapes**: 403 with no body (accounts, invoices, journals, the insert);
+  403 with the string "Not authorised" (items); 400 with a `Message` saying "you do not have
+  permission" (tax codes), recognised by `ErrorDetail::PERMISSION_MARKER`; and 400 "Value cannot
+  be null. Parameter name: collection" (payments), which names nothing and stays a
+  `ValidationException`.
+- The file identity, the user and the file list read as normal, and the grant's scope is the same
+  `fileid:NNN` form.
+
 ### Writes
 
 - **A PUT clears every field it does not send** — on a contact, and on an invoice's tags.
@@ -246,7 +262,7 @@ assumption the code does. That is what the harness is for.
 `vendor/bin/rig` runs the exercises in `harness/`. They are not tests: they make real calls and
 print what happened for a person to read. Each carries the questions it was written to settle.
 
-Three read and change nothing — `file`, `lists`, `documents`. Six write, and are guarded in three
+Three read and change nothing — `file`, `lists`, `documents`. Seven write, and are guarded in three
 layers:
 
 | exercise | opt-in, lives in `.env` | agent override, never does |
@@ -256,6 +272,7 @@ layers:
 | `currency-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `workflows-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `roundtrip-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
+| `permissions-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `sweep` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 
 The layers: the rig withholds `.env` under an agent; the exercise defaults to reading; and the
@@ -269,8 +286,9 @@ is `harness_sweep()`: every record named `ZZ`, from that run or an earlier one t
 — safe only because of that guard.
 
 **Every run spends the file's daily quota**, including the read-only ones. Each is capped at 60
-requests by `HARNESS_REQUEST_BUDGET`, `ledger-write` at 300 and `currency-write` at 150 — clean runs
-spend about 145 and 73. Running them in a loop is how a file gets blocked for a day.
+requests by `HARNESS_REQUEST_BUDGET`, `ledger-write` at 300, `currency-write` at 150 and
+`permissions-write` at 80 — clean runs of those three spend about 145, 73 and 28. Running them in a
+loop is how a file gets blocked for a day.
 
 **If an exercise fails for want of a credential, that is the guard working.** Do not go looking for
 the credentials, do not edit `.env`, and do not pass an override to get past the error. Ask.

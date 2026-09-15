@@ -7,8 +7,8 @@
  * This carries the third of the three layers that keep an accident out of this harness:
  *
  *   1. rig itself does not load the package's .env when CLAUDECODE is set.
- *   2. every exercise reads, except contact-write and ledger-write, which do nothing unless opted
- *      in - and ledger-write also refuses any file but SAASU_DISPOSABLE_FILE_ID.
+ *   2. every exercise reads, except the *-write exercises, which do nothing unless opted in - and
+ *      all but contact-write also refuse any file but SAASU_DISPOSABLE_FILE_ID.
  *   3. this: the opt-in itself is refused under an agent.
  *
  * WHY THIS MATTERS MORE HERE THAN IN MOST PACKAGES. A Saasu login is not scoped: the password

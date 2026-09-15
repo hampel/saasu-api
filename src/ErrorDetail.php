@@ -36,6 +36,12 @@ final class ErrorDetail implements \JsonSerializable
     public const CONCURRENCY_MARKER = 'changed since last read';
 
     /**
+     * The sentence Saasu uses when the login's user lacks a permission and the endpoint answers
+     * 400 rather than 403 - measured 2026-09-15 on `TaxCodes`.
+     */
+    public const PERMISSION_MARKER = 'do not have permission';
+
+    /**
      * @param  list<string>  $messages  every sentence the body carried, in order
      * @param  array<string, list<string>>  $fieldErrors  an ASP.NET ModelState, when there was one
      */
@@ -141,8 +147,18 @@ final class ErrorDetail implements \JsonSerializable
 
     public function isConcurrencyConflict(): bool
     {
+        return $this->says(self::CONCURRENCY_MARKER);
+    }
+
+    public function isPermissionRefusal(): bool
+    {
+        return $this->says(self::PERMISSION_MARKER);
+    }
+
+    private function says(string $marker): bool
+    {
         foreach ($this->messages as $message) {
-            if (stripos($message, self::CONCURRENCY_MARKER) !== false) {
+            if (stripos($message, $marker) !== false) {
                 return true;
             }
         }

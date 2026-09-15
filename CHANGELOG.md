@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- `NotPermittedException` for a 400 whose message says the user lacks permission
+- `ErrorDetail::PERMISSION_MARKER` and `ErrorDetail::isPermissionRefusal()`
+
 ## 0.1.0 (2026-09-14)
 
 First release, covering every operation documented on Saasu's API help pages.

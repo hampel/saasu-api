@@ -102,6 +102,11 @@ $saasu = $saasu->withCredential(OAuth::grant($grant, $store));
 
 A grant's scope names every file the login can reach — `$grant->fileIds()`.
 
+**Give an integration a login restricted to what it needs.** A user whose permissions in the file
+are limited — to contacts, say — gets a token like any other, and the API holds the token to those
+permissions: a request outside them raises `NotPermittedException`. A leaked password that reaches
+only contacts cannot raise an invoice.
+
 **A web services access key** is Saasu's legacy scheme, from Settings, Web Services. It travels in
 the **query string** of every request. This package removes it from everything it logs and every
 exception message; it cannot remove it from a proxy's access log.
@@ -192,7 +197,7 @@ Everything this package throws implements `Hampel\Saasu\Api\Exception\ExceptionI
 | 400 | `ValidationException` | a sentence, not a field map — show `messages()` |
 | 401 | `NotAuthenticatedException` | **no body** from a data endpoint; an OAuth error from a token endpoint |
 | 401 | `TwoFactorRequiredException` | the login has 2FA; `codeWasSent()` says whether Saasu texted one |
-| 403 | `NotPermittedException` | |
+| 403, 400 | `NotPermittedException` | the login's user lacks the permission — usually 403, but tax codes answer 400 saying so. A restricted user's payment list is the exception: a 400 `ValidationException` about a null collection |
 | 404 | `NotFoundException` | `isUnroutedPath()` for an HTML page, which is a wrong path rather than a missing record. `find()` answers null instead — including for an item, which Saasu reports missing as a 400 |
 | 429 | `TooManyRequestsException` | not documented; mapped defensively |
 | 5xx | `ServerException` | |

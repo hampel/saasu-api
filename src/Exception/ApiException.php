@@ -52,6 +52,10 @@ abstract class ApiException extends SaasuException
             $detail = 'the access token or web services access key was missing, expired or revoked (this status carries no body)';
         }
 
+        if ($detail === '' && $status === 403) {
+            $detail = 'the user this credential logs in as lacks the permission (this status often carries no body)';
+        }
+
         if ($detail === '' && $status === 404 && ErrorDetail::looksLikeHtml($body)) {
             $detail = 'the server answered with an HTML error page, which is what an unrouted path looks like rather than a missing record';
         }
@@ -71,6 +75,10 @@ abstract class ApiException extends SaasuException
             // both with the same sentence - so the sentence decides, not the status.
             ($status === 400 || $status === 409) && ($error?->isConcurrencyConflict() ?? false)
                 => new ConcurrencyException($message, $status, $error, $body, $retryAfter),
+            // Measured 2026-09-15: most refusals of a restricted user are 403, but TaxCodes answers
+            // 400 with a sentence saying so.
+            $status === 400 && ($error?->isPermissionRefusal() ?? false)
+                => new NotPermittedException($message, $status, $error, $body, $retryAfter),
             $status === 400 => new ValidationException($message, $status, $error, $body, $retryAfter),
             $status === 401 && $error !== null && $error->twoFactorCodeRequired
                 => new TwoFactorRequiredException($message, $status, $error, $body, $retryAfter),

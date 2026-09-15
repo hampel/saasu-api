@@ -166,7 +166,9 @@ final class ConnectionTest extends TestCase
         yield '400 stale' => [400, '"Record to be updated has changed since last read."', ConcurrencyException::class];
         yield '401' => [401, '', NotAuthenticatedException::class];
         yield '401 2fa' => [401, '{"error":"2fa_code_required","is_2fa_code_required":true,"is_2fa_code_sent":true}', TwoFactorRequiredException::class];
-        yield '403' => [403, '{"Message":"Access denied."}', NotPermittedException::class];
+        yield '403' => [403, '', NotPermittedException::class];
+        yield '403 sentence' => [403, '"Not authorised"', NotPermittedException::class];
+        yield '400 permission' => [400, '{"Message":"Sorry, you do not have permission to access this feature. Please contact your membership administrator."}', NotPermittedException::class];
         yield '404' => [404, '"The requested transaction is not found."', NotFoundException::class];
         yield '429' => [429, '', TooManyRequestsException::class];
         yield '500' => [500, '{"Message":"An error has occurred."}', ServerException::class];
