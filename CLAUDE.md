@@ -115,6 +115,10 @@ Measured 2026-09-15 with a second user in the file, restricted to contacts, by `
 - Every page carries a `next` link, including the last and one past the end. Email, tag, bank
   account and item-search filters are honoured; a misspelt parameter is silently ignored; the
   last-modified filter honours a time, not only a date.
+- **A contact cannot be found by a custom field.** Measured 2026-09-15 by `contact-lookup-write`:
+  `CustomField1` and `CustomField2` parameters are ignored, and search does not index either field.
+  The `ContactId` filter matches the whole value, ignoring case — not a prefix, not a substring —
+  and a list row carries both custom fields, so matching them locally costs a request per hundred.
 - **`Payments?ForInvoiceId=` fails without a payment date range**, and `ItemAdjustments` refuses a
   `ToDate` of 2099-12-31 that other lists accept.
 - The sales summary adds foreign-currency invoices at face value; profit and loss converts them.
@@ -262,7 +266,7 @@ assumption the code does. That is what the harness is for.
 `vendor/bin/rig` runs the exercises in `harness/`. They are not tests: they make real calls and
 print what happened for a person to read. Each carries the questions it was written to settle.
 
-Three read and change nothing — `file`, `lists`, `documents`. Seven write, and are guarded in three
+Three read and change nothing — `file`, `lists`, `documents`. Eight write, and are guarded in three
 layers:
 
 | exercise | opt-in, lives in `.env` | agent override, never does |
@@ -273,6 +277,7 @@ layers:
 | `workflows-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `roundtrip-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `permissions-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
+| `contact-lookup-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `sweep` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 
 The layers: the rig withholds `.env` under an agent; the exercise defaults to reading; and the
