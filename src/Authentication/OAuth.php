@@ -30,9 +30,9 @@ use Psr\Http\Message\RequestInterface;
  *
  * which refreshes for as long as the refresh token lasts and raises when it no longer can.
  *
- * CONCURRENT REFRESHES ARE NOT COORDINATED HERE. Two processes that find the same token expired
- * both refresh it; if Saasu rotates refresh tokens, the loser's is refused and it falls back to
- * the password (or raises, seeded from a grant). A store with a lock is where that belongs.
+ * CONCURRENT REFRESHES NEED NO COORDINATION. Two processes that find the same token expired both
+ * refresh it, and both succeed: measured 2026-09-14, a refresh does not rotate the refresh token,
+ * and the one it was made with keeps working. A shared store needs no lock around refresh.
  */
 final class OAuth implements Authentication
 {
