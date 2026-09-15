@@ -14,11 +14,19 @@ namespace Hampel\Saasu\Api\Throttle;
  * share - a cache lock, a Redis rate limiter - and this interface is where that goes.
  *
  * Token requests pass through the throttle too, because Saasu counts them.
+ *
+ * THE FILE ID IS PASSED because Saasu's limits are a file's, and one client can reach several -
+ * `Client::withFileId()` derives a client for another file that shares this throttle. An
+ * implementation keyed by file waits on the file the request is for, not the one the client was
+ * built with.
  */
 interface Throttle
 {
     /**
      * Block until a request may be sent.
+     *
+     * @param  int|null  $fileId  the file the request names; null for one that names none - a
+     *                            token request, or the list of files a login reaches
      */
-    public function wait(): void;
+    public function wait(?int $fileId): void;
 }

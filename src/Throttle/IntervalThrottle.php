@@ -12,6 +12,10 @@ use Hampel\Saasu\Api\Exception\InvalidArgumentException;
  * The first request goes immediately; each one after waits out whatever is left of the interval
  * since the previous one started. A client that makes a request a minute never waits at all.
  *
+ * ONE INTERVAL FOR EVERY FILE. The file id is ignored, so a process working in two files keeps
+ * to one request a second between them - slower than it need be if Saasu's limit is per file, and
+ * never faster than it may be.
+ *
  * The sleep and the clock are injectable, so a test can assert on the waits without taking
  * them, and an event loop can yield instead of blocking.
  */
@@ -54,7 +58,7 @@ final class IntervalThrottle implements Throttle
             : static fn (): float => microtime(true);
     }
 
-    public function wait(): void
+    public function wait(?int $fileId): void
     {
         $now = ($this->clock)();
 

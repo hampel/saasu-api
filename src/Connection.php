@@ -378,6 +378,26 @@ final class Connection
     }
 
     /**
+     * The file a request names in its query string, or null when it names none.
+     *
+     * Read from the request rather than the config, because a followed link or a caller's own
+     * query can name a file the client was not built with - and Saasu writes the parameter back
+     * into `_links` as `fileid`, so the match ignores case.
+     */
+    public static function fileIdOf(RequestInterface $request): ?int
+    {
+        parse_str($request->getUri()->getQuery(), $query);
+
+        foreach ($query as $name => $value) {
+            if (strcasecmp((string) $name, self::FILE_PARAMETER) === 0 && is_string($value) && ctype_digit($value)) {
+                return (int) $value;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Count it, throttle it, send it, and keep a transport failure distinct from an HTTP status.
      *
      * The catch is ClientExceptionInterface and not \Throwable, deliberately. Laravel's
@@ -396,7 +416,7 @@ final class Connection
         $method = $request->getMethod();
         $uri = Redact::uri((string) $request->getUri());
 
-        $this->throttle->wait();
+        $this->throttle->wait(self::fileIdOf($request));
         $this->counter->increment();
 
         $this->logger->debug('Saasu API request', ['method' => $method, 'uri' => $uri]);

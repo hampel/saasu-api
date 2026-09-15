@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- **Breaking:** `Throttle::wait()` takes the file id of the request, or null for a request that
+  names no file
+- `Connection::fileIdOf()`
 - `NotPermittedException` for a 400 whose message says the user lacks permission
 - `ErrorDetail::PERMISSION_MARKER` and `ErrorDetail::isPermissionRefusal()`
 

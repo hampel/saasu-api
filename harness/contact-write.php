@@ -132,7 +132,7 @@ try {
         ['GivenName' => 'ZZ DELETE ME', 'FamilyName' => $name]
     );
     $authenticated = $connection->authentication()->authenticate($request, $connection);
-    $connection->throttle()->wait();
+    $connection->throttle()->wait($connection::fileIdOf($authenticated));
     $connection->counter()->increment();
     $response = $connection->client()->sendRequest($authenticated);
 

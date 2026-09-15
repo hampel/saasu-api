@@ -25,6 +25,7 @@ use Hampel\Saasu\Api\Authentication\OAuth;
 use Hampel\Saasu\Api\Authentication\WsAccessKey;
 use Hampel\Saasu\Api\Client;
 use Hampel\Saasu\Api\Config;
+use Hampel\Saasu\Api\Connection;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -130,7 +131,7 @@ function harness_raw(Client $saasu, string $method, string $path, array $query =
     $connection = $inFile ? $saasu->connection() : $saasu->connection()->withoutFile();
     $request = $connection->authentication()->authenticate($connection->request($method, $path, $query), $connection);
 
-    $connection->throttle()->wait();
+    $connection->throttle()->wait(Connection::fileIdOf($request));
     $connection->counter()->increment();
 
     return $connection->client()->sendRequest($request);

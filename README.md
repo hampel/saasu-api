@@ -66,7 +66,8 @@ only the one that spent it. Four things in this package follow from that:
 
 - **The client throttles itself** to one request a second, per process. Several workers against
   one file are several requests a second between them; pass a `Throttle` backed by something
-  they share, such as a cache lock.
+  they share, such as a cache lock. `wait()` is given the file id of each request, so one
+  throttle can keep a separate limit per file.
 - **OAuth tokens are reused through a `TokenStore`.** A token request counts against the quota
   like any other. The default store lasts one process, so a web application would log in on
   every page view — pass a store backed by a cache.

@@ -340,25 +340,34 @@ final class ConnectionTest extends TestCase
         }
     }
 
-    public function testTheThrottleIsConsultedBeforeEveryRequest(): void
+    /**
+     * The throttle is told which file each request is for, so one keyed by file can follow a
+     * client derived for another file - and a request naming no file says so.
+     */
+    public function testTheThrottleIsToldTheFileOfEveryRequest(): void
     {
         $throttle = new class () implements Throttle {
-            public int $waits = 0;
+            /** @var list<int|null> */
+            public array $files = [];
 
-            public function wait(): void
+            public function wait(?int $fileId): void
             {
-                $this->waits++;
+                $this->files[] = $fileId;
             }
         };
 
         $this->pushFixture('contact');
         $this->pushFixture('contact');
+        $this->client->pushJson(200, ['FileIdentities' => []]);
+        $this->pushFixture('contact');
 
         $saasu = $this->saasu(throttle: $throttle);
         $saasu->contacts()->get(1);
-        $saasu->contacts()->get(2);
+        $saasu->withFileId(456)->contacts()->get(2);
+        $saasu->files()->all();
+        $saasu->connection()->get('Contact/3', ['fileid' => '789']);
 
-        $this->assertSame(2, $throttle->waits);
+        $this->assertSame([123, 456, null, 789], $throttle->files);
     }
 
     /**

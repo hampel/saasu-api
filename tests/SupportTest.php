@@ -115,11 +115,11 @@ final class SupportTest extends BaseTestCase
             return $now;
         });
 
-        $throttle->wait();
+        $throttle->wait(null);
         $now += 0.25;
-        $throttle->wait();
+        $throttle->wait(null);
         $now += 5.0;
-        $throttle->wait();
+        $throttle->wait(null);
 
         $this->assertSame([0.75], $slept);
     }

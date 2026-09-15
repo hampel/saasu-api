@@ -10,7 +10,7 @@ namespace Hampel\Saasu\Api\Throttle;
  */
 final class NoThrottle implements Throttle
 {
-    public function wait(): void
+    public function wait(?int $fileId): void
     {
     }
 }
