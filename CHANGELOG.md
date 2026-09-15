@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 (2026-09-15)
 
 - **Breaking:** `Throttle::wait()` takes the file id of the request, or null for a request that
   names no file
