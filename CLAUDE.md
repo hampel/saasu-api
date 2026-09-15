@@ -118,7 +118,8 @@ Measured 2026-09-15 with a second user in the file, restricted to contacts, by `
 - **A contact cannot be found by a custom field.** Measured 2026-09-15 by `contact-lookup-write`:
   `CustomField1` and `CustomField2` parameters are ignored, and search does not index either field.
   The `ContactId` filter matches the whole value, ignoring case — not a prefix, not a substring —
-  and a list row carries both custom fields, so matching them locally costs a request per hundred.
+  but **a `ContactId` is not unique**: a second contact with one already in use is accepted. A list
+  row carries both custom fields, so matching them locally costs a request per hundred.
 - **`Payments?ForInvoiceId=` fails without a payment date range**, and `ItemAdjustments` refuses a
   `ToDate` of 2099-12-31 that other lists accept.
 - The sales summary adds foreign-currency invoices at face value; profit and loss converts them.

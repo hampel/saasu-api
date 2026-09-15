@@ -103,6 +103,22 @@ final class Contacts extends Endpoint
     }
 
     /**
+     * The first contact with this reference in `ContactId`, or null - one request of one item.
+     *
+     * The match is on the whole value, ignoring case: `XF-12` does not find `XF-123`. It is the way
+     * to find a contact by an identifier from another system, because a custom field cannot be
+     * filtered or searched on.
+     *
+     * A REFERENCE IS NOT UNIQUE. Saasu accepts a second contact with one already in use, and this
+     * then answers whichever Saasu lists first. Where two would be a mistake worth knowing about,
+     * `list(ContactFilter::all()->reference($reference))` shows both.
+     */
+    public function firstWithReference(string $reference): ?Contact
+    {
+        return $this->list(ContactFilter::all()->reference($reference), 1, 1)->first();
+    }
+
+    /**
      * A contact's statement for a period, as the PDF Saasu generates.
      */
     public function statement(int $id, DateRange $period): Document

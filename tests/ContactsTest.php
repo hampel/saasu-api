@@ -173,6 +173,24 @@ final class ContactsTest extends TestCase
         $this->assertSame('1', $this->sentQuery()['PageSize']);
     }
 
+    public function testFirstWithReferenceAsksForOneItem(): void
+    {
+        $this->pushFixture('contacts');
+
+        $contact = $this->saasu()->contacts()->firstWithReference('XF-1234');
+
+        $this->assertSame(54353, $contact?->id);
+        $this->assertSame('XF-1234', $this->sentQuery()['ContactId']);
+        $this->assertSame('1', $this->sentQuery()['PageSize']);
+    }
+
+    public function testFirstWithReferenceAnswersNullWhenNothingMatches(): void
+    {
+        $this->client->pushJson(200, ['Contacts' => []]);
+
+        $this->assertNull($this->saasu()->contacts()->firstWithReference('XF-0'));
+    }
+
     public function testAStatementIsAPdfForAPeriod(): void
     {
         $this->client->pushRaw(200, '%PDF-1.7', ['Content-Type' => 'application/pdf']);

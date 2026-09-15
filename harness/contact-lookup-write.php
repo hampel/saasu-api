@@ -2,7 +2,7 @@
 
 /**
  * Exercise: can a contact be found by a value it holds in a custom field? WRITES to the disposable
- * file - two throwaway contacts, deleted in a finally. About 25 requests.
+ * file - three throwaway contacts, deleted in a finally. About 25 requests.
  *
  * The use: an identifier from another system - a forum username or user id - kept on the contact,
  * so a payment made from a different email address can still be matched to the right contact.
@@ -16,16 +16,18 @@
  *   3. AND BY ITS ContactId (the contact reference)? The Contacts filter for it is documented, and
  *      is the fallback if custom fields cannot be searched - but only if it matches whole values:
  *      a prefix match would find user 12 when asked for user 1.
- *   4. DOES A LIST ROW CARRY THE CUSTOM FIELDS? If so, walking the list and matching locally works,
+ *   4. MAY TWO CONTACTS SHARE A ContactId? If they may, a lookup by reference has to say which.
+ *   5. DOES A LIST ROW CARRY THE CUSTOM FIELDS? If so, walking the list and matching locally works,
  *      at one request per hundred contacts.
  *
  * Needs SAASU_WRITE=1 (and SAASU_AGENT_MAY_WRITE=1 under an agent), and refuses any file but
- * SAASU_DISPOSABLE_FILE_ID. Both contacts are named ZZ, so the sweep finds a leak.
+ * SAASU_DISPOSABLE_FILE_ID. Every contact is named ZZ, so the sweep finds a leak.
  *
  * @var Hampel\Rig\Io $io
  */
 
 use Hampel\Saasu\Api\Enum\SearchScope;
+use Hampel\Saasu\Api\Exception\ApiException;
 use Hampel\Saasu\Api\Exception\ExceptionInterface;
 use Hampel\Saasu\Api\Request\ContactRequest;
 
@@ -36,8 +38,8 @@ $io->title('saasu · contact lookup');
 
 harness_require_disposable_file($io);
 
-if (!harness_mode($io, 'SAASU_WRITE', 'SAASU_AGENT_MAY_WRITE', 'two throwaway contacts will be created and deleted')) {
-    $io->warn('NOT PROVEN by this run: anything - every question needs the two contacts.');
+if (!harness_mode($io, 'SAASU_WRITE', 'SAASU_AGENT_MAY_WRITE', 'three throwaway contacts will be created and deleted')) {
+    $io->warn('NOT PROVEN by this run: anything - every question needs the throwaway contacts.');
 
     exit(0);
 }
@@ -91,6 +93,20 @@ try {
         'ContactId=<A less its last character>' => $count(harness_raw($saasu, 'GET', 'Contacts', ['ContactId' => substr($a['reference'], 0, -1)]), 'Contacts'),
         'ContactId=<A less its first character>' => $count(harness_raw($saasu, 'GET', 'Contacts', ['ContactId' => substr($a['reference'], 1)]), 'Contacts'),
     ]);
+
+    $io->line();
+    $io->info('may a second contact take A\'s ContactId? If so, a lookup by reference can find two');
+
+    try {
+        $saved = $saasu->contacts()->create(ContactRequest::person(harness_probe_name(), 'Lookup duplicate')->withContactReference($a['reference']));
+        $ids['duplicate'] = (int) $saved->id;
+        $io->values([
+            'duplicate insert' => sprintf('ACCEPTED as #%d', $saved->id),
+            'ContactId=<A> now finds' => $count(harness_raw($saasu, 'GET', 'Contacts', ['ContactId' => $a['reference']]), 'Contacts'),
+        ]);
+    } catch (ApiException $e) {
+        $io->values(['duplicate insert' => sprintf('refused, HTTP %d: %s', $e->statusCode, implode(' ', $e->messages()))]);
+    }
 
     $io->line();
     $io->info('does a list row carry the custom fields, for matching them locally?');

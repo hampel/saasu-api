@@ -88,7 +88,7 @@ final class ContactFilter extends Filter
     }
 
     /**
-     * Contacts with this reference in Saasu's `ContactId` field.
+     * Contacts with this reference in Saasu's `ContactId` field - the whole value, ignoring case.
      */
     public function reference(string $reference): static
     {
