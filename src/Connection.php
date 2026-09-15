@@ -413,6 +413,12 @@ final class Connection
             throw RequestBudgetExhaustedException::after($budget);
         }
 
+        $spent = $this->counter->exhaustedParentBudget();
+
+        if ($spent !== null) {
+            throw RequestBudgetExhaustedException::after($spent);
+        }
+
         $method = $request->getMethod();
         $uri = Redact::uri((string) $request->getUri());
 

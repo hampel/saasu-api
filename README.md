@@ -75,10 +75,13 @@ only the one that spent it. Four things in this package follow from that:
   1,000 contacts costs ten requests rather than forty.
 - **`Config::$requestBudget` caps what a client may spend.** Past it, the next request raises
   `RequestBudgetExhaustedException` without being sent. Clients derived with `withFileId()` share
-  the count.
+  the count. For one job run by a long-lived client, `withRequestBudget()` returns a client whose
+  count starts at zero — still counted by, and still held to the budget of, the client it came from.
 
 ```php
 $saasu->requestsSent();                            // tokens and retries included
+
+$job = $saasu->withRequestBudget(50);              // this job may send 50 more
 ```
 
 ## Authentication

@@ -5,6 +5,8 @@
 - **Breaking:** `Throttle::wait()` takes the file id of the request, or null for a request that
   names no file
 - `Connection::fileIdOf()`
+- `Client::withRequestBudget()`, a client whose request budget counts from zero, and
+  `RequestCounter::child()`
 - `NotPermittedException` for a 400 whose message says the user lacks permission
 - `ErrorDetail::PERMISSION_MARKER` and `ErrorDetail::isPermissionRefusal()`
 

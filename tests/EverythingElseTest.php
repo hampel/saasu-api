@@ -12,6 +12,7 @@ use Hampel\Saasu\Api\Entity\Item;
 use Hampel\Saasu\Api\Entity\LeaveRequest;
 use Hampel\Saasu\Api\Enum\SearchScope;
 use Hampel\Saasu\Api\Enum\SearchTransactionType;
+use Hampel\Saasu\Api\Exception\RequestBudgetExhaustedException;
 use Hampel\Saasu\Api\Exception\InvalidArgumentException;
 use Hampel\Saasu\Api\Exception\NotAuthenticatedException;
 use Hampel\Saasu\Api\Exception\TwoFactorRequiredException;
@@ -368,6 +369,53 @@ final class EverythingElseTest extends TestCase
         $this->assertSame('456', $this->sentQuery()['FileId']);
         $this->assertSame(2, $saasu->requestsSent());
         $this->assertSame(2, $other->requestsSent());
+    }
+
+    /**
+     * A long-lived client - a queue worker's - budgets one job without its whole history counting.
+     */
+    public function testARequestBudgetForOneJobCountsFromZero(): void
+    {
+        foreach (range(1, 4) as $ignored) {
+            $this->pushFixture('contact');
+        }
+
+        $saasu = $this->saasu();
+        $saasu->contacts()->get(1);
+        $saasu->contacts()->get(1);
+
+        $job = $saasu->withRequestBudget(2);
+        $job->contacts()->get(1);
+        $job->withFileId(456)->contacts()->get(1);
+
+        try {
+            $job->contacts()->get(1);
+            $this->fail('expected the job budget to refuse a third request');
+        } catch (RequestBudgetExhaustedException) {
+            $this->assertCount(4, $this->client->requests, 'the refused request was not sent');
+        }
+
+        $this->assertSame(2, $job->requestsSent());
+        $this->assertSame(4, $saasu->requestsSent());
+    }
+
+    public function testAFreshBudgetCannotGetRoundTheOneAboveIt(): void
+    {
+        foreach (range(1, 3) as $ignored) {
+            $this->pushFixture('contact');
+        }
+
+        $saasu = $this->saasu(new Config(self::FILE_ID, requestBudget: 3));
+        $saasu->contacts()->get(1);
+        $saasu->contacts()->get(1);
+
+        $job = $saasu->withRequestBudget(null);
+        $job->contacts()->get(1);
+
+        $this->expectException(RequestBudgetExhaustedException::class);
+        $this->expectExceptionMessage('budget of 3');
+
+        $job->contacts()->get(1);
     }
 
     public function testTheExtensionPointConstructsAnyEndpoint(): void

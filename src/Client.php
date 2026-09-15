@@ -167,6 +167,24 @@ final class Client
     }
 
     /**
+     * The same client with a request budget that counts from zero - for one job run by a
+     * long-lived client, such as a queue worker's.
+     *
+     * Unlike `withConfig($config->withRequestBudget(...))`, which shares this client's count and so
+     * spends a budget from the moment this client was built, the new client counts only its own
+     * requests and those of clients derived from it. They are still counted here, and it stays
+     * held to this client's budget, so a fresh budget - or none - cannot be used to get round one.
+     */
+    public function withRequestBudget(?int $budget): self
+    {
+        return $this->derive(
+            $this->config->withRequestBudget($budget),
+            $this->authentication,
+            $this->connection->counter()->child($this->config->requestBudget),
+        );
+    }
+
+    /**
      * The same credential, transport and throttle, in another file.
      */
     public function withFileId(int $fileId): self
@@ -383,7 +401,7 @@ final class Client
         return $this->connection;
     }
 
-    private function derive(Config $config, Authentication $authentication): self
+    private function derive(Config $config, Authentication $authentication, ?RequestCounter $counter = null): self
     {
         return new self(
             $config,
@@ -393,7 +411,7 @@ final class Client
             $this->connection->streamFactory(),
             $this->logger,
             $this->connection->throttle(),
-            $this->connection->counter(),
+            $counter ?? $this->connection->counter(),
         );
     }
 }
