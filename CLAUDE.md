@@ -279,7 +279,7 @@ assumption the code does. That is what the harness is for.
 `vendor/bin/rig` runs the exercises in `harness/`. They are not tests: they make real calls and
 print what happened for a person to read. Each carries the questions it was written to settle.
 
-Three read and change nothing — `file`, `lists`, `documents`. Ten write, and are guarded in three
+Three read and change nothing — `file`, `lists`, `documents`. Eleven write, and are guarded in three
 layers:
 
 | exercise | opt-in, lives in `.env` | agent override, never does |
@@ -293,6 +293,7 @@ layers:
 | `contact-lookup-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `subscription-sale-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `item-sale-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
+| `sync-permissions-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `sweep` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 
 The layers: the rig withholds `.env` under an agent; the exercise defaults to reading; and the
@@ -307,8 +308,8 @@ is `harness_sweep()`: every record named `ZZ`, from that run or an earlier one t
 
 **Every run spends the file's daily quota**, including the read-only ones. Each is capped at 60
 requests by `HARNESS_REQUEST_BUDGET`, `ledger-write` at 300, `currency-write`,
-`subscription-sale-write` and `item-sale-write` at 150, and `permissions-write` at 80 — clean runs
-of those five spend about 145, 73, 41, 52 and 28. Running them in a loop is how a file gets blocked
+`subscription-sale-write` and `item-sale-write` at 150, `sync-permissions-write` at 100 and
+`permissions-write` at 80 — clean runs of those six spend about 145, 73, 41, 52, 45 and 28. Running them in a loop is how a file gets blocked
 for a day.
 
 **If an exercise fails for want of a credential, that is the guard working.** Do not go looking for
