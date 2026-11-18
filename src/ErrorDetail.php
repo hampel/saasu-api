@@ -37,7 +37,7 @@ final class ErrorDetail implements \JsonSerializable
 
     /**
      * The sentence Saasu uses when the login's user lacks a permission and the endpoint answers
-     * 400 rather than 403 - measured 2026-09-15 on `TaxCodes`.
+     * 400 rather than 403 - measured 2026-09-15 on `TaxCodes`, and 2026-11-18 on a contact delete.
      */
     public const PERMISSION_MARKER = 'do not have permission';
 

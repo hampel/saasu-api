@@ -75,17 +75,25 @@ one of these; anything else about behaviour is from documentation.
 
 ### Permissions
 
-Measured 2026-09-15 with a second user in the file, restricted to contacts, by `permissions-write`.
+Measured 2026-09-15 with a second user in the file, restricted to contacts, by `permissions-write`,
+and again on 2026-11-18 with every read the client offers, under two roles.
 
-- **A restricted user gets a token, and the API holds it to the user's permissions.** Contacts,
-  companies and activities read; a contact is created and deleted. Accounts, invoices, items,
-  journals, tax codes and payments are refused, and so is an account insert. No list answered a
-  refusal as an empty 200.
-- **The refusal has four shapes**: 403 with no body (accounts, invoices, journals, the insert);
-  403 with the string "Not authorised" (items); 400 with a `Message` saying "you do not have
-  permission" (tax codes), recognised by `ErrorDetail::PERMISSION_MARKER`; and 400 "Value cannot
-  be null. Parameter name: collection" (payments), which names nothing and stays a
-  `ValidationException`.
+- **A restricted user gets a token, and the API holds it to the user's permissions.** No list
+  answered a refusal as an empty 200. With "Contacts & Companies" only, contacts and companies
+  read and a contact is created; every invoice, payment, account, item, tax code, journal, report
+  and payroll list is refused, and so are an account, sale and payment insert and a contact
+  delete. Activities were readable under the 2026-09-15 role and refused under this one.
+- **The refusal has six shapes**: 403 with no body (most reads, and the account and sale inserts);
+  403 with the string "Not authorised" (items); 403 with the string "Sorry, you do not have
+  permission ..." (a payment insert); 400 with a `Message` saying the same (tax codes, a contact
+  delete), recognised by `ErrorDetail::PERMISSION_MARKER`; and 400 "Value cannot be null.
+  Parameter name: collection" (payments), which names nothing and stays a `ValidationException` -
+  it is also what a real request error on that list answers, so it cannot be told apart. Every
+  other refusal arrives as a `NotPermittedException`.
+- **The sales summary is not held to the permission.** A contacts-only user reads
+  `Invoices/SalesStatsSummary` with the file's real totals, while it may not list a single
+  invoice. Deleted entities, brands, lookups and payroll entitlements read too. Search answers,
+  but finds no transaction the user may not see.
 - The file identity, the user and the file list read as normal, and the grant's scope is the same
   `fileid:NNN` form.
 - **A user with full "Sale" and "Contacts & Companies" can book an item-layout USD sale and pay it
@@ -315,8 +323,8 @@ is `harness_sweep()`: every record named `ZZ`, from that run or an earlier one t
 
 **Every run spends the file's daily quota**, including the read-only ones. Each is capped at 60
 requests by `HARNESS_REQUEST_BUDGET`, `ledger-write` at 300, `currency-write`,
-`subscription-sale-write` and `item-sale-write` at 150, `sync-permissions-write` at 100 and
-`permissions-write` at 80 — clean runs of those six spend about 145, 73, 41, 52, 43 and 28. Running them in a loop is how a file gets blocked
+`subscription-sale-write` and `item-sale-write` at 150, `permissions-write` at 120 and
+`sync-permissions-write` at 100 — clean runs of those six spend about 145, 73, 41, 52, 89 and 43. Running them in a loop is how a file gets blocked
 for a day.
 
 **If an exercise fails for want of a credential, that is the guard working.** Do not go looking for

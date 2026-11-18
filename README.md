@@ -201,7 +201,7 @@ Everything this package throws implements `Hampel\Saasu\Api\Exception\ExceptionI
 | 400 | `ValidationException` | a sentence, not a field map — show `messages()` |
 | 401 | `NotAuthenticatedException` | **no body** from a data endpoint; an OAuth error from a token endpoint |
 | 401 | `TwoFactorRequiredException` | the login has 2FA; `codeWasSent()` says whether Saasu texted one |
-| 403, 400 | `NotPermittedException` | the login's user lacks the permission — usually 403, but tax codes answer 400 saying so. A restricted user's payment list is the exception: a 400 `ValidationException` about a null collection |
+| 403, 400 | `NotPermittedException` | the login's user lacks the permission — usually 403, but tax codes and a contact delete answer 400 saying so. A restricted user's payment list is the exception: a 400 `ValidationException` about a null collection |
 | 404 | `NotFoundException` | `isUnroutedPath()` for an HTML page, which is a wrong path rather than a missing record. `find()` answers null instead — including for an item, which Saasu reports missing as a 400 |
 | 429 | `TooManyRequestsException` | not documented; mapped defensively |
 | 5xx | `ServerException` | |

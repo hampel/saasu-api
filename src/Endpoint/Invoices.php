@@ -141,6 +141,9 @@ final class Invoices extends Endpoint
 
     /**
      * Sales totals for a period.
+     *
+     * NOT HELD TO THE SALES PERMISSION: a user allowed only contacts reads the file's real totals
+     * here, while refused every invoice list. Measured 2026-11-18.
      */
     public function salesSummary(?DateRange $period = null): SalesSummary
     {
