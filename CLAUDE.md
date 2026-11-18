@@ -314,6 +314,9 @@ PHP 8.3, 8.4 and 8.5. PHPStan runs at level 10 with `phpVersion` spanning the ra
 the floor with `--prefer-lowest`, the floor, the ceiling — and runs `composer-require-checker` and a
 dev-free PHPStan pass as separate checks, because they catch different things.
 
+`phpunit/phpunit` stays at `^12.0`: PHPUnit 13 requires PHP 8.4.1, above the 8.3 floor. Widen it
+when 8.3 is dropped.
+
 ## Git
 
 Commit freely; never push.
