@@ -92,7 +92,9 @@ Measured 2026-09-15 with a second user in the file, restricted to contacts, by `
   with a fee**, and read an account, an item, a contact and an invoice by id. There is no separate
   payments permission. **It cannot list invoices at all** - 403 with no body, even confined to
   sales - and an unconfined payment list answers the "collection" 400; confined to sale payments
-  (`PaymentType::SalePayment`) it answers. Measured 2026-11-18 by `sync-permissions-write`.
+  (`PaymentType::SalePayment`) it answers. **Adding "Purchase" opens every invoice list**, even
+  one confined to sales, and the unconfined payment list. Measured 2026-11-18 by
+  `sync-permissions-write`.
 
 ### Writes
 
