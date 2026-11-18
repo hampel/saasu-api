@@ -41,6 +41,14 @@ final class InvoiceLineItemRequest extends Payload
             ->withTaxCode($taxCode);
     }
 
+    /**
+     * A line for an item, posted to the item's sale income account. The line's description replaces
+     * the item's on the invoice.
+     *
+     * A LINE WITH NO TAX CODE BOOKS NO TAX: the item's sale tax code is not used in its place, and
+     * Saasu does not say so - measured 2026-11-18. An inventoried item is refused a sale that would
+     * take its stock on hand below zero.
+     */
     public static function item(int $inventoryId, float $quantity, float $unitPrice, ?string $taxCode = null, ?string $description = null): self
     {
         return self::make()

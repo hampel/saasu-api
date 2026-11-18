@@ -102,6 +102,11 @@ Measured 2026-09-15 with a second user in the file, restricted to contacts, by `
 - An account insert needs `IsBankAccount`, and a currency in a multi-currency file.
 - A file identity PUT needs an ABN, a full address, and the deprecated `DateTimeFormatId` and
   `NumberFormatId`, and says so in a **plain-text** body — neither JSON nor HTML.
+- **An item line with no tax code books no tax** — the item's sale tax code is not used in its
+  place, and nothing says so. The line posts to the item's sale income account and reads back with
+  no `AccountId`; its description replaces the item's. A combined code such as `G1,G3` is accepted
+  and books that code's rate. An inventoried item is refused a sale that would take stock on hand
+  below zero; a non-inventoried one is not. Measured 2026-11-18 by `item-sale-write`.
 - Attachments travel as base64 and round-trip; an invoice PDF is `application/pdf` with a
   filename; a foreign-currency invoice fills its exchange rate; a quick payment and an
   email-on-insert both work.
@@ -150,6 +155,7 @@ Measured 2026-09-15 with a second user in the file, restricted to contacts, by `
   account list.
 - **A sale inserted in a foreign currency gets the automatic rate**, and a payment of that currency
   with a fee pays it in full — the same end state as moving an AUD invoice, reached in one insert.
+  The same holds for an item-layout sale.
 - Deleted entities include `InventoryTransfer` and `InventoryAdjustment`, which Saasu does not
   document.
 
@@ -273,7 +279,7 @@ assumption the code does. That is what the harness is for.
 `vendor/bin/rig` runs the exercises in `harness/`. They are not tests: they make real calls and
 print what happened for a person to read. Each carries the questions it was written to settle.
 
-Three read and change nothing — `file`, `lists`, `documents`. Nine write, and are guarded in three
+Three read and change nothing — `file`, `lists`, `documents`. Ten write, and are guarded in three
 layers:
 
 | exercise | opt-in, lives in `.env` | agent override, never does |
@@ -286,6 +292,7 @@ layers:
 | `permissions-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `contact-lookup-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `subscription-sale-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
+| `item-sale-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `sweep` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 
 The layers: the rig withholds `.env` under an agent; the exercise defaults to reading; and the
@@ -299,10 +306,10 @@ is `harness_sweep()`: every record named `ZZ`, from that run or an earlier one t
 — safe only because of that guard.
 
 **Every run spends the file's daily quota**, including the read-only ones. Each is capped at 60
-requests by `HARNESS_REQUEST_BUDGET`, `ledger-write` at 300, `currency-write` and
-`subscription-sale-write` at 150, and `permissions-write` at 80 — clean runs of those four spend
-about 145, 73, 41 and 28. Running them in a
-loop is how a file gets blocked for a day.
+requests by `HARNESS_REQUEST_BUDGET`, `ledger-write` at 300, `currency-write`,
+`subscription-sale-write` and `item-sale-write` at 150, and `permissions-write` at 80 — clean runs
+of those five spend about 145, 73, 41, 52 and 28. Running them in a loop is how a file gets blocked
+for a day.
 
 **If an exercise fails for want of a credential, that is the guard working.** Do not go looking for
 the credentials, do not edit `.env`, and do not pass an override to get past the error. Ask.
