@@ -4,7 +4,7 @@
  * Exercise: as a restricted user, make every call a PayPal-to-Saasu sync makes - the reads it checks
  * with, an item-layout USD sale and its payment with a fee - and report which the user's permissions
  * allow. WRITES. Refuses any file but SAASU_DISPOSABLE_FILE_ID. Sends no email. A clean run spends
- * about 45 requests.
+ * about 43 requests.
  *
  * Read-only by default. Needs SAASU_WRITE=1, and in an agent session SAASU_AGENT_MAY_WRITE=1 on
  * the command line. The file needs multi-currency on.
@@ -21,6 +21,8 @@
  *   3. DOES A PAYMENT NEED A BANKING OR ACCOUNTS PERMISSION beyond payments? The payment goes into a
  *      USD bank account with a merchant fee account.
  *   4. WHAT DOES A REFUSED WRITE LOOK LIKE? Only an account insert has been measured: 403, no body.
+ *   5. DOES A LIST SPANNING PURCHASES NEED PURCHASE PERMISSIONS? The invoice and payment lists are
+ *      each asked twice: as a sync asks them, and confined to sales.
  *
  * The main login builds everything the restricted user needs - accounts, an item, a contact - so a
  * refusal there cannot hide a later answer; and when the restricted user is refused the sale, the
@@ -33,10 +35,10 @@
  */
 
 use Hampel\Saasu\Api\Authentication\OAuth;
-use Hampel\Saasu\Api\Client;
 use Hampel\Saasu\Api\Enum\AccountType;
 use Hampel\Saasu\Api\Enum\InvoiceLayout;
 use Hampel\Saasu\Api\Enum\InvoiceType;
+use Hampel\Saasu\Api\Enum\PaymentType;
 use Hampel\Saasu\Api\Exception\ApiException;
 use Hampel\Saasu\Api\Exception\ExceptionInterface;
 use Hampel\Saasu\Api\Filter\ContactFilter;
@@ -179,6 +181,11 @@ try {
     $ask('Invoices?PurchaseOrderNumber=', static fn () => $restricted->invoices()->list(InvoiceFilter::all()->purchaseOrderNumber('ZZPPNOSUCH')));
     $ask('Payments intoAccount, paidBetween', static fn () => $restricted->payments()->list(PaymentFilter::all()->intoAccount($bank)->paidBetween($window)));
 
+    // The same two lists confined to sales. Unconfined, each spans purchases too, which a user
+    // allowed only sales may not see.
+    $ask('Invoices?TransactionType=S&PurchaseOrderNumber=', static fn () => $restricted->invoices()->list(InvoiceFilter::sales()->purchaseOrderNumber('ZZPPNOSUCH')));
+    $ask('Payments TransactionType=SP, intoAccount, paidBetween', static fn () => $restricted->payments()->list(PaymentFilter::all()->ofType(PaymentType::SalePayment)->intoAccount($bank)->paidBetween($window)));
+
     $io->line();
     $io->info('writes, as the restricted user');
 
@@ -197,6 +204,9 @@ try {
             ->withReference($po)
             ->withSummary('ZZ Sync permissions payment')
     ));
+
+    $ask('Invoice/{id}', static fn () => $restricted->invoices()->get($saleId));
+    $ask('Invoices?TransactionType=S (no other filter)', static fn () => $restricted->invoices()->list(InvoiceFilter::sales()));
 
     // What the main login sees afterwards: whether an allowed write really booked.
     $invoice = $main->invoices()->get($saleId);

@@ -16,6 +16,9 @@ use Hampel\Saasu\Api\Enum\TransactionType;
  *
  * WITHOUT A TRANSACTION TYPE, SALES AND PURCHASES COME BACK TOGETHER. An unpaid-invoice report
  * that forgets sales() is a report of what the business owes and is owed, added up.
+ *
+ * A user allowed only sales cannot list invoices at all, confined to sales or not: 403 with no
+ * body, a NotPermittedException. The same user reads one invoice by id. Measured 2026-11-18.
  */
 final class InvoiceFilter extends Filter
 {

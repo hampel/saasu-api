@@ -88,6 +88,11 @@ Measured 2026-09-15 with a second user in the file, restricted to contacts, by `
   `ValidationException`.
 - The file identity, the user and the file list read as normal, and the grant's scope is the same
   `fileid:NNN` form.
+- **A user with full "Sale" and "Contacts & Companies" can book an item-layout USD sale and pay it
+  with a fee**, and read an account, an item, a contact and an invoice by id. There is no separate
+  payments permission. **It cannot list invoices at all** - 403 with no body, even confined to
+  sales - and an unconfined payment list answers the "collection" 400; confined to sale payments
+  (`PaymentType::SalePayment`) it answers. Measured 2026-11-18 by `sync-permissions-write`.
 
 ### Writes
 
@@ -309,7 +314,7 @@ is `harness_sweep()`: every record named `ZZ`, from that run or an earlier one t
 **Every run spends the file's daily quota**, including the read-only ones. Each is capped at 60
 requests by `HARNESS_REQUEST_BUDGET`, `ledger-write` at 300, `currency-write`,
 `subscription-sale-write` and `item-sale-write` at 150, `sync-permissions-write` at 100 and
-`permissions-write` at 80 — clean runs of those six spend about 145, 73, 41, 52, 45 and 28. Running them in a loop is how a file gets blocked
+`permissions-write` at 80 — clean runs of those six spend about 145, 73, 41, 52, 43 and 28. Running them in a loop is how a file gets blocked
 for a day.
 
 **If an exercise fails for want of a credential, that is the guard working.** Do not go looking for

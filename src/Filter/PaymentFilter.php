@@ -40,6 +40,10 @@ final class PaymentFilter extends Filter
         return $this->withRange('ClearedFromDate', 'ClearedToDate', $range);
     }
 
+    /**
+     * A user allowed sales but not purchases needs this: without it the list spans purchase payments
+     * and is refused with the "collection" 400. Measured 2026-11-18.
+     */
     public function ofType(PaymentType $type): static
     {
         return $this->withParameter('TransactionType', $type->value);
