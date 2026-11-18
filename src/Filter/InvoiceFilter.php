@@ -88,6 +88,9 @@ final class InvoiceFilter extends Filter
         return $this->withText('InvoiceNumber', $number);
     }
 
+    /**
+     * Invoices with this purchase order number - honoured on a sale, measured 2026-11-18.
+     */
     public function purchaseOrderNumber(string $number): static
     {
         return $this->withText('PurchaseOrderNumber', $number);

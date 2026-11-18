@@ -120,6 +120,9 @@ Measured 2026-09-15 with a second user in the file, restricted to contacts, by `
   The `ContactId` filter matches the whole value, ignoring case — not a prefix, not a substring —
   but **a `ContactId` is not unique**: a second contact with one already in use is accepted. A list
   row carries both custom fields, so matching them locally costs a request per hundred.
+- **The email filter matches the primary address only**, ignoring case — never an additional
+  email. A payment list row carries its `Reference`, and the `PurchaseOrderNumber` filter is
+  honoured on sales. Measured 2026-11-18 by `subscription-sale-write`.
 - **`Payments?ForInvoiceId=` fails without a payment date range**, and `ItemAdjustments` refuses a
   `ToDate` of 2099-12-31 that other lists accept.
 - The sales summary adds foreign-currency invoices at face value; profit and loss converts them.
@@ -143,7 +146,10 @@ Measured 2026-09-15 with a second user in the file, restricted to contacts, by `
   the 400 says only "Unable to perform the request." A bank account with no transactions is absent
   from `Accounts/BankAccountBalances`.
 - A foreign-currency bank account gets an "Exchange" account created beside it, which it
-  references.
+  references. **It may take a base-currency merchant fee account**, read back by `get()` and in the
+  account list.
+- **A sale inserted in a foreign currency gets the automatic rate**, and a payment of that currency
+  with a fee pays it in full — the same end state as moving an AUD invoice, reached in one insert.
 - Deleted entities include `InventoryTransfer` and `InventoryAdjustment`, which Saasu does not
   document.
 
@@ -267,7 +273,7 @@ assumption the code does. That is what the harness is for.
 `vendor/bin/rig` runs the exercises in `harness/`. They are not tests: they make real calls and
 print what happened for a person to read. Each carries the questions it was written to settle.
 
-Three read and change nothing — `file`, `lists`, `documents`. Eight write, and are guarded in three
+Three read and change nothing — `file`, `lists`, `documents`. Nine write, and are guarded in three
 layers:
 
 | exercise | opt-in, lives in `.env` | agent override, never does |
@@ -279,6 +285,7 @@ layers:
 | `roundtrip-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `permissions-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `contact-lookup-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
+| `subscription-sale-write` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 | `sweep` | `SAASU_WRITE=1` | `SAASU_AGENT_MAY_WRITE=1` |
 
 The layers: the rig withholds `.env` under an agent; the exercise defaults to reading; and the
@@ -292,8 +299,9 @@ is `harness_sweep()`: every record named `ZZ`, from that run or an earlier one t
 — safe only because of that guard.
 
 **Every run spends the file's daily quota**, including the read-only ones. Each is capped at 60
-requests by `HARNESS_REQUEST_BUDGET`, `ledger-write` at 300, `currency-write` at 150 and
-`permissions-write` at 80 — clean runs of those three spend about 145, 73 and 28. Running them in a
+requests by `HARNESS_REQUEST_BUDGET`, `ledger-write` at 300, `currency-write` and
+`subscription-sale-write` at 150, and `permissions-write` at 80 — clean runs of those four spend
+about 145, 73, 41 and 28. Running them in a
 loop is how a file gets blocked for a day.
 
 **If an exercise fails for want of a credential, that is the guard working.** Do not go looking for

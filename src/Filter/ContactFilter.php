@@ -80,7 +80,8 @@ final class ContactFilter extends Filter
     }
 
     /**
-     * Contacts whose email address is exactly this.
+     * Contacts whose primary email address is this, ignoring case. An additional email address is
+     * not matched - measured 2026-11-18.
      */
     public function withEmail(string $email): static
     {
