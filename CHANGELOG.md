@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.4.0 (2026-11-20)
 
 - `InvoiceType::SaleInvoice`, the sale type of a file not registered for GST
 
