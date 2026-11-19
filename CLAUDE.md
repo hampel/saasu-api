@@ -122,6 +122,9 @@ and again on 2026-11-18 with every read the client offers, under two roles.
   no `AccountId`; its description replaces the item's. A combined code such as `G1,G3` is accepted
   and books that code's rate. An inventoried item is refused a sale that would take stock on hand
   below zero; a non-inventoried one is not. Measured 2026-11-18 by `item-sale-write`.
+- **A file not registered for GST refuses a Tax Invoice** with 400 "Invalid invoice type: Tax
+  Invoice"; its sales are `InvoiceType::SaleInvoice`, which Saasu's help pages do not list. Booked
+  live 2026-11-20 by a consumer, not by the harness - the disposable file is registered.
 - Attachments travel as base64 and round-trip; an invoice PDF is `application/pdf` with a
   filename; a foreign-currency invoice fills its exchange rate; a quick payment and an
   email-on-insert both work.

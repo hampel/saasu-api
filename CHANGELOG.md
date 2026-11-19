@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- `InvoiceType::SaleInvoice`, the sale type of a file not registered for GST
+
 ## 0.3.0 (2026-09-15)
 
 - `Contacts::firstWithReference()`

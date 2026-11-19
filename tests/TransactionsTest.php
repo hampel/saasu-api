@@ -151,6 +151,14 @@ final class TransactionsTest extends TestCase
         $this->saasu()->invoices()->update(5093684, $request);
     }
 
+    public function testASaleInvoiceIsSentAndReadUnderSaasusName(): void
+    {
+        $request = InvoiceRequest::sale(InvoiceType::SaleInvoice, InvoiceLayout::Item, '2026-11-20');
+
+        $this->assertSame('Sale Invoice', $request->get('InvoiceType'));
+        $this->assertSame(InvoiceType::SaleInvoice, Invoice::fromArray(['InvoiceType' => 'Sale Invoice'])->type());
+    }
+
     public function testEmailingWithAWriteNeedsFromAndTo(): void
     {
         $request = InvoiceRequest::sale(InvoiceType::TaxInvoice, InvoiceLayout::Service, '2026-09-13')
